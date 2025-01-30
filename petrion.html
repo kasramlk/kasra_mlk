@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Petrion Hotel Balat - 2025 Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1, h2, h3 {
+            color: #333;
+            text-align: center;
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .chart-card, .analysis-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 45%;
+        }
+
+        .analysis-card {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .kpi-card {
+            text-align: center;
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 18px;
+        }
+
+        .kpi-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Petrion Hotel Balat - 2025 Tahmini Gelir ve Performans Analizi</h1>
+    <h2>2023, 2024 ve 2025 Karşılaştırmalı Performans</h2>
+
+    <!-- KPI Cards -->
+    <div class="kpi-container">
+        <div class="kpi-card">2025 YTD Gelir: €47,180</div>
+        <div class="kpi-card">2025 Hedef Doluluk: %70</div>
+        <div class="kpi-card">2025 Hedef ADR: €85.60</div>
+    </div>
+
+    <!-- Full Projection Table -->
+    <h3>2025 Projeksiyon Verileri</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Ay</th>
+                <th>Kişi Geceleme</th>
+                <th>Doluluk (%)</th>
+                <th>ADR (€)</th>
+                <th>Hedef Doluluk (%)</th>
+                <th>Hedef ADR (€)</th>
+                <th>Hedef Gelir (€)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Ocak</td><td>228</td><td>23.34</td><td>75.92</td><td>26.84</td><td>87.31</td><td>€12,349.90</td></tr>
+            <tr><td>Şubat</td><td>226</td><td>31.24</td><td>70.28</td><td>35.93</td><td>80.82</td><td>€15,302.03</td></tr>
+            <tr><td>Mart</td><td>224</td><td>27.32</td><td>67.84</td><td>31.42</td><td>78.02</td><td>€12,917.33</td></tr>
+            <tr><td>Nisan</td><td>524</td><td>64.71</td><td>82.72</td><td>74.42</td><td>95.13</td><td>€37,306.82</td></tr>
+            <tr><td>Mayıs</td><td>637</td><td>67.93</td><td>89.40</td><td>78.12</td><td>102.81</td><td>€42,325.82</td></tr>
+            <tr><td>Haziran</td><td>274</td><td>33.73</td><td>90.75</td><td>38.79</td><td>103.86</td><td>€19,839.22</td></tr>
+            <tr><td>Temmuz</td><td>270</td><td>34.16</td><td>86.73</td><td>39.68</td><td>99.74</td><td>€18,762.47</td></tr>
+            <tr><td>Ağustos</td><td>392</td><td>45.73</td><td>79.24</td><td>50.00</td><td>91.12</td><td>€24,553.61</td></tr>
+            <tr><td>Eylül</td><td>530</td><td>63.92</td><td>79.94</td><td>69.31</td><td>87.93</td><td>€30,142.90</td></tr>
+            <tr><td>Ekim</td><td>663</td><td>72.87</td><td>74.73</td><td>79.09</td><td>82.20</td><td>€32,940.23</td></tr>
+            <tr><td>Kasım</td><td>531</td><td>56.08</td><td>74.69</td><td>61.69</td><td>82.05</td><td>€26,961.78</td></tr>
+            <tr><td>Aralık</td><td>495</td><td>48.39</td><td>74.33</td><td>52.80</td><td>81.76</td><td>€21,436.94</td></tr>
+        </tbody>
+    </table>
+
+    <!-- Charts and Analysis -->
+    <div class="dashboard-container">
+        <!-- Revenue Comparison Chart -->
+        <div class="chart-card">
+            <h3>Aylık Gelir Karşılaştırması</h3>
+            <canvas id="revenueChart"></canvas>
+        </div>
+        <div class="analysis-card">
+            <h3>Gelir Analizi</h3>
+            2025 yılında gelir hedefleri, özellikle Mayıs ve Ekim aylarında yüksek doluluk ve artan ADR ile desteklenmiştir.
+        </div>
+
+        <!-- Occupancy Rate Chart -->
+        <div class="chart-card">
+            <h3>Doluluk Oranı Karşılaştırması</h3>
+            <canvas id="occupancyChart"></canvas>
+        </div>
+        <div class="analysis-card">
+            <h3>Doluluk Analizi</h3>
+            Hedef doluluk oranları, özellikle Nisan ve Eylül aylarında %70'e yaklaşacak şekilde belirlenmiştir.
+        </div>
+
+        <!-- ADR Comparison Chart -->
+        <div class="chart-card">
+            <h3>Ortalama Oda Fiyatı (ADR) Karşılaştırması</h3>
+            <canvas id="adrChart"></canvas>
+        </div>
+        <div class="analysis-card">
+            <h3>ADR Analizi</h3>
+            Ortalama oda fiyatları, yüksek sezonda %10 ila %20'lik bir artışla hedeflenmiştir.
+        </div>
+    </div>
+
+    <script>
+        // Data for Monthly Revenue Comparison Chart
+        const revenueData = {
+            labels: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+            datasets: [
+                {
+                    label: '2024',
+                    backgroundColor: '#007bff',
+                    data: [9843.87, 11077.59, 9950.16, 27816.39, 32670.56, 16074.29, 16131.56, 19446.75, 26834.71, 29695.78, 22002.63, 20469.15]
+                },
+                {
+                    label: '2025 (Tahmini)',
+                    backgroundColor: '#ffc107',
+                    data: [12349.90, 15302.03, 12917.33, 37306.82, 42325.82, 19839.22, 18762.47, 24553.61, 30142.90, 32940.23, 26961.78, 21436.94]
+                }
+            ]
+        };
+
+        // Data for Occupancy Rate Comparison Chart
+        const occupancyData = {
+            labels: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+            datasets: [
+                {
+                    label: '2024',
+                    borderColor: '#007bff',
+                    fill: false,
+                    data: [23.34, 31.24, 27.32, 64.71, 67.93, 33.73, 34.16, 45.73, 63.92, 72.87, 56.08, 48.39]
+                },
+                {
+                    label: '2025 (Tahmini)',
+                    borderColor: '#ffc107',
+                    fill: false,
+                    data: [26.84, 35.93, 31.42, 74.42, 78.12, 38.79, 39.68, 50.00, 69.31, 79.09, 61.69, 52.80]
+                }
+            ]
+        };
+
+        // Data for ADR Comparison Chart
+        const adrData = {
+            labels: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+            datasets: [
+                {
+                    label: '2024',
+                    borderColor: '#007bff',
+                    fill: false,
+                    data: [75.92, 70.28, 67.84, 82.72, 89.40, 90.75, 86.73, 79.24, 79.94, 74.73, 74.69, 74.33]
+                },
+                {
+                    label: '2025 (Tahmini)',
+                    borderColor: '#ffc107',
+                    fill: false,
+                    data: [87.31, 80.82, 78.02, 95.13, 102.81, 103.86, 99.74, 91.12, 87.93, 82.20, 82.05, 81.76]
+                }
+            ]
+        };
+
+        // Render Charts
+        new Chart(document.getElementById('revenueChart'), { type: 'bar', data: revenueData });
+        new Chart(document.getElementById('occupancyChart'), { type: 'line', data: occupancyData });
+        new Chart(document.getElementById('adrChart'), { type: 'line', data: adrData });
+    </script>
+</body>
+</html>
