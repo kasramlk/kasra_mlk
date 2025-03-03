@@ -131,14 +131,15 @@
   </style>
 </head>
 <body>
-  <!-- Navbar: Hotel seçimi -->
+  <!-- Navbar: Otel seçimi -->
   <div class="navbar">
     <a href="#" id="navIstanbul" class="active" onclick="showHotel('istanbul')">Istanbul Petrion Otel</a>
     <a href="#" id="navTaksim" onclick="showHotel('taksim')">Taksim Nis Hotel</a>
+    <a href="#" id="navEskiciler" onclick="showHotel('eskiciler')">Eskiciler Konaği</a>
   </div>
   
   <div class="container">
-    <!-- Istanbul Petrion Otel Dashboard -->
+    <!-- İstanbul Petrion Otel Dashboard -->
     <div id="hotel-istanbul" class="hotel-page active">
       <header>
         <h1>Istanbul Petrion Otel Dashboard</h1>
@@ -151,12 +152,11 @@
         <button id="btnPage2" onclick="togglePage('page2')">Gelir ve Hedef</button>
       </div>
       
-      <!-- Sayfa 1: Satış Raporları -->
+      <!-- Sayfa 1: Satış Raporları (İstanbul) -->
       <div id="page1" class="page active">
         <div class="key-metrics">
           <div class="metric">
             <h3>Toplam Satış</h3>
-            <p>Şubat ayı içerisinde yapılan ve gerçekleşen rezervasyonlar, hem şubat ayındaki konaklamalar hem de diğer aylardaki konaklamalar dahil.</p>
             <p>€58,898</p>
           </div>
           <div class="metric">
@@ -186,7 +186,7 @@
         </div>
       </div>
       
-      <!-- Sayfa 2: Gelir ve Hedef -->
+      <!-- Sayfa 2: Gelir ve Hedef (İstanbul) -->
       <div id="page2" class="page">
         <header>
           <h2>Gelir ve Hedef Durumu - Şubat</h2>
@@ -245,7 +245,7 @@
         <h2>Erken Rezervasyon Satışları – Şubat ve Diğer Aylar</h2>
       </header>
       
-      <!-- Taksim Nis İç Sayfa Geçiş Düğmeleri -->
+      <!-- İç Sayfa Geçiş Düğmeleri (Taksim Nis) -->
       <div class="nav-buttons">
         <button id="btnPage1_taksim" class="active" onclick="togglePageNis('page1_taksim')">Satış Raporları</button>
         <button id="btnPage2_taksim" onclick="togglePageNis('page2_taksim')">Gelir ve Hedef</button>
@@ -256,7 +256,6 @@
         <div class="key-metrics">
           <div class="metric">
             <h3>Toplam Satış</h3>
-            <p>Şubat ayı içerisinde yapılan ve gerçekleşen rezervasyonlar, hem şubat ayındaki konaklamalar hem de diğer aylardaki konaklamalar dahil.</p>
             <p>€82,052</p>
           </div>
           <div class="metric">
@@ -337,6 +336,100 @@
         </div>
       </div>
     </div>
+    
+    <!-- Eskiciler Konaği Dashboard -->
+    <div id="hotel-eskiciler" class="hotel-page" style="display:none;">
+      <header>
+        <h1>Eskiciler Konaği Dashboard</h1>
+        <h2>Erken Rezervasyon Satışları – Şubat ve Diğer Aylar</h2>
+      </header>
+      
+      <!-- Eskiciler İç Sayfa Geçiş Düğmeleri -->
+      <div class="nav-buttons">
+        <button id="btnPage1_eskiciler" class="active" onclick="togglePageEskiciler('page1_eskiciler')">Satış Raporları</button>
+        <button id="btnPage2_eskiciler" onclick="togglePageEskiciler('page2_eskiciler')">Gelir ve Performans</button>
+      </div>
+      
+      <!-- Sayfa 1: Satış Raporları (Eskiciler Konaği) -->
+      <div id="page1_eskiciler" class="page active">
+        <div class="key-metrics">
+          <div class="metric">
+            <h3>Toplam Satış (Şubat)</h3>
+            <p>₺563,732</p>
+          </div>
+          <div class="metric">
+            <h3>En Yüksek Ay</h3>
+            <p>Şubat</p>
+            <p>₺275,166</p>
+          </div>
+          <div class="metric">
+            <h3>Ana Kanal</h3>
+            <p>Website</p>
+            <p>₺233,726</p>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div id="bar-chart-eskiciler" style="width:100%;height:400px;"></div>
+        </div>
+        <div class="chart-container">
+          <div id="pie-chart-eskiciler" style="width:100%;height:400px;"></div>
+        </div>
+        <div class="takeaways">
+          <h3>Önemli Noktalar</h3>
+          <ul>
+            <li>Şubat toplam satış: ₺563,732.</li>
+            <li>Konaklama gelirlerinin en yüksek kısmı Şubat: ₺275,166.</li>
+            <li>Kanal bazında en yüksek satış, Website’den: ₺233,726.</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Sayfa 2: Gelir ve Performans (Eskiciler Konaği) -->
+      <div id="page2_eskiciler" class="page">
+        <header>
+          <h2>Şubat Ayı Performans Karşılaştırması</h2>
+        </header>
+        <div class="key-metrics">
+          <div class="metric">
+            <h3>Bu Yıl Gelir</h3>
+            <p>₺330,458</p>
+          </div>
+          <div class="metric">
+            <h3>Bu Yıl ADR</h3>
+            <p>₺2,338</p>
+          </div>
+          <div class="metric">
+            <h3>Bu Yıl Doluluk</h3>
+            <p>26%</p>
+          </div>
+        </div>
+        <div class="key-metrics">
+          <div class="metric">
+            <h3>Geçen Yıl Gelir</h3>
+            <p>₺139,463</p>
+          </div>
+          <div class="metric">
+            <h3>Geçen Yıl ADR</h3>
+            <p>₺2,776</p>
+          </div>
+          <div class="metric">
+            <h3>Geçen Yıl Doluluk</h3>
+            <p>8.8%</p>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div id="comparison-chart-eskiciler" style="width:100%;height:400px;"></div>
+        </div>
+        <div class="takeaways">
+          <h3>Açıklamalar</h3>
+          <ul>
+            <li>Bu yılın Şubat ayında gelir ₺330,458, ADR ₺2,338 ve doluluk %26.</li>
+            <li>Geçen yılın Şubat ayında gelir ₺139,463, ADR ₺2,776 ve doluluk %8.8.</li>
+            <li>Karşılaştırma, performans artışı ve değişim oranlarını göstermektedir.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
   
   <!-- JavaScript: Sayfa Geçiş Fonksiyonları ve Grafikler -->
@@ -349,6 +442,7 @@
       }
       document.getElementById('navIstanbul').classList.remove('active');
       document.getElementById('navTaksim').classList.remove('active');
+      document.getElementById('navEskiciler').classList.remove('active');
       
       if(hotelId === 'istanbul'){
         document.getElementById('hotel-istanbul').style.display = 'block';
@@ -356,6 +450,9 @@
       } else if(hotelId === 'taksim'){
         document.getElementById('hotel-taksim').style.display = 'block';
         document.getElementById('navTaksim').classList.add('active');
+      } else if(hotelId === 'eskiciler'){
+        document.getElementById('hotel-eskiciler').style.display = 'block';
+        document.getElementById('navEskiciler').classList.add('active');
       }
     }
     
@@ -392,6 +489,24 @@
         document.getElementById('btnPage1_taksim').classList.add('active');
       } else {
         document.getElementById('btnPage2_taksim').classList.add('active');
+      }
+    }
+    
+    // Eskiciler Konaği iç sayfa geçiş
+    function togglePageEskiciler(pageId) {
+      var pages = document.querySelectorAll("#hotel-eskiciler .page");
+      pages.forEach(function(page) {
+        page.classList.remove('active');
+      });
+      document.getElementById(pageId).classList.add('active');
+      
+      // Buton aktif durumunu ayarla
+      document.getElementById('btnPage1_eskiciler').classList.remove('active');
+      document.getElementById('btnPage2_eskiciler').classList.remove('active');
+      if (pageId === 'page1_eskiciler') {
+        document.getElementById('btnPage1_eskiciler').classList.add('active');
+      } else {
+        document.getElementById('btnPage2_eskiciler').classList.add('active');
       }
     }
     
@@ -571,6 +686,96 @@
     };
     
     Plotly.newPlot('gauge-chart-taksim', gaugeDataTaksim, gaugeLayoutTaksim);
+    
+    // Eskiciler Konaği: Bar Grafik (Aylara Göre Konaklama Geliri)
+    var eskicilerAylikGelir = {
+      "Şubat": 275166,
+      "Mart": 53471,
+      "Nisan": 73631,
+      "Mayıs": 66459,
+      "Haziran": 56013,
+      "Temmuz": 9370,
+      "Ağustos": 24014,
+      "Eylül": 2871,      // İkinci "Nisan" değeri yerine Eylül olarak yorumlandı
+      "Ekim": 27340      // "27,34 TRY" olarak verildi; formatı düzeltilmiş
+    };
+    var eskicilerAylar = Object.keys(eskicilerAylikGelir);
+    var eskicilerGelirDegerleri = Object.values(eskicilerAylikGelir);
+    
+    var barDataEskiciler = [{
+      x: eskicilerAylar,
+      y: eskicilerGelirDegerleri,
+      type: 'bar',
+      marker: { color: 'rgba(25, 118, 210, 0.7)' }
+    }];
+    
+    var barLayoutEskiciler = {
+      title: 'Aylara Göre Konaklama Geliri',
+      xaxis: { title: 'Ay' },
+      yaxis: { title: 'Gelir (₺)' },
+      plot_bgcolor: '#f1f9ff'
+    };
+    
+    Plotly.newPlot('bar-chart-eskiciler', barDataEskiciler, barLayoutEskiciler);
+    
+    // Eskiciler Konaği: Pasta Grafik (Satış Kanalı Dağılımı)
+    var eskicilerKanalSatis = {
+      "Booking.com": 117946,
+      "Email": 28089,
+      "Odamax": 69379,
+      "Expedia": 104277,
+      "Website": 233726,
+      "Telephon": 10312
+    };
+    var eskicilerKanallar = Object.keys(eskicilerKanalSatis);
+    var eskicilerKanalDegerler = Object.values(eskicilerKanalSatis);
+    
+    var pieDataEskiciler = [{
+      values: eskicilerKanalDegerler,
+      labels: eskicilerKanallar,
+      type: 'pie',
+      hole: 0.3,
+      marker: {
+        colors: ['#64b5f6','#42a5f5','#2196f3','#1e88e5','#1976d2','#1565c0']
+      }
+    }];
+    
+    var pieLayoutEskiciler = {
+      title: 'Satış Kanalı Dağılımı',
+      plot_bgcolor: '#f1f9ff'
+    };
+    
+    Plotly.newPlot('pie-chart-eskiciler', pieDataEskiciler, pieLayoutEskiciler);
+    
+    // Eskiciler Konaği: Karşılaştırma Grafiği (Şubat Performans: Bu Yıl vs Geçen Yıl)
+    var metrics = ["Gelir (₺)", "ADR (₺)", "Doluluk (%)"];
+    var currentYear = [330458, 2338, 26];
+    var lastYear = [139463, 2776, 8.8];
+    
+    var dataEskiciler = [
+      {
+        x: metrics,
+        y: currentYear,
+        name: 'Bu Yıl',
+        type: 'bar',
+        marker: { color: 'rgba(25, 118, 210, 0.7)' }
+      },
+      {
+        x: metrics,
+        y: lastYear,
+        name: 'Geçen Yıl',
+        type: 'bar',
+        marker: { color: 'rgba(211, 47, 47, 0.7)' }
+      }
+    ];
+    
+    var layoutEskiciler = {
+      barmode: 'group',
+      title: 'Şubat Ayı Performans Karşılaştırması',
+      plot_bgcolor: '#f1f9ff'
+    };
+    
+    Plotly.newPlot('comparison-chart-eskiciler', dataEskiciler, layoutEskiciler);
   </script>
 </body>
 </html>
