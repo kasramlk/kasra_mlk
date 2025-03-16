@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rezervasyon Dashboard</title>
+  <title> SATİŞ RAPORU </title>
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    /* Booking.com color palette */
+    /* Minimal styling using Booking.com color palette */
     :root {
       --resolution-blue: #003580;
       --cerulean: #009fe3;
@@ -15,109 +15,107 @@
       --dove-gray: #666;
       --black-squeeze: #f2f6fa;
     }
-
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: var(--black-squeeze);
+      background: var(--black-squeeze);
       color: var(--resolution-blue);
     }
-
     header {
-      background-color: var(--resolution-blue);
+      background: var(--resolution-blue);
       color: white;
-      padding: 20px;
+      padding: 15px;
       text-align: center;
     }
-
-    h2 {
-      border-bottom: 2px solid var(--cerulean);
-      padding-bottom: 10px;
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0;
+      display: flex;
+      justify-content: center;
     }
-
+    nav ul li {
+      margin: 0 10px;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
     .container {
-      width: 95%;
-      max-width: 1200px;
-      margin: 20px auto;
+      max-width: 1000px;
+      margin: 80px auto 20px;
+      padding: 0 10px;
     }
-
     section {
       background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      padding: 20px;
-      margin-bottom: 30px;
-    }
-
-    .cards {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: space-between;
-    }
-
-    .card {
-      flex: 1;
-      min-width: 250px;
-      background: var(--black-squeeze);
-      border-left: 5px solid var(--cerulean);
+      margin-bottom: 20px;
       padding: 15px;
       border-radius: 4px;
     }
-
-    .card h3 {
+    h2 {
       margin-top: 0;
-      font-size: 1.2em;
-      color: var(--resolution-blue);
+      border-bottom: 1px solid var(--cerulean);
+      padding-bottom: 5px;
     }
-
-    .card p {
-      font-size: 1.5em;
-      margin: 10px 0 0;
+    .description-card {
+      background: #fff;
+      border-left: 4px solid var(--selective-yellow);
+      padding: 8px;
+      margin: 10px 0 15px;
+      font-size: 0.9em;
       color: var(--dove-gray);
     }
-
-    canvas {
-      max-width: 100%;
-      height: auto;
+    .cards {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
     }
-
+    .card {
+      flex: 1;
+      min-width: 150px;
+      background: var(--black-squeeze);
+      padding: 10px;
+      border-left: 3px solid var(--cerulean);
+    }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 15px;
+      margin-top: 10px;
     }
-
     table, th, td {
-      border: 1px solid #ddd;
+      border: 1px solid #ccc;
     }
-
     th, td {
-      text-align: left;
       padding: 8px;
+      text-align: left;
     }
-
     th {
-      background-color: var(--resolution-blue);
+      background: var(--resolution-blue);
       color: white;
-    }
-
-    @media (max-width: 768px) {
-      .cards {
-        flex-direction: column;
-      }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Rezervasyon Analiz Paneli</h1>
-    <p>13-16 Mart tarihleri arasında alınan rezervasyonlara genel bakış</p>
+    <h1>SATİŞ RAPORU</h1>
+    <nav>
+      <ul>
+        <li><a href="#genel-bakis">Genel Bakış</a></li>
+        <li><a href="#kanal-dagilimi">Kanal Dağılımı</a></li>
+        <li><a href="#aylara-dagilim">Aylara Göre Dağılım</a></li>
+        <li><a href="#oda-tipleri">Oda Tipleri</a></li>
+        <li><a href="#rezervasyon-listesi">Rezervasyon Listesi</a></li>
+      </ul>
+    </nav>
   </header>
   <div class="container">
     <!-- Genel Bakış Section -->
     <section id="genel-bakis">
       <h2>Genel Bakış</h2>
+      <div class="description-card">
+        Bu bölümde, 13-16 Mart'ta alınan rezervasyonların özet bilgisi; toplam rezervasyon, toplam gelir ve ortalama fiyat yer almaktadır.
+      </div>
       <div class="cards">
         <div class="card">
           <h3>Toplam Rezervasyon</h3>
@@ -132,33 +130,41 @@
           <p id="averagePrice">0</p>
         </div>
       </div>
-      <p style="margin-top:15px; font-size: 0.9em;">Bu bölümde 13-16 Mart arasında alınan rezervasyonların temel göstergeleri yer almaktadır.</p>
     </section>
 
     <!-- Kanal Dağılımı Section -->
     <section id="kanal-dagilimi">
       <h2>Kanal Dağılımı</h2>
-      <p style="font-size: 0.9em;">Bu grafik, 13-16 Mart arasında alınan rezervasyonların hangi OTA üzerinden geldiğini göstermektedir.</p>
+      <div class="description-card">
+        Bu bölümde, rezervasyonların hangi OTA kanalı üzerinden geldiği grafiksel olarak sunulmaktadır.
+      </div>
       <canvas id="channelChart"></canvas>
     </section>
 
     <!-- Aylara Göre Dağılım Section -->
     <section id="aylara-dagilim">
       <h2>Aylara Göre Dağılım</h2>
-      <p style="font-size: 0.9em;">Bu grafik, rezervasyonların check-in tarihine göre hangi aylara dağıldığını; toplam gelir ve ortalama günlük fiyatın (ADR) nasıl değiştiğini göstermektedir.</p>
+      <div class="description-card">
+        Rezervasyonların check-in tarihine göre aylara dağılımı; her ayın toplam gelir ve ortalama günlük fiyat (ADR) bilgisi burada gösterilmektedir.
+      </div>
       <canvas id="monthChart"></canvas>
     </section>
 
     <!-- Oda Tiplerine Göre Dağılım Section -->
     <section id="oda-tipleri">
       <h2>Oda Tiplerine Göre Dağılım</h2>
-      <p style="font-size: 0.9em;">Bu grafik, alınan rezervasyonların oda tiplerine göre dağılımını göstermektedir.</p>
+      <div class="description-card">
+        Bu bölümde, alınan rezervasyonların oda tiplerine göre dağılımı gösterilmekte, hangi oda tipinden ne kadar rezervasyon alındığına dair bilgiler sunulmaktadır.
+      </div>
       <canvas id="roomTypeChart"></canvas>
     </section>
 
     <!-- Rezervasyon Listesi Section -->
     <section id="rezervasyon-listesi">
-      <h2>Tüm Rezervasyonlar</h2>
+      <h2>Rezervasyon Listesi</h2>
+      <div class="description-card">
+        Tüm rezervasyon detaylarını tablo halinde görebilirsiniz. Her rezervasyon için fiyat, kanal, oda tipi ve tarih bilgileri yer almaktadır.
+      </div>
       <table id="reservationsTable">
         <thead>
           <tr>
@@ -172,16 +178,14 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Rows will be added dynamically -->
+          <!-- Data will be inserted dynamically -->
         </tbody>
       </table>
     </section>
   </div>
 
   <script>
-    // -------------------------------
     // Dataset: Rezervasyonlar (13-16 Mart)
-    // -------------------------------
     const reservations = [
       { ortalamaFiyat: 51.91, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-03-14T00:00:00", cikisTarih: "2025-03-16T00:00:00", kayitTarih: "2025-03-13T00:51:55", toplamFiyat: 103.82 },
       { ortalamaFiyat: 48.31, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-03-14T00:00:00", cikisTarih: "2025-03-16T00:00:00", kayitTarih: "2025-03-13T00:56:07", toplamFiyat: 96.62 },
@@ -273,39 +277,32 @@
       { ortalamaFiyat: 76.95, unvan: "Booking.com", odaTipAd: "SUITE", girisTarih: "2025-03-16T00:00:00", cikisTarih: "2025-03-20T00:00:00", kayitTarih: "2025-03-16T08:42:40", toplamFiyat: 307.8 },
       { ortalamaFiyat: 115.2, unvan: "Booking.com", odaTipAd: "JUNIOR SUITE", girisTarih: "2025-04-29T00:00:00", cikisTarih: "2025-05-02T00:00:00", kayitTarih: "2025-03-16T10:52:17", toplamFiyat: 345.6 }
     ];
-
-    // -------------------------------
+    
     // Genel Bakış Hesaplamaları
-    // -------------------------------
     let totalReservations = reservations.length;
     let totalRevenue = reservations.reduce((sum, r) => sum + r.toplamFiyat, 0);
     let averagePrice = reservations.reduce((sum, r) => sum + r.ortalamaFiyat, 0) / totalReservations;
-
+    
     document.getElementById("totalReservations").textContent = totalReservations;
     document.getElementById("totalRevenue").textContent = totalRevenue.toFixed(2);
     document.getElementById("averagePrice").textContent = averagePrice.toFixed(2);
-
-    // -------------------------------
+    
     // Kanal Dağılımı Hesaplaması
-    // -------------------------------
     const channelData = {};
     reservations.forEach(r => {
       channelData[r.unvan] = (channelData[r.unvan] || 0) + 1;
     });
     const channelLabels = Object.keys(channelData);
     const channelCounts = Object.values(channelData);
-
-    // -------------------------------
-    // Aylara Göre Dağılım Hesaplaması (check-in tarihine göre)
-    // -------------------------------
-    // Helper: Türkçe ay isimleri
-    const aylar = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
-    const monthData = {}; // key: month index (0-11)
+    
+    // Aylara Göre Dağılım Hesaplaması (check-in tarihi)
+    const aylar = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+    const monthData = {};
     reservations.forEach(r => {
       let checkIn = new Date(r.girisTarih);
       let checkOut = new Date(r.cikisTarih);
-      let month = checkIn.getMonth(); // 0-indexed
-      let nights = (checkOut - checkIn) / (1000*60*60*24);
+      let month = checkIn.getMonth();
+      let nights = (checkOut - checkIn) / (1000 * 60 * 60 * 24);
       if (!monthData[month]) {
         monthData[month] = { revenue: 0, nights: 0, count: 0 };
       }
@@ -313,28 +310,20 @@
       monthData[month].nights += nights;
       monthData[month].count += 1;
     });
-    // sort months in ascending order
     const sortedMonths = Object.keys(monthData).sort((a, b) => a - b);
     const monthLabels = sortedMonths.map(m => aylar[m]);
     const monthRevenues = sortedMonths.map(m => monthData[m].revenue.toFixed(2));
-    const monthADR = sortedMonths.map(m => {
-      // ADR = toplam gelir / toplam gece sayısı
-      return (monthData[m].revenue / monthData[m].nights).toFixed(2);
-    });
-
-    // -------------------------------
+    const monthADR = sortedMonths.map(m => (monthData[m].revenue / monthData[m].nights).toFixed(2));
+    
     // Oda Tiplerine Göre Dağılım Hesaplaması
-    // -------------------------------
     const roomTypeData = {};
     reservations.forEach(r => {
       roomTypeData[r.odaTipAd] = (roomTypeData[r.odaTipAd] || 0) + 1;
     });
     const roomTypeLabels = Object.keys(roomTypeData);
     const roomTypeCounts = Object.values(roomTypeData);
-
-    // -------------------------------
-    // Chart.js: Kanal Dağılımı (Pie Chart)
-    // -------------------------------
+    
+    // Chart: Kanal Dağılımı (Pie)
     const ctxChannel = document.getElementById('channelChart').getContext('2d');
     new Chart(ctxChannel, {
       type: 'pie',
@@ -343,32 +332,13 @@
         datasets: [{
           label: 'Kanal Bazında Rezervasyon',
           data: channelCounts,
-          backgroundColor: [
-            '#009fe3', // Cerulean
-            '#feba02', // Selective Yellow
-            '#666'     // Dove Gray (as an example)
-          ]
+          backgroundColor: ['#009fe3', '#feba02', '#666']
         }]
       },
-      options: {
-        responsive: true,
-        plugins: {
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                let label = context.label || '';
-                let value = context.parsed;
-                return label + ': ' + value + ' rezervasyon';
-              }
-            }
-          }
-        }
-      }
+      options: { responsive: true }
     });
-
-    // -------------------------------
-    // Chart.js: Aylara Göre Dağılım (Composite Chart)
-    // -------------------------------
+    
+    // Chart: Aylara Göre Dağılım (Bar + Line)
     const ctxMonth = document.getElementById('monthChart').getContext('2d');
     new Chart(ctxMonth, {
       data: {
@@ -390,51 +360,21 @@
             yAxisID: 'y1',
             tension: 0.3,
             fill: false,
-            pointRadius: 5
+            pointRadius: 3
           }
         ]
       },
       options: {
         responsive: true,
-        interaction: {
-          mode: 'index',
-          intersect: false,
-        },
-        stacked: false,
+        interaction: { mode: 'index', intersect: false },
         scales: {
-          y: {
-            type: 'linear',
-            display: true,
-            position: 'left',
-            title: { display: true, text: 'Gelir (€)' }
-          },
-          y1: {
-            type: 'linear',
-            display: true,
-            position: 'right',
-            grid: { drawOnChartArea: false },
-            title: { display: true, text: 'ADR (€)' }
-          }
-        },
-        plugins: {
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                if (context.dataset.type === 'bar') {
-                  return 'Gelir: ' + context.parsed.y + '€';
-                } else {
-                  return 'ADR: ' + context.parsed.y + '€';
-                }
-              }
-            }
-          }
+          y: { type: 'linear', position: 'left', title: { display: true, text: 'Gelir (€)' } },
+          y1: { type: 'linear', position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'ADR (€)' } }
         }
       }
     });
-
-    // -------------------------------
-    // Chart.js: Oda Tiplerine Göre Dağılım (Pie Chart)
-    // -------------------------------
+    
+    // Chart: Oda Tiplerine Göre Dağılım (Pie)
     const ctxRoom = document.getElementById('roomTypeChart').getContext('2d');
     new Chart(ctxRoom, {
       type: 'pie',
@@ -444,29 +384,15 @@
           label: 'Oda Tiplerine Göre Rezervasyon',
           data: roomTypeCounts,
           backgroundColor: roomTypeLabels.map((_, idx) => {
-            // Generate a color by cycling through a few palette colors
             const colors = ['#009fe3', '#feba02', '#003580', '#666', '#f2f6fa'];
             return colors[idx % colors.length];
           })
         }]
       },
-      options: {
-        responsive: true,
-        plugins: {
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                return context.label + ': ' + context.parsed + ' rezervasyon';
-              }
-            }
-          }
-        }
-      }
+      options: { responsive: true }
     });
-
-    // -------------------------------
-    // Rezervasyon Tablosunu Oluşturma
-    // -------------------------------
+    
+    // Rezervasyon tablosu
     const tableBody = document.querySelector("#reservationsTable tbody");
     reservations.forEach(r => {
       const tr = document.createElement("tr");
