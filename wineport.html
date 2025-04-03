@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KASRA MALEKI - OTA Satış Optimizasyonu</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+  <!-- AOS Animation (optional) -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <style>
+    /* Global Styles */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f2f6fa;
+      color: #003580;
+      scroll-behavior: smooth;
+    }
+    h1, h2, h3, h4, h5 {
+      font-family: 'Montserrat', sans-serif;
+    }
+    a {
+      text-decoration: none;
+    }
+
+    /* Navbar */
+    .navbar-custom {
+      background-color: #003580;
+    }
+    .navbar-custom .nav-link {
+      color: #fff;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .navbar-custom .nav-link:hover {
+      color: #feba02;
+    }
+
+    /* Header */
+    header {
+      background: url('https://source.unsplash.com/1600x600/?hotel') no-repeat center center/cover;
+      color: white;
+      position: relative;
+    }
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 53, 128, 0.7);
+    }
+    header .header-content {
+      position: relative;
+      z-index: 2;
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    /* Section Cards */
+    .card-custom {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+    .card-custom h3 {
+      color: #003580;
+    }
+    .highlight {
+      background-color: #feba02;
+      padding: 3px 6px;
+      border-radius: 4px;
+      color: #003580;
+      font-weight: bold;
+    }
+
+    /* Strategy Table */
+    .strategy-table thead th {
+      background-color: #e8f0fa;
+      text-align: center;
+      font-weight: 600;
+      color: #003580;
+    }
+    .strategy-table td {
+      vertical-align: middle;
+      text-align: center;
+    }
+    .strategy-icon {
+      font-size: 1.2rem;
+      margin-right: 5px;
+    }
+    
+    /* Reservation Engine Styles */
+    .reservation-engine label {
+      font-weight: 500;
+    }
+    .results-table th,
+    .results-table td {
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    /* Sticky CTA Button */
+    .cta-sticky {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 999;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #003580;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom sticky-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-white" href="#">KASRA MALEKI</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon bg-white"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#booking">Booking.com</a></li>
+          <li class="nav-item"><a class="nav-link" href="#expedia">Expedia</a></li>
+          <li class="nav-item"><a class="nav-link" href="#agoda">Agoda</a></li>
+          <li class="nav-item"><a class="nav-link" href="#others">Diğer OTA'lar</a></li>
+          <li class="nav-item"><a class="nav-link" href="#reservationEngine">Rezervasyon Fiyat Hesaplama</a></li>
+          <li class="nav-item"><a class="nav-link btn btn-warning text-dark rounded-pill ms-2 px-3" href="#contact">İletişim</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header Section -->
+  <header class="py-5">
+    <div class="container text-center header-content">
+      <h1 class="display-4 fw-bold">OTA Satışlarınızı %200’e Kadar Artırın</h1>
+      <p class="lead">Kanıtlanmış OTA stratejileri ile otel gelirlerinizi ve görünürlüğünüzü maksimize edin.</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container my-5">
+    <!-- Booking.com Section -->
+    <section id="booking" class="mb-5" data-aos="fade-up">
+      <div class="card-custom">
+        <h3>Booking.com Optimizasyonu</h3>
+        <img src="https://cdn.worldvectorlogo.com/logos/bookingcom-1.svg" alt="Booking.com Logo" style="max-width:150px;" class="my-3 d-block">
+        
+        <!-- Strategy Table: Booking.com -->
+        <div class="table-responsive">
+          <table class="table table-bordered strategy-table">
+            <thead>
+              <tr>
+                <th>Strateji</th>
+                <th>Önerimiz</th>
+                <th>Kazanımınız</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="strategy-icon">🟢</span> Non-Refundable Fiyat Planı</td>
+                <td>İptal edilemez fiyatları aktif edin</td>
+                <td>İptalleri %20 azaltır, doluluk oranlarını %15 artırır (Booking.com verileri)</td>
+              </tr>
+              <tr>
+                <td><span class="strategy-icon">🟢</span> Tarih Değişikliği Esnekliği</td>
+                <td>3-7 gün öncesine kadar ücretsiz değişiklik hakkı verin</td>
+                <td>Esneklik ile rezervasyon dönüşüm oranları %12 artar (Booking.com analizi)</td>
+              </tr>
+              <tr>
+                <td><span class="strategy-icon">🟢</span> Çocuk Politikası</td>
+                <td>Yaz sezonunda 0-3 yaş ücretsiz konaklama sunun</td>
+                <td>Aile segmentinde ortalama %10 rezervasyon artışı (sektörel rapor)</td>
+              </tr>
+              <tr>
+                <td><span class="strategy-icon">🟢</span> Ödeme Çeşitliliği</td>
+                <td>American Express ve banka kartı kabul edin</td>
+                <td>Kart kabul eden tesislerde rezervasyon tamamlanma oranları %8 daha yüksektir (Global ödeme raporu)</td>
+              </tr>
+              <tr>
+                <td><span class="strategy-icon">🟢</span> Evcil Hayvan Kabulü</td>
+                <td>Küçük evcil hayvanları kabul edin</td>
+                <td>Evcil hayvan dostu otellerin talebi COVID sonrası %25 artmıştır (Booking.com araştırması)</td>
+              </tr>
+              <tr>
+                <td><span class="strategy-icon">🟢</span> Preferred Plus Programı</td>
+                <td>Tercih edilen ortak statüsüne geçiş yapın</td>
+                <td>Görünürlük ve gelirlerde %200’e varan artış (Booking.com vaka çalışmaları)</td>
+              </tr>
+              <tr>
+                <td><span class="strategy-icon">🟢</span> Genius Kullanıcı Avantajları</td>
+                <td>Ücretsiz kahvaltı ve oda yükseltmeleri sağlayın</td>
+                <td>Genius puanı artışı ile rezervasyon görüntülenmelerinde %40, dönüşümde %20 artış (Booking.com verileri)</td>
+              </tr>
+              <tr>
+                <td><span class="strategy-icon">🟢</span> KPI Analizi ve Optimizasyonu</td>
+                <td>Mevcut dönüşüm oranınız %0,05, hedef %1 üzeri</td>
+                <td>Promosyon ve fiyat optimizasyonuyla dönüşüm oranları %1-3 arasına yükseltilebilir</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Additional details -->
+        <ul class="mt-3">
+          <li><span class="highlight">Fiyatlandırma Stratejisi:</span> Kanal yöneticisinden gelen fiyatlar 2X olarak yüklenecek, %25 komisyon ve promosyonlar sonrasında son fiyat belirlenecektir.</li>
+          <li><span class="highlight">Genius Kullanıcılarına Ücretsiz Kahvaltı:</span> Genius puanının 64/100’den 100/100’e çıkarılmasını hedefliyoruz.</li>
+          <li><span class="highlight">Ücretsiz Oda Yükseltme:</span> Belirli koşullarda (örneğin, 1 hafta öncesi rezervasyon) günlük 1 promosyon olarak sağlanabilir.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Expedia Section -->
+    <section id="expedia" class="mb-5" data-aos="fade-up">
+      <div class="card-custom">
+        <h3>Expedia Optimizasyonu</h3>
+        <img src="https://cdn.worldvectorlogo.com/logos/expedia.svg" alt="Expedia Logo" style="max-width:150px;" class="my-3 d-block">
+        
+        <!-- Strategy Table: Expedia -->
+        <div class="table-responsive">
+          <table class="table table-bordered strategy-table">
+            <thead>
+              <tr>
+                <th>Strateji</th>
+                <th>Önerimiz</th>
+                <th>Kazanımınız</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="strategy-icon">🔵</span> Non-refundable %10 indirim</td>
+                <td>İptalsiz fiyatları %10 indirimli sunun</td>
+                <td>Ortalama rezervasyon artışı %12’dir (Expedia verileri)</td>
+              </tr>
+              <tr>
+                <td><span class="strategy-icon">🔵</span> Otomatik Fiyat Eşleşmesi</td>
+                <td>Expedia'nın fiyat eşleştirme aracını kullanın</td>
+                <td>Piyasaya uyumla rekabet avantajı ve rezervasyon artışı %15 (Expedia analizleri)</td>
+              </tr>
+              <tr>
+                <td><span class="strategy-icon">🔵</span> Rank Booster Programı</td>
+                <td>Komisyon oranınızı %15’ten %20’ye yükseltin</td>
+                <td>Sıralama görünürlüğü ve rezervasyon sayısı %50'ye kadar artabilir (Expedia vaka çalışması)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Additional details -->
+        <ul class="mt-3">
+          <li><span class="highlight">Promosyon Senaryoları:</span> 2X yüklenmiş fiyatları dengelemek için kampanyalar (ör. %10 indirim Non-Ref) devreye alınacaktır.</li>
+          <li><span class="highlight">Komisyon Artışı (kısa süreli):</span> %15’ten %20’ye çıkararak daha yüksek sıralama ve satış potansiyeli.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Agoda Section -->
+    <section id="agoda" class="mb-5" data-aos="fade-up">
+      <div class="card-custom">
+        <h3>Agoda Optimizasyonu</h3>
+        <img src="https://cdn6.agoda.net/images/kite-js/logo/agoda/color-default.svg" alt="Agoda Logo" style="max-width:150px;" class="my-3 d-block">
+        
+        <!-- Strategy Table: Agoda -->
+        <div class="table-responsive">
+          <table class="table table-bordered strategy-table">
+            <thead>
+              <tr>
+                <th>Strateji</th>
+                <th>Önerimiz</th>
+                <th>Kazanımınız</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="strategy-icon">🟣</span> Sponsorlu Listeleme ve AGT/AGP programları</td>
+                <td>Sponsorlu listelere katılın</td>
+                <td>Rezervasyonları ortalama %20 artırır (Agoda istatistikleri)</td>
+              </tr>
+              <tr>
+                <td><span class="strategy-icon">🟣</span> Komisyon Artışı</td>
+                <td>Komisyon oranınızı %25’e yükseltin</td>
+                <td>Rezervasyonlar %30’a kadar artabilir (Agoda raporları)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Additional details -->
+        <ul class="mt-3">
+          <li><span class="highlight">Promosyon ve Konfigürasyonlar:</span> 2X fiyat ve %25 komisyon + sponsorlu listeleme ile görünürlük artışı.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Diğer OTA’lar Section -->
+    <section id="others" class="mb-5" data-aos="fade-up">
+      <div class="card-custom">
+        <h3>Diğer OTA’lar (ETS, Jolly, Tatilbudur, Tatilsepeti, Setur)</h3>
+        
+        <!-- Strategy Table: Diğer OTA'lar -->
+        <div class="table-responsive">
+          <table class="table table-bordered strategy-table">
+            <thead>
+              <tr>
+                <th>Strateji</th>
+                <th>Önerimiz</th>
+                <th>Kazanımınız</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="strategy-icon">🟠</span> Daha Düşük Baz Fiyatlandırma</td>
+                <td>Diğer OTA’larda baz fiyatı %10 daha uygun tutun (Booking/Expedia 100 EUR, diğerlerinde 90 EUR)</td>
+                <td>Rekabet avantajıyla rezervasyon artışı %15-20 (Türkiye OTA pazarı analizleri)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Additional details -->
+        <ul class="mt-3">
+          <li><span class="highlight">Komisyon:</span> ETS, Jolly, Tatilbudur, Tatilsepeti, Setur için %15 komisyon korunacaktır.</li>
+          <li><span class="highlight">Politikalar:</span> Evcil hayvan, çocuk, ödeme vb. tüm politikalar bu kanallarda da geçerli olacaktır.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- NEW: Rezervasyon Fiyat Hesaplama (Mini Reservation Engine) Section -->
+    <section id="reservationEngine" class="mb-5" data-aos="fade-up">
+      <div class="card-custom">
+        <h3>Rezervasyon Fiyat Hesaplama</h3>
+        <p>Aşağıdaki formu doldurun. Seçtiğiniz tarihe göre (tek gece), yemek planı, oda tipi, kişi sayısı ve fiyat tipine göre fiyat tablomuzdan baz fiyat alınır; ardından OTA'lar için; önce fiyat 2X alınır, non-refundable seçilirse %10 indirim uygulanır, ardından promosyon uygulanır ve son olarak komisyon düşülür. Sonuçlar, farklı OTA kanallarında yan yana gösterilecektir.</p>
+        <form id="searchForm" class="row g-3 reservation-engine">
+          <div class="col-md-3">
+            <label for="checkinDate" class="form-label">Check-in Tarihi</label>
+            <input type="date" id="checkinDate" class="form-control" required>
+          </div>
+          <div class="col-md-3">
+            <label for="boardType" class="form-label">Yemek Planı</label>
+            <select id="boardType" class="form-select">
+              <option value="ok">Oda Kahvaltı</option>
+              <option value="yp">Yarım Pansiyon</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="roomType" class="form-label">Oda Tipi</label>
+            <select id="roomType" class="form-select">
+              <option value="standart">Standart</option>
+              <option value="superior">Superior</option>
+              <option value="queen">Queen</option>
+              <option value="deluxe">Deluxe</option>
+              <option value="king">King</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="occupancy" class="form-label">Kişi Sayısı</label>
+            <select id="occupancy" class="form-select">
+              <option value="tek">Tek Kişi</option>
+              <option value="iki">İki Kişi</option>
+              <option value="uc">Üç Kişi</option>
+              <option value="dort">Dört Kişi</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="rateType" class="form-label">Fiyat Tipi</label>
+            <select id="rateType" class="form-select">
+              <option value="standard">Standard Rate</option>
+              <option value="nonref">Non-Refundable</option>
+            </select>
+          </div>
+          <div class="col-md-4 align-self-end">
+            <button type="submit" class="btn btn-warning w-100">Hesapla</button>
+          </div>
+        </form>
+        <!-- Results Table -->
+        <div id="resultsContainer" class="mt-4 d-none">
+          <h4>Hesaplama Sonuçları</h4>
+          <table class="table table-bordered results-table">
+            <thead>
+              <tr>
+                <th>OTA Kanalı</th>
+                <th>Son Fiyat (TL)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Booking.com</td>
+                <td id="priceBooking"></td>
+              </tr>
+              <tr>
+                <td>Expedia</td>
+                <td id="priceExpedia"></td>
+              </tr>
+              <tr>
+                <td>Agoda</td>
+                <td id="priceAgoda"></td>
+              </tr>
+              <tr>
+                <td>ETS</td>
+                <td id="priceEts"></td>
+              </tr>
+              <tr>
+                <td>Jolly</td>
+                <td id="priceJolly"></td>
+              </tr>
+              <tr>
+                <td>Tatilbudur</td>
+                <td id="priceTatilbudur"></td>
+              </tr>
+              <tr>
+                <td>Tatilsepeti</td>
+                <td id="priceTatilsepeti"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="mb-5" data-aos="fade-up">
+      <div class="card-custom">
+        <h3>İletişim</h3>
+        <p>Detaylı analiz ve teklif için bizimle iletişime geçin:</p>
+        <ul class="list-unstyled">
+          <li><i class="fas fa-phone-alt"></i> +90 501 332 43 00</li>
+          <li><i class="fas fa-envelope"></i> kmaleki922@gmail.com</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- Sticky CTA Button -->
+  <a href="#contact" class="btn btn-warning text-dark rounded-circle p-3 cta-sticky" title="İletişime Geçin">
+    <i class="fas fa-envelope"></i>
+  </a>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p class="mb-0">© 2025 KASRA MALEKI Hotel Analytics Expert</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- AOS JS (for scroll animations) -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    // Initialize AOS for scroll animations
+    AOS.init({
+      duration: 800,
+      once: true
+    });
+    
+    /* =========================
+       Mini Reservation Engine JS
+       ========================= */
+
+    // Price data stored in JS objects based on your table
+    const priceData = {
+      odaKahvalti: {
+        haftaIci: {
+          // standard: only tek, iki possible
+          // if occupant is not valid => 0 means we want to block / show error
+          standart: { tek: 8333, iki: 8333, uc: 0, dort: 0 },
+          // superior can do tek, iki, uc, dort
+          superior: { tek: 8333, iki: 10632, uc: 13333, dort: 16034 },
+          // queen can do up to 3
+          queen:    { tek: 10632, iki: 10632, uc: 13333, dort: 0 },
+          // deluxe up to 4
+          deluxe:   { tek: 13333, iki: 13333, uc: 13333, dort: 16034 },
+          // king up to 2? or 3?
+          king:     { tek: 12931, iki: 12931, uc: 0,     dort: 0 }
+        },
+        cumartesi: {
+          standart: { tek: 11890, iki: 11890, uc: 0,     dort: 0 },
+          superior: { tek: 11890, iki: 14329, uc: 17195, dort: 20061 },
+          queen:    { tek: 14329, iki: 14329, uc: 17195, dort: 0 },
+          deluxe:   { tek: 17195, iki: 17195, uc: 17195, dort: 20061 },
+          king:     { tek: 16768, iki: 16768, uc: 0,     dort: 0 }
+        }
+      },
+      yarimPansiyon: {
+        haftaIci: {
+          standart: { tek: 9195,  iki: 9195,  uc: 0,     dort: 0 },
+          superior: { tek: 9195,  iki: 11494, uc: 14195, dort: 16897 },
+          queen:    { tek: 11494, iki: 11494, uc: 14195, dort: 0 },
+          deluxe:   { tek: 14195, iki: 14195, uc: 14195, dort: 16897 },
+          king:     { tek: 13793, iki: 13793, uc: 0,     dort: 0 }
+        },
+        cumartesi: {
+          standart: { tek: 12805, iki: 12805, uc: 0,     dort: 0 },
+          superior: { tek: 12805, iki: 15244, uc: 18110, dort: 20976 },
+          queen:    { tek: 15244, iki: 15244, uc: 18110, dort: 0 },
+          deluxe:   { tek: 18110, iki: 18110, uc: 18110, dort: 20976 },
+          king:     { tek: 17683, iki: 17683, uc: 0,     dort: 0 }
+        }
+      }
+    };
+
+    // Determine if a date is Saturday or not (0=Sunday, 6=Saturday)
+    function getDayType(dateString) {
+      const d = new Date(dateString);
+      return (d.getDay() === 6) ? 'cumartesi' : 'haftaIci';
+    }
+
+    // Look up base price from table data
+    function getBasePrice(boardType, dayType, room, occupant) {
+      let dataObj;
+      if(boardType === 'ok') {
+        dataObj = priceData.odaKahvalti[dayType][room];
+      } else {
+        dataObj = priceData.yarimPansiyon[dayType][room];
+      }
+      return dataObj[occupant] || 0;
+    }
+
+    // Calculate final price for Booking.com, Expedia, Agoda:
+    // Formula: base * 2 -> if nonref then *0.9 -> then *0.58 (promo) -> then *0.75 (commission)
+    function calcBEA(basePrice, isNonRef) {
+      let p = basePrice * 2;
+      if(isNonRef) p *= 0.9;
+      p *= 0.58;
+      p *= 0.75;
+      return p;
+    }
+
+    // Calculate final price for ETS, Jolly, Tatilbudur, Tatilsepeti:
+    // Formula: base * 2 -> if nonref then *0.9 -> then *0.50 (promo) -> then *0.85 (commission)
+    function calcOther(basePrice, isNonRef) {
+      let p = basePrice * 2;
+      if(isNonRef) p *= 0.9;
+      p *= 0.50;
+      p *= 0.85;
+      return p;
+    }
+
+    // Dynamically filter occupant options based on room capacity
+    const roomTypeEl = document.getElementById('roomType');
+    const occupancyEl = document.getElementById('occupancy');
+    const boardTypeEl = document.getElementById('boardType');
+    const dateEl      = document.getElementById('checkinDate');
+
+    function refreshOccupantOptions() {
+      // step 1) get current selection:
+      const selectedRoom = roomTypeEl.value;        // ex: 'standart'
+      const selectedDate = dateEl.value;           // ex: '2025-04-24'
+      if(!selectedDate) { 
+        // can't check day type if date not selected
+        return;
+      }
+      const dayT = getDayType(selectedDate);        // 'haftaIci' or 'cumartesi'
+      const bType = boardTypeEl.value;             // 'ok' or 'yp'
+
+      // 2) get occupant data from priceData
+      let dataObj;
+      if(bType === 'ok') {
+        dataObj = priceData.odaKahvalti[dayT][selectedRoom];
+      } else {
+        dataObj = priceData.yarimPansiyon[dayT][selectedRoom];
+      }
+      // dataObj might be: { tek: 8333, iki:8333, uc:0, dort:0 } etc.
+
+      // 3) check each occupant key and see if it is > 0. If 0 => disable that occupant.
+      const occupantOptions = [
+        { value:'tek',  label:'Tek Kişi'  },
+        { value:'iki',  label:'İki Kişi'  },
+        { value:'uc',   label:'Üç Kişi'   },
+        { value:'dort', label:'Dört Kişi' }
+      ];
+
+      occupancyEl.innerHTML = '';
+      occupantOptions.forEach(opt => {
+        const priceVal = dataObj[opt.value];
+        if(priceVal && priceVal > 0) {
+          // occupant is valid => add this option
+          const optionEl = document.createElement('option');
+          optionEl.value = opt.value;
+          optionEl.textContent = opt.label;
+          occupancyEl.appendChild(optionEl);
+        }
+      });
+    }
+
+    // Event listeners to refresh occupant options whenever date, boardType, or roomType changes
+    dateEl.addEventListener('change', refreshOccupantOptions);
+    boardTypeEl.addEventListener('change', refreshOccupantOptions);
+    roomTypeEl.addEventListener('change', refreshOccupantOptions);
+
+
+    // Event Listener for the reservation engine form submission
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Get user selections
+      const dateVal = dateEl.value;
+      if(!dateVal) {
+        alert("Lütfen bir tarih seçin.");
+        return;
+      }
+      const dayType = getDayType(dateVal); // "haftaIci" or "cumartesi"
+      const board = boardTypeEl.value; // "ok" or "yp"
+      const room = roomTypeEl.value;   // "standart", "superior", etc.
+      const occ  = occupancyEl.value;    // "tek", "iki", "uc", "dort"
+
+      const rate = document.getElementById('rateType').value;     // "standard" or "nonref"
+      const isNonRef = (rate === "nonref");
+
+      // Lookup base price
+      const base = getBasePrice(board, dayType, room, occ);
+      if(base <= 0) {
+        alert("Seçtiğiniz kombinasyonda fiyat bilgisi yok veya bu oda bu kadar kişi kapasitesine uygun değil.");
+        return;
+      }
+
+      // Calculate prices for each OTA channel
+      const bookingPrice  = calcBEA(base, isNonRef);
+      const expediaPrice  = calcBEA(base, isNonRef);
+      const agodaPrice    = calcBEA(base, isNonRef);
+      const etsPrice      = calcOther(base, isNonRef);
+      const jollyPrice    = calcOther(base, isNonRef);
+      const tatilbudurPrice = calcOther(base, isNonRef);
+      const tatilsepetiPrice= calcOther(base, isNonRef);
+
+      // Display the results
+      document.getElementById('priceBooking').textContent     = Math.round(bookingPrice).toLocaleString('tr-TR');
+      document.getElementById('priceExpedia').textContent     = Math.round(expediaPrice).toLocaleString('tr-TR');
+      document.getElementById('priceAgoda').textContent       = Math.round(agodaPrice).toLocaleString('tr-TR');
+      document.getElementById('priceEts').textContent         = Math.round(etsPrice).toLocaleString('tr-TR');
+      document.getElementById('priceJolly').textContent       = Math.round(jollyPrice).toLocaleString('tr-TR');
+      document.getElementById('priceTatilbudur').textContent  = Math.round(tatilbudurPrice).toLocaleString('tr-TR');
+      document.getElementById('priceTatilsepeti').textContent = Math.round(tatilsepetiPrice).toLocaleString('tr-TR');
+
+      // Reveal the results container
+      document.getElementById('resultsContainer').classList.remove('d-none');
+    });
+  </script>
+</body>
+</html>
