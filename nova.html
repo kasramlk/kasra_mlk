@@ -1,229 +1,388 @@
-<!-- ✂️  START copy here  ✂️ -->
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Nova Plaza Crystal · 2025 Gelir & Strateji Paneli</title>
-<!-- Google Fonts & Vendor CSS -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
-<style>
-:root{
-  --c-navy:#042a4f;
-  --c-teal:#0096c7;
-  --c-sand:#ffcb74;
-  --c-ice:#f6fbff;
-  --c-rose:#f03e6b;
-  --txt:#1b1b1b;
-  --radius:14px;
+  <!-- Font Awesome (for icons) -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  integrity="sha512-p1CmIY8gXyddX+0TUBHd2V+4JciHDjXGvELG8nl6qzVwP3zRzL7yL1k4dGgG0PSN7uXk2nhFllZ9U2Fek6V6ig=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nova Plaza Crystal – Revenue Strategy Dashboard</title>
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <style>
+  
+  /* ——— Process Embed Grid & Cards ——— */
+.process-embed h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--blue);
+  font-size: 1.6rem;
 }
-html{scroll-behavior:smooth}
-body{
-  font-family:"Inter",sans-serif;
-  background:var(--c-ice);
-  color:var(--txt);
-  line-height:1.55;
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap: 20px;
 }
-.hero{
-  background:linear-gradient(110deg,rgba(4,42,79,.8),rgba(0,150,199,.8)),url("") center/cover no-repeat;
-  min-height:60vh;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;
+.process-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.05);
 }
-.section-title{
-  position:relative;
-  padding-left:18px; margin:64px 0 24px;
-  font-weight:600;font-size:1.25rem;
+.process-card .step {
+  color: var(--blue);
+  font-weight: 700;
+  margin-bottom: 15px;
 }
-.section-title::before{
-  content:"";position:absolute;left:0;top:4px;width:6px;height:80%;background:var(--c-teal);border-radius:3px;
+.process-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
-.lang-btn{position:fixed;top:12px;right:12px;z-index:1050}
-/* cards */
-.card-neo{border:none;border-radius:var(--radius);box-shadow:0 6px 16px rgba(0,0,0,.08);transition:transform .2s}
-.card-neo:hover{transform:translateY(-4px)}
-/* gallery */
-.gallery img{width:100%;height:180px;object-fit:cover;border-radius:var(--radius);box-shadow:0 4px 12px rgba(0,0,0,.12)}
-/* tables */
-table.dataTable tbody tr:hover{background:var(--c-sand)!important;color:#000}
-.swot-table td,.swot-table th,.action-table th{font-size:.88rem}
-.swot-table{table-layout:fixed}
-.badge-pri{background:var(--c-teal)}
-footer{background:var(--c-navy);color:#fff;margin-top:96px}
-.action-done{opacity:.45;text-decoration:line-through}
-</style>
+.process-card ul li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.process-card ul li i {
+  margin-right: 8px;
+  color: var(--blue);
+}
+/* Progress Bars */
+.progress { width:100%; height:8px; background:#e0e0e0; border-radius:4px; margin:4px 0; }
+.progress-bar { height:100%; background:var(--blue); border-radius:4px; }
+/* Accordion */
+.accordion {
+  width: 100%;
+  text-align: left;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background: var(--cerulean);
+  color: #fff;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+.panel {
+  display: none;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 0 0 6px 6px;
+}
+
+    :root {
+      --blue: #003580;
+      --cerulean: #009fe3;
+      --yellow: #feba02;
+      --gray: #666666;
+      --bg: #f2f6fa;
+    }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--gray);
+    }
+    header {
+      background: var(--blue);
+      color: white;
+      padding: 20px 10%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.6rem;
+    }
+    header button {
+      background: var(--yellow);
+      border: none;
+      color: #000;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    section {
+      padding: 50px 10%;
+      max-width: 1200px;
+      margin: auto;
+    }
+    h2 {
+      color: var(--blue);
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    td, th {
+      padding: 8px 6px;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background: var(--cerulean);
+      color: #fff;
+    }
+    .lang-tr {display:block;}
+    .lang-en {display:none;}
+    .process-embed {
+      margin-top: 80px;
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    }
+    .process-embed img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+    }
+  </style>
 </head>
 <body>
-<button class="btn btn-warning lang-btn shadow" id="langToggle">EN</button>
-<!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <h1 class="display-5 fw-bold mb-2" data-tr="Nova Plaza Crystal – Gelir & Strateji Paneli" data-en="Nova Plaza Crystal – Revenue & Strategy Panel">Nova Plaza Crystal – Gelir & Strateji Paneli</h1>
-    <p class="lead mb-0" data-tr="Mayıs–Aralık 2025 Tahminleri · KPI · SWOT · Aksiyon Planı" data-en="May–Dec 2025 Forecast · KPI · SWOT · Action Plan">Mayıs–Aralık 2025 Tahminleri · KPI · SWOT · Aksiyon Planı</p>
+  <header>
+    <h1>Nova Plaza Crystal – Gelir Strateji Paneli</h1>
+    <button id="toggleLang">EN</button>
+  </header>
+  <section class="grid-2">
+    <img src="https://assets.onecompiler.app/42qm4jhuw/4346m8jnh/0e81e431.avif" alt="" style="width:100%;border-radius:8px;">
+    
+  </section>
+
+  <section>
+    <h2 class="lang-tr">Mayıs – Aralık 2025 Aylık Performans Tablosu</h2>
+    <h2 class="lang-en">Performance Forecast Table (May–Dec 2025)</h2>
+    <div id="revTableContainer">
+      <table id="revTable" class="display"></table>
+    </div>
+    <div id="channelChart" style="height:400px; margin-top:50px;"></div>
+    <div id="adrTrend" style="height:400px; margin-top:50px;"></div>
+
+    <div style="margin-top:30px;">
+      <h3 class="lang-tr">Detaylı Tahmin Metodolojisi</h3>
+      <p class="lang-tr">Bu tahminler, İstanbul Taksim çevresindeki benzer otellerin OTA fiyatları, turizm sezonları ve piyasa trendlerine dayanmaktadır. Ortalama Günlük Fiyat (ADR), doluluk oranı, satılan gece sayısı ve satış kanalı payları (B2B, B2C, Walk-in) gibi verilerle tahmin modeli oluşturulmuştur. Derin öğrenme destekli LSTM ve Dikkat (Attention) mekanizması ile beslenen tahmin modeli, geçmiş eğilimleri ve sezonluk talebi analiz ederek sonuç üretmektedir.</p>
+      <h3 class="lang-en">Detailed Forecast Methodology</h3>
+      <p class="lang-en">These forecasts are based on OTA pricing, tourism seasonality, and competitive market benchmarks around Taksim. Variables include Average Daily Rate (ADR), occupancy rate, room nights sold, and sales channel distribution (B2B, B2C, Walk-in). The predictions are powered by deep learning methods, namely LSTM with Attention, trained on historical patterns and seasonal dynamics.</p>
+    </div>
+  </section>
+
+ <section class="process-embed">
+  <h2 class="lang-tr">Danışmanlık Sürecimiz</h2>
+  <h2 class="lang-en" style="display:none;">Our Process</h2>
+  <div class="process-grid">
+
+    <!-- 01. Analysis -->
+    <div class="process-card">
+      <div class="step">01. <span class="lang-tr">Analiz</span><span class="lang-en" style="display:none;">Analysis</span></div>
+      <ul>
+        <li><i class="fa-solid fa-database"></i><span class="lang-tr">Veri Toplama & Analiz</span><span class="lang-en" style="display:none;">Data Collection & Analysis</span></li>
+        <li><i class="fa-solid fa-chart-line"></i><span class="lang-tr">Pazar Araştırması</span><span class="lang-en" style="display:none;">Market Research</span></li>
+        <li><i class="fa-solid fa-comments"></i><span class="lang-tr">Misafir Geri Bildirimi Analizi</span><span class="lang-en" style="display:none;">Guest Feedback Analysis</span></li>
+      </ul>
+      <div style="margin-top:10px;">
+        <div>
+          <span class="lang-tr">Doluluk Analizi</span><span class="lang-en" style="display:none;">Occupancy Analysis</span>
+          <div class="progress"><div class="progress-bar" style="width:80%;"></div></div>
+        </div>
+        <div>
+          <span class="lang-tr">Gelir Metrikleri</span><span class="lang-en" style="display:none;">Revenue Metrics</span>
+          <div class="progress"><div class="progress-bar" style="width:65%;"></div></div>
+        </div>
+      </div>
+      <p class="lang-tr" style="margin-top:10px;">Veri odaklı analizlerle aksiyon alanlarını belirleriz.</p>
+      <p class="lang-en" style="display:none;margin-top:10px;">We identify action areas through data-driven analysis.</p>
+    </div>
+
+    <!-- 02. Strategy -->
+    <div class="process-card">
+      <div class="step">02. <span class="lang-tr">Strateji</span><span class="lang-en" style="display:none;">Strategy</span></div>
+
+      <h4 class="lang-tr">Gelir Optimizasyonu</h4>
+      <h4 class="lang-en" style="display:none;">Revenue Optimization</h4>
+      <ul>
+        <li><i class="fa-solid fa-tag"></i><span class="lang-tr">Fiyatlandırma Stratejisi</span><span class="lang-en" style="display:none;">Pricing Strategy</span></li>
+        <li><i class="fa-solid fa-network-wired"></i><span class="lang-tr">Dağıtım Kanalları</span><span class="lang-en" style="display:none;">Distribution Channels</span></li>
+        <li><i class="fa-solid fa-balance-scale"></i><span class="lang-tr">Yield Yönetimi</span><span class="lang-en" style="display:none;">Yield Management</span></li>
+      </ul>
+
+      <h4 class="lang-tr" style="margin-top:15px;">Pazarlama Planı</h4>
+      <h4 class="lang-en" style="display:none;margin-top:15px;">Marketing Plan</h4>
+      <ul>
+        <li><i class="fa-solid fa-globe"></i><span class="lang-tr">Dijital Varlık</span><span class="lang-en" style="display:none;">Digital Presence</span></li>
+        <li><i class="fa-solid fa-bullseye"></i><span class="lang-tr">Hedef Pazarlar</span><span class="lang-en" style="display:none;">Target Markets</span></li>
+        <li><i class="fa-solid fa-alignment"></i><span class="lang-tr">Marka Konumlandırma</span><span class="lang-en" style="display:none;">Brand Positioning</span></li>
+      </ul>
+
+      <h4 class="lang-tr" style="margin-top:15px;">Operasyonel Mükemmeliyet</h4>
+      <h4 class="lang-en" style="display:none;margin-top:15px;">Operational Excellence</h4>
+      <ul>
+        <li><i class="fa-solid fa-sliders"></i><span class="lang-tr">Süreç Optimizasyonu</span><span class="lang-en" style="display:none;">Process Optimization</span></li>
+        <li><i class="fa-solid fa-coins"></i><span class="lang-tr">Maliyet Yönetimi</span><span class="lang-en" style="display:none;">Cost Management</span></li>
+        <li><i class="fa-solid fa-check-circle"></i><span class="lang-tr">Kalite Standartları</span><span class="lang-en" style="display:none;">Quality Standards</span></li>
+      </ul>
+    </div>
+
+    <!-- 03. Implementation -->
+    <div class="process-card">
+      <div class="step">03. <span class="lang-tr">Uygulama</span><span class="lang-en" style="display:none;">Implementation</span></div>
+      <ul>
+        <li><i class="fa-solid fa-chalkboard-teacher"></i><span class="lang-tr">Personel Eğitimi</span><span class="lang-en" style="display:none;">Staff Training</span></li>
+        <li><i class="fa-solid fa-cogs"></i><span class="lang-tr">Sistem Entegrasyonu</span><span class="lang-en" style="display:none;">System Integration</span></li>
+        <li><i class="fa-solid fa-badge-check"></i><span class="lang-tr">Kalite Güvencesi</span><span class="lang-en" style="display:none;">Quality Assurance</span></li>
+      </ul>
+      <p class="lang-tr" style="margin-top:10px;">Stratejilerimiz kalite odaklı uygulanır.</p>
+      <p class="lang-en" style="display:none;margin-top:10px;">Our strategies are implemented with a focus on quality.</p>
+    </div>
+
+    <!-- 04. Monitoring -->
+    <div class="process-card">
+      <div class="step">04. <span class="lang-tr">İzleme</span><span class="lang-en" style="display:none;">Monitoring</span></div>
+      <ul>
+        <li><i class="fa-solid fa-chart-simple"></i><span class="lang-tr">Gerçek Zamanlı Analiz</span><span class="lang-en" style="display:none;">Real-time Analytics</span></li>
+        <li><i class="fa-solid fa-sync-alt"></i><span class="lang-tr">Sürekli İyileştirme</span><span class="lang-en" style="display:none;">Continuous Improvement</span></li>
+        <li><i class="fa-solid fa-file-alt"></i><span class="lang-tr">Düzenli Raporlar</span><span class="lang-en" style="display:none;">Regular Reports</span></li>
+        <li><i class="fa-solid fa-bullseye"></i><span class="lang-tr">Hedef Takibi</span><span class="lang-en" style="display:none;">Goal Tracking</span></li>
+        <li><i class="fa-solid fa-chart-line"></i><span class="lang-tr">Büyüme Analizi</span><span class="lang-en" style="display:none;">Growth Analysis</span></li>
+      </ul>
+      <p class="lang-tr" style="margin-top:10px;">Sürekli optimizasyon ve takip.</p>
+      <p class="lang-en" style="display:none;margin-top:10px;">Ongoing optimization and tracking.</p>
+    </div>
+
+    <!-- 05. OTA Management & Pricing Strategies -->
+    <div class="process-card">
+      <div class="step">05. <span class="lang-tr">OTA Yönetimi &amp; Fiyat Stratejileri</span><span class="lang-en" style="display:none;">OTA Management &amp; Pricing Strategies</span></div>
+      <h4 class="lang-tr">OTA Yönetimi</h4><h4 class="lang-en" style="display:none;">OTA Management</h4>
+      <ul>
+        <li><i class="fa-solid fa-hotel"></i><span class="lang-tr">Booking.com, Expedia, Agoda yönetimi</span><span class="lang-en" style="display:none;">Management for Booking.com, Expedia, Agoda</span></li>
+        <li><i class="fa-solid fa-percentage"></i><span class="lang-tr">Fiyat &amp; promosyon optimizasyonu</span><span class="lang-en" style="display:none;">Rate &amp; promotion optimization</span></li>
+        <li><i class="fa-solid fa-chart-pie"></i><span class="lang-tr">Veri odaklı ayarlamalar</span><span class="lang-en" style="display:none;">Data-driven adjustments</span></li>
+      </ul>
+
+      <button class="accordion lang-tr">Fiyat Stratejileri</button>
+      <button class="accordion lang-en" style="display:none;">Pricing Strategies</button>
+      <div class="panel lang-tr">
+        <ul><li>Dinamik fiyatlama</li><li>Min-max sınırları</li></ul>
+      </div>
+      <div class="panel lang-en" style="display:none;">
+        <ul><li>Dynamic rate setting</li><li>Min-max boundaries</li></ul>
+      </div>
+
+      <button class="accordion lang-tr">Promosyon Optimizasyonu</button>
+      <button class="accordion lang-en" style="display:none;">Promotion Optimization</button>
+      <div class="panel lang-tr">
+        <ul><li>Özel paketler</li><li>Zamanlı indirimler</li></ul>
+      </div>
+      <div class="panel lang-en" style="display:none;">
+        <ul><li>Custom packages</li><li>Timed discounts</li></ul>
+      </div>
+    </div>
+
+    <!-- 06. Dynamic Pricing -->
+    <div class="process-card">
+      <div class="step">06. <span class="lang-tr">Dinamik Fiyatlama</span><span class="lang-en" style="display:none;">Dynamic Pricing</span></div>
+      <ul>
+        <li><i class="fa-solid fa-plane-departure"></i><span class="lang-tr">Uçuş Verisi Entegrasyonu</span><span class="lang-en" style="display:none;">Flight Data Integration</span></li>
+        <li><i class="fa-solid fa-chart-area"></i><span class="lang-tr">Piyasa Analizi</span><span class="lang-en" style="display:none;">Market Insights</span></li>
+        <li><i class="fa-solid fa-tag"></i><span class="lang-tr">Fiyat Stratejisi</span><span class="lang-en" style="display:none;">Pricing Strategy</span></li>
+      </ul>
+      <p class="lang-tr" style="margin-top:10px;">Talep odaklı ayarlamalar.</p>
+      <p class="lang-en" style="display:none;margin-top:10px;">Demand-driven adjustments.</p>
+    </div>
+
   </div>
 </section>
 
+   
+  </section>
 
-<!-- methodology -->
-  <h2 data-tr="Tahmin Metodolojisi" data-en="Forecast Methodology">Tahmin Metodolojisi</h2>
-  <p data-tr="Bu tahminler, 2024 İstanbul 4★ ADR ortalamalarının %10 alt sınırı, STR raporlarındaki sezonluk doluluk trendleri ve kamu tatilleri/etkinlikler için dummy değişkenleri kullanılarak eğitilen küçük bir LSTM modelinin çıktılarıdır."
-     data-en="Forecasts are generated via a lightweight LSTM model trained on 2024 Istanbul 4‑star ADR averages minus 10 %, seasonality patterns from STR, and holiday/event dummy variables.">
-    Bu tahminler, 2024 İstanbul 4★ ADR ortalamalarının %10 alt sınırı, STR raporlarındaki sezonluk doluluk trendleri ve kamu tatilleri/etkinlikler için dummy değişkenleri kullanılarak eğitilen küçük bir LSTM modelinin çıktılarıdır.
-  </p>
-
-
-  <!-- FORECAST (existing) -->
-  <h2 class="section-title" data-tr="2025 Aylık Oda Geliri Tahmini" data-en="2025 Monthly Room‑Revenue Forecast">2025 Aylık Oda Geliri Tahmini</h2>
-  <div id="revChart" style="height:380px"></div>
-  <table id="revTable" class="table table-striped table-bordered shadow-sm mt-4" style="width:100%">
-    <thead class="table-light"><tr><th data-tr="Ay" data-en="Month">Ay</th><th>Occ %</th><th>ADR €</th><th data-tr="Gelir (€)" data-en="Revenue (€)">Gelir (€)</th></tr></thead>
-    <tbody></tbody>
-  </table>
-
-  <!-- KPI COMPARISON -->
-  <h2 class="section-title" data-tr="Temel KPI Karşılaştırma" data-en="Core KPI Comparison">Temel KPI Karşılaştırma</h2>
-  <div class="row g-3 text-center mb-4" id="kpiCards"></div>
-  <div id="kpiChart" style="height:320px"></div>
-
-  <!-- SWOT -->
-  <h2 class="section-title" data-tr="SWOT Analizi" data-en="SWOT Analysis">SWOT Analizi</h2>
-  <div class="row g-4">
-    <div class="col-md-6">
-      <h5 class="text-center fw-semibold">Nova Plaza Crystal</h5>
-      <table class="table table-bordered swot-table">
-        <tr><th data-tr="Güçlü Yönler" data-en="Strengths">Güçlü Yönler</th><td id="novaStr"></td></tr>
-        <tr><th data-tr="Zayıf Yönler" data-en="Weaknesses">Zayıf Yönler</th><td id="novaWeak"></td></tr>
-        <tr><th>Opportunities</th><td id="novaOpp"></td></tr>
-        <tr><th>Threats</th><td id="novaThr"></td></tr>
-      </table>
-    </div>
-    <div class="col-md-6">
-      <h5 class="text-center fw-semibold" data-tr="Rakip Grup" data-en="Competitive Set">Rakip Grup</h5>
-      <table class="table table-bordered swot-table">
-        <tr><th>Strengths</th><td id="compStr"></td></tr>
-        <tr><th>Weaknesses</th><td id="compWeak"></td></tr>
-        <tr><th>Opportunities</th><td id="compOpp"></td></tr>
-        <tr><th>Threats</th><td id="compThr"></td></tr>
-      </table>
-    </div>
-  </div>
-
-  <!-- ACTION PLAN -->
-  <h2 class="section-title" data-tr="Gelir Yönetimi İçin Önerilen Aksiyonlar" data-en="Recommended Revenue Actions">Gelir Yönetimi İçin Önerilen Aksiyonlar</h2>
-  <ul class="list-group list-group-flush" id="actionList"></ul>
-</div>
-
-<footer class="text-center py-4"><small>© 2025 Nova Plaza Crystal – v2.1</small></footer>
-
-<!-- JS libs -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-<script>
-/* ------------ DATA SETS ------------- */
-const revData=[
-  {month:"May",occ:75,adr:95,revenue:475650},
-  {month:"Jun",occ:80,adr:100,revenue:516000},
-  {month:"Jul",occ:83,adr:115,revenue:658459.5},
-  {month:"Aug",occ:82,adr:110,revenue:633186},
-  {month:"Sep",occ:77,adr:105,revenue:524475},
-  {month:"Oct",occ:72,adr:90,revenue:419832},
-  {month:"Nov",occ:65,adr:75,revenue:316575},
-  {month:"Dec",occ:60,adr:70,revenue:279510}
-];
-/* KPI */
-const kpiNova={name:"Nova Plaza",occ:74,adr:155,revpar:115,goppar:45};
-const kpiComp={name:"Comp‑Set",occ:66,adr:145,revpar:96,goppar:38};
-
-/* ---------- KPI Cards & Chart ---------- */
-function initKPI(){
-  const row=document.getElementById("kpiCards");
-  [kpiNova,kpiComp].forEach(k=>{
-    row.insertAdjacentHTML('beforeend',`
-      <div class="col-6 col-lg-3">
-        <div class="card card-neo p-2">
-          <div class="card-body p-2">
-            <h6 class="fw-semibold mb-1">${k.name}</h6>
-            <small>Occ&nbsp;${k.occ}%</small><br>
-            <small>ADR&nbsp;€${k.adr}</small><br>
-            <small>RevPAR&nbsp;€${k.revpar}</small>
-          </div>
-        </div>
-      </div>`);
-  });
-  Plotly.newPlot('kpiChart',[
-    {x:['Occ%','ADR','RevPAR','GOPPAR'],y:[kpiNova.occ,kpiNova.adr,kpiNova.revpar,kpiNova.goppar],name:kpiNova.name,type:'bar',marker:{color:'var(--c-teal)'}},
-    {x:['Occ%','ADR','RevPAR','GOPPAR'],y:[kpiComp.occ,kpiComp.adr,kpiComp.revpar,kpiComp.goppar],name:kpiComp.name,type:'bar',marker:{color:'var(--c-sand)'}}
-  ],{barmode:'group',margin:{t:10},plot_bgcolor:'var(--c-ice)',paper_bgcolor:'var(--c-ice)',legend:{orientation:'h'}},{responsive:true});
-}
-
-/* ---------- SWOT ---------- */
-function initSWOT(){
-  const novaSWOT={str:['Yenilenmiş odalar 2023','Haliç manzarası','Güçlü MENA FIT portföyü','Sadakat kulübü %18'],
-                  weak:['Hafta içi düşük grup doluluk','Sınırlı toplantı alanı','Direct site rezervasyon %12'],
-                  opp:['Uzun konaklama talebi','TGA dijital kampanyaları','Corporate RFP dönemi'],
-                  thr:['Airbnb baskısı','Kur oynaklığı','Yüksek OTA komisyonu']};
-  const compSWOT={str:['Marka bilinirliği yüksek','OTA görünürlüğü geniş','Oda stoğu büyük'],
-                  weak:['Eskiyen odalar','ADR-discount savaşları','Düşük upsell gelir'],
-                  opp:['Expo 2026 talep artışı','Kongre segmenti toparlanıyor'],
-                  thr:['Enflasyon maliyet baskısı','Yetersiz personel sayısı']};
-  ['Str','Weak','Opp','Thr'].forEach(k=>{
-    document.getElementById('nova'+k).innerHTML='<ul class="ps-3 mb-0"><li>'+novaSWOT[k.toLowerCase()].join('</li><li>')+'</li></ul>';
-    document.getElementById('comp'+k).innerHTML='<ul class="ps-3 mb-0"><li>'+compSWOT[k.toLowerCase()].join('</li><li>')+'</li></ul>';
-  });
-}
-
-/* ---------- ACTION PLAN ---------- */
-function initActions(){
-  const actions=[
-    {txt:'Fiyatlandırma Stratejisi: Kanal yöneticisinden gelen fiyatlar <strong>2×</strong> olarak yüklenecek, %25 komisyon & promosyonlar sonrası net fiyat belirlenecek.',pri:'High'},
-    {txt:'Genius Kullanıcılarına <strong>Ücretsiz Kahvaltı</strong>: Genius puanını 64/100 → 100/100 çıkarmayı hedefle.',pri:'High'},
-    {txt:'<strong>Ücretsiz Oda Yükseltme</strong>: 1 hafta önceden rezerve edilen konaklamalarda günde 1 promosyon.',pri:'Med'},
-    {txt:'Direct site promosyonu ile direkt payı %20\'ye çıkar.',pri:'Med'},
-    {txt:'Booking.com Genius Level 2 indirimini %10 ile sınırla.',pri:'Med'},
-    {txt:'Upsell motoru: geç çıkış & oda upgrade paketleri.',pri:'Low'}
-  ];
-  const list=document.getElementById('actionList');
-  actions.forEach(a=>{
-    list.insertAdjacentHTML('beforeend',`
-      <li class="list-group-item d-flex justify-content-between align-items-start">
-        <span>${a.txt}</span>
-        <span class="badge rounded-pill badge-pri">${a.pri}</span>
-        <input class="form-check-input ms-2" type="checkbox" onclick="this.closest('li').classList.toggle('action-done')">
-      </li>`);
-  });
-}
-
-/* ---------- REVENUE TABLE/CHART ---------- */
-function initForecast(){
-  Plotly.newPlot('revChart',[
-    {x:revData.map(d=>d.month),y:revData.map(d=>d.revenue),type:'bar',marker:{color:'var(--c-rose)'},hovertemplate:'%{x}<br>€%{y:,}'}
-  ],{margin:{t:10},plot_bgcolor:'var(--c-ice)',paper_bgcolor:'var(--c-ice)',yaxis:{title:'€',tickprefix:'€'}},{responsive:true});
-  $('#revTable').DataTable({paging:false,info:false,searching:false,data:revData,columns:[
-      {data:'month'},
-      {data:'occ',render:d=>d+'%'},
-      {data:'adr',render:d=>'€'+d},
-      {data:'revenue',render:d=>d.toLocaleString('en-US',{maximumFractionDigits:0})}
-  ]});
-}
-
-/* ---------- INIT ---------- */
-document.addEventListener('DOMContentLoaded',()=>{
-  initKPI();initSWOT();initActions();initForecast();
-});
-
-/* ---------- LANGUAGE TOGGLE ---------- */
-let current='tr';
-document.getElementById('langToggle').addEventListener('click',()=>{
-  current=current==='tr'?'en':'tr';
-  document.getElementById('langToggle').textContent=current==='tr'?'EN':'TR';
-  document.querySelectorAll('[data-tr]').forEach(el=>{
-    el.textContent=el.getAttribute('data-'+current)||el.textContent;
+  <script>
+    // Accordion toggle
+document.querySelectorAll('.accordion').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const panel = btn.nextElementSibling;
+    panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
   });
 });
-</script>
+
+    
+    const btn = document.getElementById('toggleLang');
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.lang-tr').forEach(el => el.style.display = btn.textContent === 'EN' ? 'none' : 'block');
+      document.querySelectorAll('.lang-en').forEach(el => el.style.display = btn.textContent === 'EN' ? 'block' : 'none');
+      btn.textContent = btn.textContent === 'EN' ? 'TR' : 'EN';
+    });
+
+    const data = [
+      ['May', 443223, 95, '70%', 4665, 30, 60, 10],
+      ['Jun', 483750, 100, '75%', 4838, 30, 65, 5],
+      ['Jul', 651504, 115, '85%', 5667, 25, 70, 5],
+      ['Aug', 679830, 120, '85%', 5667, 25, 70, 5],
+      ['Sep', 567600, 105, '80%', 5160, 30, 65, 5],
+      ['Oct', 524869, 100, '75%', 4838, 30, 65, 5],
+      ['Nov', 377325, 90, '60%', 3870, 35, 60, 5],
+      ['Dec', 311589, 85, '55%', 3667, 35, 60, 5]
+    ];
+
+    $(document).ready(function(){
+      $('#revTable').DataTable({
+        data: data.map(row => [...row.slice(0, 5), row[5] + '%', row[6] + '%', row[7] + '%']),
+        columns: [
+          { title: 'Month' },
+          { title: 'Revenue (€)' },
+          { title: 'ADR (€)' },
+          { title: 'Occupancy (%)' },
+          { title: 'Room Nights Sold' },
+          { title: 'B2B (%)' },
+          { title: 'B2C (%)' },
+          { title: 'Walk-in (%)' }
+        ],
+        paging: false,
+        searching: false,
+        info: false,
+        ordering: false
+      });
+
+      const b2b = data[3][5], b2c = data[3][6], walkin = data[3][7];
+      Plotly.newPlot('channelChart', [{
+        values: [b2b, b2c, walkin],
+        labels: ['B2B', 'B2C', 'Walk-in'],
+        type: 'pie',
+        marker: {colors: ['#003580', '#009fe3', '#feba02']}
+      }], {
+        title: 'August 2025 Sales Channel Distribution',
+        paper_bgcolor: '#f2f6fa'
+      });
+
+      Plotly.newPlot('adrTrend', [{
+        x: data.map(d => d[0]),
+        y: data.map(d => d[2]),
+        type: 'scatter',
+        mode: 'lines+markers',
+        line: {shape: 'spline'},
+        marker: {color: '#009fe3'}
+      }], {
+        title: 'ADR Trend (May–Dec 2025)',
+        paper_bgcolor: '#f2f6fa',
+        yaxis: {title: 'ADR (€)'}
+      });
+    });
+  </script>
+  
+
 </body>
 </html>
-<!-- ✂️  END copy here  ✂️ -->
