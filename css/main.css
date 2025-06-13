@@ -1,0 +1,229 @@
+/* css/main.css */
+:root {
+    --primary-color: #003580; /* OtelCiro Primary Blue */
+    --secondary-color: #006ce4; /* Lighter Blue */
+    --accent-color: #f7c200;  /* Yellow Accent */
+    --success-color: #008009; /* Green for success messages/icons */
+    --danger-color: #d9534f;  /* Red for error messages/icons */
+    --warning-color: #f0ad4e; /* Orange for warnings */
+
+    --text-color: #262626;
+    --text-color-light: #555;
+    --light-bg-color: #f5f5f5;
+    --border-color: #e0e0e0; /* Slightly softer than current e7e7e7 */
+    --white-color: #ffffff;
+    --black-color: #000000;
+
+    --font-family-sans-serif: 'Roboto', sans-serif;
+    --font-family-serif: 'Roboto Slab', serif; /* For headings */
+
+    --global-border-radius: 0.375rem; /* Bootstrap's default is 0.375rem, can adjust */
+    --global-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Subtle shadow */
+
+    --primary-color-rgb: 0,53,128; /* RGB version of primary-color for rgba() box-shadows */
+    --accent-color-rgb: 247,194,0;   /* RGB version of accent-color #f7c200 */
+    --border-color-rgb: 224,224,224; /* RGB version of border-color #e0e0e0 */
+}
+
+body {
+    font-family: var(--font-family-sans-serif);
+    color: var(--text-color);
+    line-height: 1.6;
+    padding-top: 70px; /* Global padding for fixed navbar, adjust if navbar height changes */
+    background-color: var(--white-color); /* Default white background */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-family-serif);
+    color: var(--primary-color);
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600; /* Slightly bolder headings */
+}
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+p {
+    margin-bottom: 1rem;
+    color: var(--text-color-light);
+}
+
+a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+/* Basic Button Styling (Global) */
+.btn-global { /* A new global class for our themed buttons */
+    padding: 0.5rem 1rem;
+    border-radius: var(--global-border-radius);
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    border: 1px solid transparent;
+    text-align: center; /* Ensure text is centered for buttons */
+    display: inline-block; /* Ensure proper rendering */
+    cursor: pointer;
+}
+.btn-global-primary {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border-color: var(--primary-color);
+}
+.btn-global-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: var(--white-color);
+}
+.btn-global-accent {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    border-color: var(--accent-color);
+}
+.btn-global-accent:hover {
+    background-color: #e0ac00; /* Darken yellow */
+    border-color: #e0ac00;
+    color: var(--primary-color);
+}
+.btn-global-outline-light {
+    background-color: transparent;
+    color: var(--white-color);
+    border-color: var(--white-color);
+}
+.btn-global-outline-light:hover {
+    background-color: var(--white-color);
+    color: var(--primary-color); /* Text color on hover */
+    border-color: var(--white-color);
+}
+
+/* Basic Card Styling (Global) */
+.card-global {
+    background-color: var(--white-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--global-border-radius);
+    box-shadow: var(--global-box-shadow);
+    margin-bottom: 1.5rem; /* Default spacing */
+}
+.card-global .card-body { /* Assuming Bootstrap card structure or similar */
+    padding: 1.5rem;
+}
+.card-global .card-title { /* Assuming a class for titles within cards */
+    margin-top: 0;
+    color: var(--primary-color); /* Ensure card titles also use primary color */
+}
+
+/* Custom FAQ Accordion Styles */
+.custom-faq-accordion .accordion-item {
+    border: 1px solid var(--border-color);
+    margin-bottom: 0.5rem;
+    border-radius: var(--global-border-radius);
+    overflow: hidden; /* Ensures child elements also adhere to border-radius */
+}
+
+.custom-faq-accordion .accordion-button {
+    background-color: var(--light-bg-color);
+    color: var(--primary-color);
+    font-weight: 600; /* Matches hx font-weight from global styles */
+    border-bottom: 1px solid var(--border-color); /* Separator when collapsed */
+}
+.custom-faq-accordion .accordion-button:not(.collapsed) {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border-bottom: 1px solid var(--primary-color);
+}
+.custom-faq-accordion .accordion-button:focus {
+    box-shadow: 0 0 0 0.2rem rgba(var(--primary-color-rgb), 0.25);
+}
+.custom-faq-accordion .accordion-button::after { /* Style default Bootstrap chevron */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23003580'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e"); /* Chevron with primary color */
+}
+.custom-faq-accordion .accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e"); /* Chevron with white color for active state */
+    transform: rotate(-180deg);
+}
+
+.custom-faq-accordion .accordion-body {
+    padding: 1rem 1.25rem;
+    background-color: var(--white-color);
+    color: var(--text-color-light);
+}
+
+/* Calculator specific enhancements */
+.percentage-input {
+    width: 80px !important;
+    display: inline-block !important;
+    margin-left: 0.5rem;
+    margin-right: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+.form-check-label, .form-label { /* Ensure labels align well with inputs in calculators */
+     margin-bottom: 0; /* Bootstrap default is often 0.5rem which can be too much for tight forms */
+}
+
+.promo-group-card {
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: var(--global-border-radius);
+    background-color: var(--white-color); /* Or a very light tint like var(--light-bg-color) */
+}
+
+.results-box { /* Specific class for the final results box in calculators */
+    background-color: var(--light-bg-color);
+    border: 1px solid var(--primary-color);
+    padding: 1.5rem;
+    border-radius: var(--global-border-radius);
+    box-shadow: var(--global-box-shadow);
+}
+
+.results-box #finalRateOutput { /* ID is shared across calculators */
+    color: var(--success-color);
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+/* Quiz Page Specific Styles */
+.btn-quiz-option {
+    display: block;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    text-align: left;
+    background-color: var(--white-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--global-border-radius);
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+.btn-quiz-option:hover {
+    background-color: var(--light-bg-color);
+    border-color: var(--secondary-color);
+}
+.btn-quiz-option.selected { /* Class to be added by JS on selection */
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border-color: var(--primary-color);
+}
+.btn-quiz-option.disabled { /* Class to be added by JS after selection */
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+/* Market Explorer Specific Styles */
+.region-card.active-card {
+    border-color: var(--primary-color);
+    box-shadow: 0 0.25rem 0.5rem rgba(var(--primary-color-rgb), 0.25); /* Use primary-color-rgb */
+}
+.region-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,0.1); /* Standard shadow */
+}
