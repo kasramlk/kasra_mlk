@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X81LZYLEGC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-X81LZYLEGC');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hizmetler | OtelCiro Otel Danışmanlığı</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #003580;
+            --secondary: #006ce4;
+            --accent: #f7c200;
+            --success: #008009;
+            --text: #262626;
+            --light-bg: #f5f5f5;
+            --border: #e7e7e7;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Services Header */
+        .services-header {
+            background: linear-gradient(rgba(26, 35, 126, 0.9), rgba(26, 35, 126, 0.9)),
+                        url('https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&auto=format&fit=crop&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .services-header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .services-header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Service Cards */
+        .service-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 53, 128, 0.1);
+            z-index: -1;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .service-card:hover:before {
+            opacity: 1;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--background-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            color: var(--primary);
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover .service-icon {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .service-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .service-description {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* Process Section */
+        .process-section {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .process-timeline {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .process-step {
+            height: auto;
+            padding: 10px;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .process-step:hover {
+            transform: translateY(-5px);
+        }
+
+        .step-header h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .step-header p {
+            font-size: 0.9rem;
+        }
+
+        .step-details {
+            padding: 5px;
+            box-shadow: none;
+        }
+
+        .detail-list {
+            margin-bottom: 30px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .detail-item i {
+            color: var(--primary);
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .progress-bars {
+            margin-top: 20px;
+        }
+
+        .progress-item {
+            margin-bottom: 15px;
+        }
+
+        .progress {
+            height: 8px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            background: var(--primary);
+            transition: width 1.5s ease;
+        }
+
+        .strategy-items,
+        .implementation-items,
+        .monitoring-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .strategy-item,
+        .implementation-item,
+        .monitoring-item {
+            text-align: center;
+        }
+
+        .strategy-item i,
+        .implementation-item i,
+        .monitoring-item i {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .strategy-item ul,
+        .implementation-item ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        .strategy-item ul li,
+        .implementation-item ul li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .strategy-item ul li:before,
+        .implementation-item ul li:before {
+            content: '•';
+            color: var(--primary);
+            position: absolute;
+            left: 0;
+        }
+
+        .implementation-item h4 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .implementation-item p {
+            margin-bottom: 10px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(rgba(26, 35, 126, 0.95), rgba(26, 35, 126, 0.95)),
+                        url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 80px 0;
+            color: var(--white);
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            background: var(--white);
+            color: var(--primary);
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: var(--accent-color);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .services-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .service-card {
+                padding: 30px 20px;
+            }
+            
+            .cta-section h2 {
+                font-size: 2rem;
+            }
+
+            .strategy-items,
+            .implementation-items,
+            .monitoring-items {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .page-container {
+            padding-top: 100px;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: #1a237e;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 20px 0;
+        }
+
+        .service-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-icon {
+            font-size: 40px;
+            color: #1a237e;
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1a237e;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 28px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .header-bar {
+            background-color: #1a237e;
+            height: 64px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            padding: 0 24px;
+        }
+
+        .brand-text {
+            color: white;
+            font-size: 24px;
+            font-weight: 500;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .brand-text:hover {
+            color: white;
+            text-decoration: none;
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            padding: 8px 0;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 16px;
+            }
+
+            .brand-text {
+                font-size: 20px;
+            }
+
+            .main-nav {
+                gap: 16px;
+            }
+
+            .nav-link {
+                font-size: 14px;
+            }
+        }
+
+        .navbar {
+            background-color: var(--primary);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            color: white !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+
+        .dropdown-menu {
+            background: var(--primary);
+            border: none;
+        }
+
+        .dropdown-item {
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-outline-primary:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            z-index: -1;
+            transition: transform 0.3s ease;
+            transform: scaleX(0);
+            transform-origin: right;
+        }
+
+        .btn-outline-primary:hover:before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .btn-outline-primary:hover {
+            color: var(--white);
+        }
+
+        /* Animation for Service Cards */
+        .service-card {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Accordion Styles */
+        .accordion-button {
+            background-color: var(--primary);
+            color: var(--white);
+            font-weight: 600;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: var(--secondary);
+            color: var(--white);
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+
+        .accordion-item {
+            border: none;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .accordion-body {
+            background-color: var(--light-bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* New Content Section */
+        .ota-management {
+            margin-top: 60px;
+        }
+
+        .ota-management h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .ota-management p {
+            margin-bottom: 20px;
+        }
+
+        .ota-management ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ota-management ul li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .ota-management ul li:before {
+            content: '•';
+            color: var(--primary);
+            position: absolute;
+            left: 0;
+        }
+
+        @media (min-width: 768px) {
+            .process-timeline {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .process-title-card {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" id="navbar-brand">OtelCiro</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" id="navbar-home">Ana Sayfa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="askme.html" id="navbar-portfolio">Portföy İlerleme Analitiği</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="services.html" id="navbar-services">Hizmetler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="bookingcalculator.html" id="navbar-analytics">OTA Performans Optimizasyonu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html" id="navbar-contact">İletişim</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Services Header -->
+    <header class="services-header">
+        <div class="container">
+            <h1>Hizmetlerimiz</h1>
+            <p>Başarınız için kapsamlı otel yönetimi ve danışmanlık çözümleri</p>
+        </div>
+    </header>
+
+    <!-- Services Section -->
+    <section class="services-section">
+        <div class="container">
+            <div class="row">
+                <!-- Service Card 1 -->
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="service-title">Performans Optimizasyonu</h3>
+                        <p class="service-description">
+                            Otelinizin operasyonel verimliliğini artırın ve gelirlerinizi veri odaklı stratejiler ve kanıtlanmış yöntemlerle maksimize edin. Yaklaşımımız:
+                            <ul>
+                                <li>Kilit performans alanlarını belirlemek için kapsamlı veri analizi.</li>
+                                <li>Operasyonel süreçleri iyileştirmek için özelleştirilmiş stratejiler.</li>
+                                <li>Sürdürülebilir büyüme için sürekli izleme ve ayarlama.</li>
+                            </ul>
+                        </p>
+                        <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#performanceModal">Detaylı Bilgi</a>
+                    </div>
+                </div>
+
+                <!-- Service Card 2 -->
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-users-cog"></i>
+                        </div>
+                        <h3 class="service-title">Personel Eğitimi</h3>
+                        <p class="service-description">
+                            Ekibinizin beceri ve bilgisini, konaklama sektörüne özel kapsamlı eğitim programlarıyla geliştirin. Eğitimlerimiz:
+                            <ul>
+                                <li>Özelleştirilmiş atölye çalışmaları ve seminerler.</li>
+                                <li>İş başında eğitim ve mentorluk.</li>
+                                <li>Profesyonel gelişimi destekleyen sertifika programları.</li>
+                            </ul>
+                        </p>
+                        <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#trainingModal">Detaylı Bilgi</a>
+                    </div>
+                </div>
+
+                <!-- Service Card 3 -->
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h3 class="service-title">Tesis Yönetimi</h3>
+                        <p class="service-description">
+                            Operasyon, bakım ve misafir memnuniyeti optimizasyonu dahil olmak üzere eksiksiz tesis yönetimi çözümleri. Hizmetlerimiz:
+                            <ul>
+                                <li>Günlük operasyonların etkin yönetimi.</li>
+                                <li>Bakım ve tesis yönetimi.</li>
+                                <li>Misafir deneyimi geliştirme ve geri bildirim yönetimi.</li>
+                            </ul>
+                        </p>
+                        <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#propertyModal">Detaylı Bilgi</a>
+                    </div>
+                </div>
+
+                <!-- Modals for Service Cards -->
+                <!-- Performance Optimization Modal -->
+                <div class="modal fade" id="performanceModal" tabindex="-1" aria-labelledby="performanceModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="performanceModalLabel">Performans Optimizasyonu</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Performans optimizasyon hizmetlerimiz, otelinizin verimliliğini ve kârlılığını artırmak için tasarlanmıştır. Odaklandığımız noktalar:</p>
+                                <ul>
+                                    <li>Veri odaklı karar alma.</li>
+                                    <li>Süreç iyileştirme ve yenilik.</li>
+                                    <li>Uzun vadeli büyüme ve sürdürülebilirlik.</li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Staff Training Modal -->
+                <div class="modal fade" id="trainingModal" tabindex="-1" aria-labelledby="trainingModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="trainingModalLabel">Personel Eğitimi</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Personel eğitim programlarımız, ekibinizin özel ihtiyaçlarına göre uyarlanmıştır. Sunulanlar:</p>
+                                <ul>
+                                    <li>Etkileşimli atölyeler ve uygulamalı eğitimler.</li>
+                                    <li>Liderlik gelişimi ve ekip çalışması.</li>
+                                    <li>Sürekli öğrenme ve beceri geliştirme.</li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property Management Modal -->
+                <div class="modal fade" id="propertyModal" tabindex="-1" aria-labelledby="propertyModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="propertyModalLabel">Tesis Yönetimi</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Tesis yönetimi hizmetlerimiz, sorunsuz operasyonlar ve misafir memnuniyeti sağlar. Uzmanlıklarımız:</p>
+                                <ul>
+                                    <li>Kapsamlı tesis yönetimi.</li>
+                                    <li>Misafir hizmetleri ve memnuniyet takibi.</li>
+                                    <li>Operasyonel verimlilik ve maliyet kontrolü.</li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section">
+        <div class="container">
+            <div class="process-title-card">
+                <h2>Sürecimiz</h2>
+            </div>
+            <div class="process-timeline">
+                <!-- Analysis -->
+                <div class="process-step" data-aos="fade-up">
+                    <div class="step-header">
+                        <h3>01. Analiz</h3>
+                        <p>Tesisinizin mevcut performansı ve potansiyelinin kapsamlı değerlendirmesi</p>
+                    </div>
+                    <div class="step-details">
+                        <div class="detail-list">
+                            <div class="detail-item">
+                                <i class="fas fa-database"></i>
+                                <span>Veri Toplama & Analiz</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-search"></i>
+                                <span>Pazar Araştırması</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-users"></i>
+                                <span>Misafir Geri Bildirim Analizi</span>
+                            </div>
+                        </div>
+                        <div class="progress-bars">
+                            <div class="progress-item">
+                                <span>Doluluk Analizi</span>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <span>Gelir Metrikleri</span>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: 90%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <p>Analizimiz, tesisinizin verilerine derinlemesine bakmayı, iyileştirme için ana alanları ve büyüme fırsatlarını belirlemeyi içerir. Eyleme geçirilebilir içgörüler sunmak için gelişmiş analitikten yararlanıyoruz.</p>
+                    </div>
+                </div>
+
+                <!-- Strategy -->
+                <div class="process-step" data-aos="fade-up">
+                    <div class="step-header">
+                        <h3>02. Strateji</h3>
+                        <p>En iyi sonuçlar için özelleştirilmiş stratejilerin geliştirilmesi</p>
+                    </div>
+                    <div class="step-details">
+                        <div class="strategy-items">
+                            <div class="strategy-item">
+                                <i class="fas fa-chart-line"></i>
+                                <h4>Gelir Optimizasyonu</h4>
+                                <ul>
+                                    <li>Fiyatlandırma Stratejisi</li>
+                                    <li>Dağıtım Kanalları</li>
+                                    <li>Gelir Yönetimi</li>
+                                </ul>
+                            </div>
+                            <div class="strategy-item">
+                                <i class="fas fa-bullseye"></i>
+                                <h4>Pazarlama Planı</h4>
+                                <ul>
+                                    <li>Dijital Varlık</li>
+                                    <li>Hedef Pazarlar</li>
+                                    <li>Marka Konumlandırma</li>
+                                </ul>
+                            </div>
+                            <div class="strategy-item">
+                                <i class="fas fa-cogs"></i>
+                                <h4>Operasyonel Mükemmellik</h4>
+                                <ul>
+                                    <li>Süreç Optimizasyonu</li>
+                                    <li>Maliyet Yönetimi</li>
+                                    <li>Kalite Standartları</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p>Stratejik yaklaşımımız, benzersiz ihtiyaçlarınıza göre özelleştirilir ve operasyonunuzun her yönünün başarı için optimize edilmesini sağlar. Sürdürülebilir büyüme ve rekabet avantajına odaklanıyoruz.</p>
+                    </div>
+                </div>
+
+                <!-- Implementation -->
+                <div class="process-step" data-aos="fade-up">
+                    <div class="step-header">
+                        <h3>03. Uygulama</h3>
+                        <p>Stratejilerin hassasiyet ve uzmanlıkla uygulanması</p>
+                    </div>
+                    <div class="step-details">
+                        <div class="implementation-items">
+                            <div class="implementation-item">
+                                <i class="fas fa-users-cog"></i>
+                                <h4>Personel Eğitimi</h4>
+                                <p>Kapsamlı eğitim programları</p>
+                            </div>
+                            <div class="implementation-item">
+                                <i class="fas fa-tools"></i>
+                                <h4>Sistem Entegrasyonu</h4>
+                                <p>Teknoloji uygulamaları</p>
+                            </div>
+                            <div class="implementation-item">
+                                <i class="fas fa-check-double"></i>
+                                <h4>Kalite Güvencesi</h4>
+                                <p>Standartların uygulanması</p>
+                            </div>
+                        </div>
+                        <p>Uygulama aşamamız titiz planlama ve uygulama ile karakterizedir. Tüm stratejilerin operasyonlarınıza sorunsuz bir şekilde entegre edilmesini, kalite ve verimliliğe odaklanarak sağlıyoruz.</p>
+                    </div>
+                </div>
+
+                <!-- Monitoring -->
+                <div class="process-step" data-aos="fade-up">
+                    <div class="step-header">
+                        <h3>04. İzleme</h3>
+                        <p>Sonuçların sürekli takibi ve optimizasyonu</p>
+                    </div>
+                    <div class="step-details">
+                        <div class="monitoring-items">
+                            <div class="monitoring-item">
+                                <i class="fas fa-chart-bar"></i>
+                                <h4>Anlık Analitik</h4>
+                            </div>
+                            <div class="monitoring-item">
+                                <i class="fas fa-sync"></i>
+                                <h4>Sürekli İyileştirme</h4>
+                            </div>
+                            <div class="monitoring-item">
+                                <i class="fas fa-file-alt"></i>
+                                <h4>Düzenli Raporlar</h4>
+                            </div>
+                            <div class="monitoring-item">
+                                <i class="fas fa-bullseye"></i>
+                                <h4>Hedef Takibi</h4>
+                            </div>
+                            <div class="monitoring-item">
+                                <i class="fas fa-chart-line"></i>
+                                <h4>Büyüme Analizi</h4>
+                            </div>
+                        </div>
+                        <p>Stratejilerinizin istenen sonuçları verdiğinden emin olmak için sürekli izleme ve analiz sağlıyoruz. Ekibimiz sürekli iyileştirme ve proaktif ayarlamalar konusunda kararlıdır.</p>
+                    </div>
+                </div>
+
+                <!-- OTA Management & Pricing Strategies -->
+                <div class="process-step" data-aos="fade-up">
+                    <div class="step-header">
+                        <h3>05. OTA Yönetimi & Fiyatlandırma Stratejileri</h3>
+                        <p>Booking.com, Expedia, Hotelbeds, Agoda ve daha fazlası gibi önde gelen OTA'lar için özelleştirilmiş stratejilerle gelir potansiyelinizi maksimize edin.</p>
+                    </div>
+                    <div class="step-details">
+                        <div class="accordion" id="otaAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        OTA Yönetimi
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#otaAccordion">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li>Booking.com, Expedia, Hotelbeds, Agoda vb. platformlar için kapsamlı OTA yönetimi.</li>
+                                            <li>Fiyat planı oluşturma ve promosyon optimizasyonu ile görünürlük ve rezervasyon artışı.</li>
+                                            <li>Stratejileri ayarlamak ve geliri maksimize etmek için veri analitiği kullanımı.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        Fiyatlandırma Stratejileri
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#otaAccordion">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li>Piyasa değişikliklerine ve talep dalgalanmalarına uyum sağlamak için dinamik fiyatlandırma modelleri.</li>
+                                            <li>Tüm kanallarda en uygun fiyatı sağlamak için rekabet analizi.</li>
+                                            <li>Düşük talep dönemlerinde doluluğu artırmak için promosyon senaryoları.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        Promosyon Optimizasyonu
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#otaAccordion">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li>Görünürlüğü artırmak ve farklı müşteri segmentlerini çekmek için hedefli promosyonlar tasarlama.</li>
+                                            <li>Promosyon etkinliğini artırmak için OTA araç ve özelliklerinden yararlanma.</li>
+                                            <li>Performans metriklerine göre promosyonların sürekli izlenmesi ve ayarlanması.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p>OTA yönetimi ve fiyatlandırma stratejilerimiz, tesisinizin görünürlüğünü ve gelir potansiyelini maksimize etmek için tasarlanmıştır. En iyi performans için önde gelen platformlarla yakın çalışıyoruz.</p>
+                    </div>
+                </div>
+
+                <!-- Dynamic Pricing -->
+                <div class="process-step" data-aos="fade-up">
+                    <div class="step-header">
+                        <h3>06. Dinamik Fiyatlandırma</h3>
+                        <p>Talebi tahmin etmek ve fiyatlandırma stratejilerini optimize etmek için havayolu sağlayıcılarından ve piyasa içgörülerinden yararlanma.</p>
+                    </div>
+                    <div class="step-details">
+                        <div class="dynamic-pricing-items">
+                            <div class="dynamic-pricing-item">
+                                <i class="fas fa-plane"></i>
+                                <h4>Uçuş Verisi Entegrasyonu</h4>
+                                <p>Piyasa trendlerini öngörmek için Türk Hava Yolları ve Pegasus verilerinden yararlanma.</p>
+                            </div>
+                            <div class="dynamic-pricing-item">
+                                <i class="fas fa-chart-line"></i>
+                                <h4>Piyasa İçgörüleri</h4>
+                                <p>Gelecekteki talebi tahmin etmek ve fiyatlandırmayı ayarlamak için piyasa verilerini analiz etme.</p>
+                            </div>
+                            <div class="dynamic-pricing-item">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <h4>Fiyatlandırma Stratejisi</h4>
+                                <p>Oda fiyatlarını optimize etmek ve geliri maksimize etmek için stratejiler uygulama.</p>
+                            </div>
+                        </div>
+                        <p>Dinamik fiyatlandırma yaklaşımımız, otelinizin piyasa değişikliklerine ve talep dalgalanmalarına uyum sağlayarak rekabetçi ve kârlı kalmasını sağlar. Bilinçli fiyatlandırma kararları için gerekli araçları ve içgörüleri sunuyoruz.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Otelinizin Performansını Dönüştürmeye Hazır mısınız?</h2>
+            <p>Hedeflerinize ulaşmanız ve tesisinizin potansiyelini maksimize etmeniz için nasıl yardımcı olabileceğimizi konuşalım.</p>
+            <a href="contact.html" class="cta-button">Başlayın</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2023 OtelCiro Otel Danışmanlığı. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+        // Add scroll-triggered animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const processSteps = document.querySelectorAll('.process-step');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            processSteps.forEach(step => observer.observe(step));
+
+            // Initialize progress bars
+            const progressBars = document.querySelectorAll('.progress-bar');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>

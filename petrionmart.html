@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Otel Dashboard</title>
+  <!-- Plotly.js CDN -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Arial" rel="stylesheet">
+  <style>
+    /* Genel stiller */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f9ff;
+      margin: 0;
+      padding: 0;
+    }
+    /* Navbar stilleri */
+    .navbar {
+      display: flex;
+      justify-content: center;
+      background-color: #0d47a1;
+      padding: 10px;
+    }
+    .navbar a {
+      color: #FFD700;  /* Gold */
+      padding: 14px 20px;
+      text-decoration: none;
+      font-size: 1.1em;
+      margin: 0 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    .navbar a:hover, .navbar a.active {
+      background-color: #FFD700;
+      color: #0d47a1;
+    }
+    /* Container */
+    .container {
+      padding: 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding-top: 10px;
+    }
+    h1 {
+      font-size: 2.5em;
+      color: #0d47a1;
+      margin-bottom: 5px;
+    }
+    h2 {
+      font-size: 1.5em;
+      color: #1565c0;
+      margin-top: 0;
+    }
+    /* İç Sayfa Geçiş Düğmeleri */
+    .nav-buttons {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .nav-buttons button {
+      font-size: 1em;
+      padding: 10px 20px;
+      margin: 5px;
+      border: 2px solid transparent;
+      background-color: #64b5f6;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, border 0.3s;
+    }
+    .nav-buttons button.active {
+      background-color: #FFD700;
+      border: 2px solid #FFD700;
+      color: #0d47a1;
+    }
+    /* Sayfa stilleri */
+    .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+    .key-metrics {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .metric {
+      text-align: center;
+      padding: 20px;
+      background-color: #fff8e1; /* Hafif altın tonu */
+      margin: 10px;
+      border-radius: 8px;
+      min-width: 180px;
+      border: 1px solid #FFD700;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .metric h3 {
+      margin: 0;
+      color: #0d47a1;
+    }
+    .metric p {
+      margin: 5px 0;
+      font-weight: bold;
+      color: #0d47a1;
+    }
+    .chart-container {
+      padding: 20px;
+    }
+    .takeaways {
+      padding: 20px;
+      background-color: #e3f2fd;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin: auto;
+    }
+    .takeaways h3 {
+      text-align: center;
+      color: #0d47a1;
+    }
+    .takeaways ul {
+      font-size: 1.1em;
+      line-height: 1.6;
+      color: #0d47a1;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar: Otel seçimi -->
+  <div class="navbar">
+    <a href="#" id="navIstanbul" class="active" onclick="showHotel('istanbul')">Istanbul Petrion Otel</a>
+    <a href="#" id="navTaksim" onclick="showHotel('taksim')">Taksim Nis Hotel</a>
+    <a href="#" id="navEskiciler" onclick="showHotel('eskiciler')">Eskiciler Konaği</a>
+  </div>
+  
+  <div class="container">
+    <!-- İstanbul Petrion Otel Dashboard -->
+    <div id="hotel-istanbul" class="hotel-page active">
+      <header>
+        <h1>Istanbul Petrion Otel Dashboard</h1>
+        <h2>Erken Rezervasyon Satışları – Mart ve Diğer Aylar</h2>
+      </header>
+      
+      <!-- İç Sayfa Geçiş Düğmeleri -->
+      <div class="nav-buttons">
+        <button id="btnPage1" class="active" onclick="togglePage('page1')">Satış Raporları</button>
+        <button id="btnPage2" onclick="togglePage('page2')">Gelir ve Hedef</button>
+      </div>
+      
+      <!-- Sayfa 1: Satış Raporları (İstanbul) -->
+      <div id="page1" class="page active">
+        <div class="key-metrics">
+          <div class="metric">
+            <h3>Toplam Satış</h3>
+            <p>€50,723</p>
+          </div>
+          <div class="metric">
+            <h3>En Yüksek Ay</h3>
+            <p>Hazıran</p>
+            <p>€11,704</p>
+          </div>
+          <div class="metric">
+            <h3>Ana Kanal</h3>
+            <p>Booking.com</p>
+            <p>€45,506</p>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div id="bar-chart" style="width:100%;height:400px;"></div>
+        </div>
+        <div class="chart-container">
+          <div id="pie-chart" style="width:100%;height:400px;"></div>
+        </div>
+        <div class="takeaways">
+         
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Sayfa 2: Gelir ve Hedef (İstanbul) -->
+      <div id="page2" class="page">
+        <header>
+          <h2>Gelir ve Hedef Durumu - Mart</h2>
+        </header>
+        <div class="key-metrics">
+          <div class="metric">
+            <h3>Hedef Gelir</h3>
+            <p>€21,000</p>
+          </div>
+          <div class="metric">
+            <h3>Gerçekleşen Gelir</h3>
+            <p>€19,980</p>
+          </div>
+          <div class="metric">
+            <h3>Hedef Aşım</h3>
+            <p>- 4%</p>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div id="gauge-chart" style="width:100%;height:400px;"></div>
+        </div>
+        <div class="key-metrics">
+          <div class="metric">
+            <h3>Mart Doluluk</h3>
+            <p>%56.17</p>
+          </div>
+          <div class="metric">
+            <h3>Mart ADR</h3>
+            <p>€67.5</p>
+          </div>
+          <div class="metric">
+            <h3>Hedef Doluluk</h3>
+            <p>%58</p>
+          </div>
+          <div class="metric">
+            <h3>Hedef ADR</h3>
+            <p>€69</p>
+          </div>
+        </div>
+        <div class="takeaways">
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Taksim Nis Hotel Dashboard -->
+    <div id="hotel-taksim" class="hotel-page" style="display:none;">
+      <header>
+        <h1>Taksim Nis Hotel Dashboard</h1>
+        <h2>Erken Rezervasyon Satışları – Mart ve Diğer Aylar</h2>
+      </header>
+      
+      <!-- İç Sayfa Geçiş Düğmeleri (Taksim Nis) -->
+      <div class="nav-buttons">
+        <button id="btnPage1_taksim" class="active" onclick="togglePageNis('page1_taksim')">Satış Raporları</button>
+        <button id="btnPage2_taksim" onclick="togglePageNis('page2_taksim')">Gelir ve Hedef</button>
+      </div>
+      
+      <!-- Sayfa 1: Satış Raporları (Taksim Nis) -->
+      <div id="page1_taksim" class="page active">
+        <div class="key-metrics">
+          <div class="metric">
+            <h3>Toplam Satış</h3>
+            <p>€39,349</p>
+          </div>
+          <div class="metric">
+            <h3>En Yüksek Ay</h3>
+            <p>EKIM</p>
+            <p>€9,444</p>
+          </div>
+          <div class="metric">
+            <h3>Ana Kanal</h3>
+            <p>Booking.com</p>
+            <p>€33,029</p>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div id="bar-chart-taksim" style="width:100%;height:400px;"></div>
+        </div>
+        <div class="chart-container">
+          <div id="pie-chart-taksim" style="width:100%;height:400px;"></div>
+        </div>
+        <div class="takeaways">
+         
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Sayfa 2: Gelir ve Hedef (Taksim Nis) -->
+      <div id="page2_taksim" class="page">
+        <header>
+          <h2>Gelir ve Hedef Durumu - Mart</h2>
+        </header>
+        <div class="key-metrics">
+          <div class="metric">
+            <h3>Hedef Gelir</h3>
+            <p>€17,298</p>
+          </div>
+          <div class="metric">
+            <h3>Gerçekleşen Gelir</h3>
+            <p>€17,179</p>
+          </div>
+          <div class="metric">
+            <h3>Hedef Gerçekleşme</h3>
+            <!-- Hesaplama: 14,433 / 15,120 ≈ %95 -->
+            <p>%99.5</p>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div id="gauge-chart-taksim" style="width:100%;height:400px;"></div>
+        </div>
+        <div class="key-metrics">
+          <div class="metric">
+            <h3>Mart Doluluk</h3>
+            <p>%54.27</p>
+          </div>
+          <div class="metric">
+            <h3>Mart ADR</h3>
+            <p>€60</p>
+          </div>
+          <div class="metric">
+            <h3>Hedef Doluluk</h3>
+            <p>%60</p>
+          </div>
+          <div class="metric">
+            <h3>Hedef ADR</h3>
+            <p>€62</p>
+          </div>
+        </div>
+        <div class="takeaways">
+         
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Eskiciler Konaği Dashboard -->
+    <div id="hotel-eskiciler" class="hotel-page" style="display:none;">
+      <header>
+        <h1>Eskiciler Konaği Dashboard</h1>
+        <h2>Erken Rezervasyon Satışları – Mart ve Diğer Aylar</h2>
+      </header>
+      
+      <!-- Eskiciler İç Sayfa Geçiş Düğmeleri -->
+      <div class="nav-buttons">
+        <button id="btnPage1_eskiciler" class="active" onclick="togglePageEskiciler('page1_eskiciler')">Satış Raporları</button>
+        <button id="btnPage2_eskiciler" onclick="togglePageEskiciler('page2_eskiciler')">Gelir ve Performans</button>
+      </div>
+      
+      <!-- Sayfa 1: Satış Raporları (Eskiciler Konaği) -->
+      <div id="page1_eskiciler" class="page active">
+        <div class="key-metrics">
+          <div class="metric">
+            <h3>Toplam Satış (Mart)</h3>
+            <p>₺691,672</p>
+          </div>
+          <div class="metric">
+            <h3>En Yüksek Ay</h3>
+            <p>Mart</p>
+            <p>₺285,603</p>
+          </div>
+          <div class="metric">
+            <h3>Ana Kanal</h3>
+            <p>Website</p>
+            <p>₺257,330</p>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div id="bar-chart-eskiciler" style="width:100%;height:400px;"></div>
+        </div>
+        <div class="chart-container">
+          <div id="pie-chart-eskiciler" style="width:100%;height:400px;"></div>
+        </div>
+        <div class="takeaways">
+          
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Sayfa 2: Gelir ve Performans (Eskiciler Konaği) -->
+      <div id="page2_eskiciler" class="page">
+        <header>
+          <h2>Mart Ayı Performans Karşılaştırması</h2>
+        </header>
+        <div class="key-metrics">
+          <div class="metric">
+            <h3>Bu Yıl Gelir</h3>
+            <p>₺330,458</p>
+          </div>
+          <div class="metric">
+            <h3>Bu Yıl ADR</h3>
+            <p>₺2,338</p>
+          </div>
+          <div class="metric">
+            <h3>Bu Yıl Doluluk</h3>
+            <p>26%</p>
+          </div>
+        </div>
+        <div class="key-metrics">
+          <div class="metric">
+            <h3>Geçen Yıl Gelir</h3>
+            <p>₺139,463</p>
+          </div>
+          <div class="metric">
+            <h3>Geçen Yıl ADR</h3>
+            <p>₺2,776</p>
+          </div>
+          <div class="metric">
+            <h3>Geçen Yıl Doluluk</h3>
+            <p>8.8%</p>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div id="comparison-chart-eskiciler" style="width:100%;height:400px;"></div>
+        </div>
+        <div class="takeaways">
+          <h3>Açıklamalar</h3>
+          <ul>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- JavaScript: Sayfa Geçiş Fonksiyonları ve Grafikler -->
+  <script>
+    // Ana navbar: Otel sayfası değiştirme
+    function showHotel(hotelId) {
+      var hotels = document.getElementsByClassName('hotel-page');
+      for (var i = 0; i < hotels.length; i++) {
+        hotels[i].style.display = 'none';
+      }
+      document.getElementById('navIstanbul').classList.remove('active');
+      document.getElementById('navTaksim').classList.remove('active');
+      document.getElementById('navEskiciler').classList.remove('active');
+      
+      if(hotelId === 'istanbul'){
+        document.getElementById('hotel-istanbul').style.display = 'block';
+        document.getElementById('navIstanbul').classList.add('active');
+      } else if(hotelId === 'taksim'){
+        document.getElementById('hotel-taksim').style.display = 'block';
+        document.getElementById('navTaksim').classList.add('active');
+      } else if(hotelId === 'eskiciler'){
+        document.getElementById('hotel-eskiciler').style.display = 'block';
+        document.getElementById('navEskiciler').classList.add('active');
+      }
+    }
+    
+    // İstanbul Petrion Otel iç sayfa geçiş
+    function togglePage(pageId) {
+      var pages = document.querySelectorAll("#hotel-istanbul .page");
+      pages.forEach(function(page) {
+        page.classList.remove('active');
+      });
+      document.getElementById(pageId).classList.add('active');
+      
+      // Buton aktif durumunu ayarla
+      document.getElementById('btnPage1').classList.remove('active');
+      document.getElementById('btnPage2').classList.remove('active');
+      if (pageId === 'page1') {
+        document.getElementById('btnPage1').classList.add('active');
+      } else {
+        document.getElementById('btnPage2').classList.add('active');
+      }
+    }
+    
+    // Taksim Nis Hotel iç sayfa geçiş
+    function togglePageNis(pageId) {
+      var pages = document.querySelectorAll("#hotel-taksim .page");
+      pages.forEach(function(page) {
+        page.classList.remove('active');
+      });
+      document.getElementById(pageId).classList.add('active');
+      
+      // Buton aktif durumunu ayarla
+      document.getElementById('btnPage1_taksim').classList.remove('active');
+      document.getElementById('btnPage2_taksim').classList.remove('active');
+      if (pageId === 'page1_taksim') {
+        document.getElementById('btnPage1_taksim').classList.add('active');
+      } else {
+        document.getElementById('btnPage2_taksim').classList.add('active');
+      }
+    }
+    
+    // Eskiciler Konaği iç sayfa geçiş
+    function togglePageEskiciler(pageId) {
+      var pages = document.querySelectorAll("#hotel-eskiciler .page");
+      pages.forEach(function(page) {
+        page.classList.remove('active');
+      });
+      document.getElementById(pageId).classList.add('active');
+      
+      // Buton aktif durumunu ayarla
+      document.getElementById('btnPage1_eskiciler').classList.remove('active');
+      document.getElementById('btnPage2_eskiciler').classList.remove('active');
+      if (pageId === 'page1_eskiciler') {
+        document.getElementById('btnPage1_eskiciler').classList.add('active');
+      } else {
+        document.getElementById('btnPage2_eskiciler').classList.add('active');
+      }
+    }
+    
+    // İstanbul Petrion Otel: Bar Grafik (Aylara Göre Satış)
+    var aylikSatis = {
+      
+      "Mart": 7643,
+      "Nisan": 4111,
+      "Mayıs": 5368,
+      "Haziran": 11704,
+      "Temmuz": 7941,
+      "Ağustos": 6637,
+      "Eylül":3090,
+      "EKIM":2903,
+      "KASIM":902,
+    };
+    var aylar = Object.keys(aylikSatis);
+    var satisDegerleri = Object.values(aylikSatis);
+    
+    var barData = [{
+      x: aylar,
+      y: satisDegerleri,
+      type: 'bar',
+      marker: { color: 'rgba(25, 118, 210, 0.7)' }
+    }];
+    
+    var barLayout = {
+      title: 'Aylara Göre Satış Dağılımı',
+      xaxis: { title: 'Ay' },
+      yaxis: { title: 'Satış (€)' },
+      plot_bgcolor: '#f1f9ff'
+    };
+    
+    Plotly.newPlot('bar-chart', barData, barLayout);
+    
+    // İstanbul Petrion Otel: Pasta Grafik (Satış Kanalı Dağılımı)
+    var kanalSatis = {
+      "Acenta": 412,
+      "Booking.com": 45506,
+      "Expedia": 772,
+      "Otel Web Sitesi": 1492,
+      "Walk-in": 2539
+    };
+    var kanallar = Object.keys(kanalSatis);
+    var kanalDegerler = Object.values(kanalSatis);
+    
+    var pieData = [{
+      values: kanalDegerler,
+      labels: kanallar,
+      type: 'pie',
+      hole: 0.3,
+      marker: {
+        colors: ['#64b5f6','#42a5f5','#2196f3','#1e88e5','#1976d2','#1565c0']
+      }
+    }];
+    
+    var pieLayout = {
+      title: 'Satış Kanalı Dağılımı',
+      plot_bgcolor: '#f1f9ff'
+    };
+    
+    Plotly.newPlot('pie-chart', pieData, pieLayout);
+    
+    // İstanbul Petrion Otel: Gauge Grafik (Gelir Gerçekleşme)
+    var revenueGauge = {
+      domain: { x: [0, 1], y: [0, 1] },
+      value: 19980,
+      title: { text: "Gelir Gerçekleşme" },
+      type: "indicator",
+      mode: "gauge+number+delta",
+      delta: { reference: 21000, increasing: { color: "#0d47a1" } },
+      gauge: {
+        axis: { range: [0, 25000], tickwidth: 1, tickcolor: "#0d47a1" },
+        bar: { color: "#0d47a1" },
+        bgcolor: "#e3f2fd",
+        borderwidth: 2,
+        bordercolor: "#0d47a1",
+        steps: [
+          { range: [0, 21000], color: "#bbdefb" },
+          { range: [21000, 25000], color: "#90caf9" }
+        ]
+      }
+    };
+    
+    var gaugeData = [revenueGauge];
+    var gaugeLayout = {
+      title: "Gelir Hedef Gerçekleşmesi",
+      plot_bgcolor: '#f1f9ff'
+    };
+    
+    Plotly.newPlot('gauge-chart', gaugeData, gaugeLayout);
+    
+    // Taksim Nis Hotel: Bar Grafik (Aylara Göre Satış)
+    var taksimAylikSatis = {
+      "Mart": 2303,
+      "Nisan": 6187,
+      "Mayıs": 4491,
+      "Haziran": 3643,
+      "Temmuz": 6619,
+      "Ağustos": 4284,
+      "Eylül": 2277,
+      "Ekim": 9444,
+      "Kasim": 49,
+      "Aralık": 50
+    };
+    var taksimAylar = Object.keys(taksimAylikSatis);
+    var taksimSatisDegerleri = Object.values(taksimAylikSatis);
+    
+    var barDataTaksim = [{
+      x: taksimAylar,
+      y: taksimSatisDegerleri,
+      type: 'bar',
+      marker: { color: 'rgba(25, 118, 210, 0.7)' }
+    }];
+    
+    var barLayoutTaksim = {
+      title: 'Aylara Göre Satış Dağılımı',
+      xaxis: { title: 'Ay' },
+      yaxis: { title: 'Satış (€)' },
+      plot_bgcolor: '#f1f9ff'
+    };
+    
+    Plotly.newPlot('bar-chart-taksim', barDataTaksim, barLayoutTaksim);
+    
+    // Taksim Nis Hotel: Pasta Grafik (Satış Kanalı Dağılımı)
+    var taksimKanalSatis = {
+      "Booking.com": 33029,
+      "Expedia": 3527,
+      "AGODA": 1400,
+      "Otel Web Sitesi": 509,
+      "Walk-in": 888
+    };
+    var taksimKanallar = Object.keys(taksimKanalSatis);
+    var taksimKanalDegerler = Object.values(taksimKanalSatis);
+    
+    var pieDataTaksim = [{
+      values: taksimKanalDegerler,
+      labels: taksimKanallar,
+      type: 'pie',
+      hole: 0.3,
+      marker: {
+        colors: ['#64b5f6','#42a5f5','#2196f3','#1e88e5']
+      }
+    }];
+    
+    var pieLayoutTaksim = {
+      title: 'Satış Kanalı Dağılımı',
+      plot_bgcolor: '#f1f9ff'
+    };
+    
+    Plotly.newPlot('pie-chart-taksim', pieDataTaksim, pieLayoutTaksim);
+    
+    // Taksim Nis Hotel: Gauge Grafik (Gelir Gerçekleşme)
+    var revenueGaugeTaksim = {
+      domain: { x: [0, 1], y: [0, 1] },
+      value: 17179,
+      title: { text: "Gelir Gerçekleşme" },
+      type: "indicator",
+      mode: "gauge+number+delta",
+      delta: { reference: 17298, decreasing: { color: "#d32f2f" } },
+      gauge: {
+        axis: { range: [0, 20000], tickwidth: 1, tickcolor: "#0d47a1" },
+        bar: { color: "#0d47a1" },
+        bgcolor: "#e3f2fd",
+        borderwidth: 2,
+        bordercolor: "#0d47a1",
+        steps: [
+          { range: [0, 17298], color: "#bbdefb" },
+          { range: [17298, 20000], color: "#ef9a9a" }
+        ]
+      }
+    };
+    
+    var gaugeDataTaksim = [revenueGaugeTaksim];
+    var gaugeLayoutTaksim = {
+      title: "Gelir Hedef Gerçekleşmesi",
+      plot_bgcolor: '#f1f9ff'
+    };
+    
+    Plotly.newPlot('gauge-chart-taksim', gaugeDataTaksim, gaugeLayoutTaksim);
+    
+    // Eskiciler Konaği: Bar Grafik (Aylara Göre Konaklama Geliri)
+    var eskicilerAylikGelir = {
+      "Mart": 285603,
+      "Nisan": 223593,
+      "Mayıs": 94798,
+      "Haziran": 18358,
+      "Temmuz": 30565,
+      "Ağustos": 30574,
+      "Eylül": 5338,      // İkinci "Nisan" değeri yerine Eylül olarak yorumlandı
+      "Ekim": 2828      // "27,34 TRY" olarak verildi; formatı düzeltilmiş
+    };
+    var eskicilerAylar = Object.keys(eskicilerAylikGelir);
+    var eskicilerGelirDegerleri = Object.values(eskicilerAylikGelir);
+    
+    var barDataEskiciler = [{
+      x: eskicilerAylar,
+      y: eskicilerGelirDegerleri,
+      type: 'bar',
+      marker: { color: 'rgba(25, 118, 210, 0.7)' }
+    }];
+    
+    var barLayoutEskiciler = {
+      title: 'Aylara Göre Konaklama Geliri',
+      xaxis: { title: 'Ay' },
+      yaxis: { title: 'Gelir (₺)' },
+      plot_bgcolor: '#f1f9ff'
+    };
+    
+    Plotly.newPlot('bar-chart-eskiciler', barDataEskiciler, barLayoutEskiciler);
+    
+    // Eskiciler Konaği: Pasta Grafik (Satış Kanalı Dağılımı)
+    var eskicilerKanalSatis = {
+      "Booking.com": 203520,
+      "Odamax": 40045,
+      "Expedia": 126452,
+      "Website": 257330,
+      "Telephon": 27500,
+      "BELIRSIZ KAYNAKLAR": 36812
+    };
+    var eskicilerKanallar = Object.keys(eskicilerKanalSatis);
+    var eskicilerKanalDegerler = Object.values(eskicilerKanalSatis);
+    
+    var pieDataEskiciler = [{
+      values: eskicilerKanalDegerler,
+      labels: eskicilerKanallar,
+      type: 'pie',
+      hole: 0.3,
+      marker: {
+        colors: ['#64b5f6','#42a5f5','#2196f3','#1e88e5','#1976d2','#1565c0']
+      }
+    }];
+    
+    var pieLayoutEskiciler = {
+      title: 'Satış Kanalı Dağılımı',
+      plot_bgcolor: '#f1f9ff'
+    };
+    
+    Plotly.newPlot('pie-chart-eskiciler', pieDataEskiciler, pieLayoutEskiciler);
+    
+    // Eskiciler Konaği: Karşılaştırma Grafiği (Şubat Performans: Bu Yıl vs Geçen Yıl)
+    var metrics = ["Gelir (₺)", "ADR (₺)", "Doluluk (%)"];
+    var currentYear = [382832, 2385, 26.83];
+    var lastYear = [155004, 2734, 9.5];
+    
+    var dataEskiciler = [
+      {
+        x: metrics,
+        y: currentYear,
+        name: 'Bu Yıl',
+        type: 'bar',
+        marker: { color: 'rgba(25, 118, 210, 0.7)' }
+      },
+      {
+        x: metrics,
+        y: lastYear,
+        name: 'Geçen Yıl',
+        type: 'bar',
+        marker: { color: 'rgba(211, 47, 47, 0.7)' }
+      }
+    ];
+    
+    var layoutEskiciler = {
+      barmode: 'group',
+      title: 'Mart Ayı Performans Karşılaştırması',
+      plot_bgcolor: '#f1f9ff'
+    };
+    
+    Plotly.newPlot('comparison-chart-eskiciler', dataEskiciler, layoutEskiciler);
+  </script>
+</body>
+</html>

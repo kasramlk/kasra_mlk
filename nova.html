@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nova Plaza Hotels – Revenue Strategy Dashboard</title>
+
+  <!-- Font Awesome (for icons) -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-p1CmIY8gXyddX+0TUBHd2V+4JciHDjXGvELG8nl6qzVwP3zRzL7yL1k4dGgG0PSN7uXk2nhFllZ9U2Fek6V6ig=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <!-- Plotly.js -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script> <!-- Responsive Extension -->
+   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css" /> <!-- Responsive CSS -->
+
+
+  <style>
+    :root {
+      --blue: #003580;
+      --cerulean: #009fe3;
+      --yellow: #feba02;
+      --gray: #444;
+      --light-gray: #666666;
+      --bg: #f2f6fa;
+      --white: #ffffff;
+      --border-light: #e0e0e0;
+      --shadow-light: rgba(0,0,0,0.05);
+      --shadow-medium: rgba(0,0,0,0.08);
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--blue);
+      color: var(--white);
+      padding: 10px 5% 0 5%; /* Reduced padding top, no bottom padding */
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 10px; /* Space below title/button */
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    header button#toggleLang {
+      background: var(--yellow);
+      border: none;
+      color: #000;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+      flex-shrink: 0; /* Prevent button from shrinking */
+      margin-left: 20px; /* Space between title and button */
+    }
+    header button#toggleLang:hover {
+        background-color: #e4a802;
+    }
+
+    /* Hotel Selector Styles */
+    .hotel-selector {
+        display: flex;
+        gap: 5px; /* Small gap between cards */
+        padding-bottom: 0; /* Remove bottom padding */
+        border-bottom: 3px solid transparent; /* Placeholder for active indicator */
+        overflow-x: auto; /* Allow horizontal scrolling if needed */
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        margin-left: -5%; /* Extend to edge */
+        margin-right: -5%; /* Extend to edge */
+        padding-left: 5%; /* Restore padding */
+        padding-right: 5%; /* Restore padding */
+    }
+    .hotel-card {
+        background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent */
+        color: var(--white);
+        padding: 10px 15px;
+        border-radius: 6px 6px 0 0; /* Rounded top corners */
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: background-color 0.2s ease;
+        flex-shrink: 0; /* Prevent cards from shrinking */
+        border-bottom: 3px solid transparent; /* Bottom border for active state */
+        margin-bottom: -3px; /* Overlap with header bottom */
+        font-size: 0.9rem;
+        white-space: nowrap; /* Prevent text wrapping */
+    }
+    .hotel-card:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    .hotel-card.active {
+        background-color: var(--bg); /* Match body background */
+        color: var(--blue);
+        font-weight: 600;
+        border-bottom: 3px solid var(--yellow); /* Active indicator */
+    }
+    .hotel-card img {
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+        object-fit: cover;
+    }
+
+    section {
+      padding: 40px 5%;
+      max-width: 1300px;
+      margin: auto;
+    }
+
+    h2 {
+      color: var(--blue);
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+     h3 {
+        color: var(--blue);
+        margin-top: 25px;
+        margin-bottom: 10px;
+        font-size: 1.3rem;
+        font-weight: 600;
+    }
+     h4 {
+        color: var(--cerulean);
+        margin-top: 15px;
+        margin-bottom: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      align-items: center;
+    }
+     /* Single column for charts on smaller screens */
+    @media (max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    #hotelImage { /* Style the hotel image */
+        width: 100%;
+        height: 300px; /* Fixed height */
+        object-fit: cover; /* Cover the area */
+        border-radius: 8px;
+        box-shadow: 0 4px 10px var(--shadow-medium);
+        display: block;
+        margin-bottom: 30px; /* Space below image */
+    }
+
+    /* DataTable Styling */
+    #revTableContainer {
+        background: var(--white);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px var(--shadow-light);
+        overflow-x: auto;
+    }
+
+    table.dataTable {
+      width: 100% !important; /* Override potential inline styles */
+      border-collapse: collapse;
+      margin: 0;
+    }
+    table.dataTable thead th {
+      background: var(--cerulean);
+      color: var(--white);
+      padding: 12px 10px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 2px solid var(--blue);
+    }
+    table.dataTable tbody td {
+      padding: 10px 10px;
+      border-bottom: 1px solid var(--border-light);
+      vertical-align: middle;
+    }
+     table.dataTable tbody tr:last-child td {
+        border-bottom: none;
+     }
+    table.dataTable tbody tr:hover {
+        background-color: #f9f9f9;
+    }
+
+    /* Language display helpers */
+    .lang-tr { display: block; }
+    .lang-en { display: none; }
+
+    /* Chart Containers */
+    .chart-container {
+        background: var(--white);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px var(--shadow-light);
+        margin-top: 30px;
+        height: 400px; /* Ensure containers have height */
+    }
+
+     /* Methodology Section */
+    .methodology {
+        background: var(--white);
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px var(--shadow-light);
+        margin-top: 30px;
+    }
+    .methodology p {
+        color: var(--light-gray);
+        margin-bottom: 0;
+    }
+
+    /* --- Process Embed Grid & Cards (keeping original styles) --- */
+    .process-embed {
+      margin-top: 50px;
+      background: var(--bg);
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .process-embed > h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: var(--blue);
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+    .process-card {
+      background: var(--white);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px var(--shadow-medium);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+     .process-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+     }
+    .process-card .step {
+      color: var(--blue);
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 15px;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 10px;
+    }
+    .process-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 10px 0;
+      flex-grow: 1;
+    }
+    .process-card ul li {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 10px;
+      color: var(--light-gray);
+      font-size: 0.95rem;
+    }
+    .process-card ul li i {
+      margin-right: 10px;
+      color: var(--cerulean);
+      margin-top: 3px;
+      width: 16px;
+      text-align: center;
+    }
+    .process-card p {
+        font-size: 0.9rem;
+        color: var(--light-gray);
+        margin-top: 15px;
+        line-height: 1.5;
+    }
+    .progress-section { margin-top: 15px; }
+    .progress-label {
+        font-size: 0.9rem;
+        color: var(--gray);
+        margin-bottom: 2px;
+        display: block;
+    }
+    .progress {
+      width: 100%; height: 8px; background: var(--border-light); border-radius: 4px; margin-bottom: 8px; overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%; background: var(--cerulean); border-radius: 4px; transition: width 0.5s ease-in-out;
+    }
+    .accordion {
+      width: 100%; text-align: left; padding: 10px 12px; border: none; cursor: pointer; font-weight: 600;
+      background: var(--cerulean); color: var(--white); border-radius: 6px; margin-top: 15px;
+      transition: background-color 0.2s ease; display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem;
+    }
+     .accordion:hover { background-color: #008ac7; }
+     .accordion::after {
+        font-family: "Font Awesome 6 Free"; font-weight: 900; content: '\f067'; font-size: 0.8em; margin-left: 10px;
+     }
+     .accordion.active::after { content: '\f068'; }
+    .panel {
+      display: none; background: #fdfdfd; padding: 15px; border: 1px solid var(--border-light);
+      border-top: none; border-radius: 0 0 6px 6px; margin-top: 0;
+    }
+    .panel ul { margin-bottom: 0; }
+    .panel ul li { font-size: 0.9rem; }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-top">
+        <h1 id="mainHeaderTitle">Nova Plaza Crystal – Gelir Strateji Paneli</h1>
+        <button id="toggleLang">EN</button>
+    </div>
+    <div class="hotel-selector">
+        <!-- Hotel cards will be dynamically added here by JavaScript -->
+    </div>
+  </header>
+
+  <section>
+       <img id="hotelImage" src="" alt="Hotel Image"> <!-- Image placeholder -->
+
+        <h2 id="performanceTitle">Mayıs – Aralık 2025 Aylık Performans Tablosu</h2>
+        <div id="revTableContainer">
+          <!-- DataTable will be initialized here -->
+          <table id="revTable" class="display responsive nowrap" style="width:100%"></table>
+        </div>
+
+        <div class="grid-2"> <!-- Layout charts -->
+            <div id="adrTrendChart" class="chart-container"></div>
+            <div id="channelChart" class="chart-container"></div>
+        </div>
+
+        <div class="methodology" id="methodologyContent">
+          <!-- Methodology text will be loaded here -->
+        </div>
+  </section>
+
+ <section class="process-embed">
+      <!-- This section remains static for now, assuming the process is the same for both -->
+      <!-- If the process differs, this section would also need to be made dynamic -->
+      <h2 class="lang-tr">Danışmanlık Sürecimiz</h2>
+      <h2 class="lang-en" style="display:none;">Our Process</h2>
+      <div class="process-grid">
+       
+           <!-- 01. Analysis -->
+        <div class="process-card">
+        <div class="step">01. <span class="lang-tr">Analiz</span><span class="lang-en" style="display:none;">Analysis</span></div>
+        <ul>
+            <li><i class="fa-solid fa-database"></i><span class="lang-tr">Veri Toplama & Analiz</span><span class="lang-en" style="display:none;">Data Collection & Analysis</span></li>
+            <li><i class="fa-solid fa-chart-line"></i><span class="lang-tr">Pazar Araştırması</span><span class="lang-en" style="display:none;">Market Research</span></li>
+            <li><i class="fa-solid fa-comments"></i><span class="lang-tr">Misafir Geri Bildirimi Analizi</span><span class="lang-en" style="display:none;">Guest Feedback Analysis</span></li>
+        </ul>
+        <div class="progress-section">
+            <div>
+            <span class="progress-label lang-tr">Doluluk Analizi</span><span class="progress-label lang-en" style="display:none;">Occupancy Analysis</span>
+            <div class="progress"><div class="progress-bar" style="width:80%;"></div></div>
+            </div>
+            <div>
+            <span class="progress-label lang-tr">Gelir Metrikleri</span><span class="progress-label lang-en" style="display:none;">Revenue Metrics</span>
+            <div class="progress"><div class="progress-bar" style="width:65%;"></div></div>
+            </div>
+        </div>
+        <p class="lang-tr">Veri odaklı analizlerle aksiyon alanlarını belirleriz.</p>
+        <p class="lang-en" style="display:none;">We identify action areas through data-driven analysis.</p>
+        </div>
+
+        <!-- 02. Strategy -->
+        <div class="process-card">
+        <div class="step">02. <span class="lang-tr">Strateji</span><span class="lang-en" style="display:none;">Strategy</span></div>
+
+        <h4 class="lang-tr">Gelir Optimizasyonu</h4>
+        <h4 class="lang-en" style="display:none;">Revenue Optimization</h4>
+        <ul>
+            <li><i class="fa-solid fa-tag"></i><span class="lang-tr">Fiyatlandırma Stratejisi</span><span class="lang-en" style="display:none;">Pricing Strategy</span></li>
+            <li><i class="fa-solid fa-network-wired"></i><span class="lang-tr">Dağıtım Kanalları</span><span class="lang-en" style="display:none;">Distribution Channels</span></li>
+            <li><i class="fa-solid fa-arrow-trend-up"></i><span class="lang-tr">Yield Yönetimi</span><span class="lang-en" style="display:none;">Yield Management</span></li> <!-- Changed icon -->
+        </ul>
+
+        <h4 class="lang-tr">Pazarlama Planı</h4>
+        <h4 class="lang-en" style="display:none;">Marketing Plan</h4>
+        <ul>
+            <li><i class="fa-solid fa-globe"></i><span class="lang-tr">Dijital Varlık</span><span class="lang-en" style="display:none;">Digital Presence</span></li>
+            <li><i class="fa-solid fa-bullseye"></i><span class="lang-tr">Hedef Pazarlar</span><span class="lang-en" style="display:none;">Target Markets</span></li>
+            <li><i class="fa-solid fa-map-pin"></i><span class="lang-tr">Marka Konumlandırma</span><span class="lang-en" style="display:none;">Brand Positioning</span></li> <!-- Changed icon -->
+        </ul>
+
+        <h4 class="lang-tr">Operasyonel Mükemmeliyet</h4>
+        <h4 class="lang-en" style="display:none;">Operational Excellence</h4>
+        <ul>
+            <li><i class="fa-solid fa-sliders"></i><span class="lang-tr">Süreç Optimizasyonu</span><span class="lang-en" style="display:none;">Process Optimization</span></li>
+            <li><i class="fa-solid fa-coins"></i><span class="lang-tr">Maliyet Yönetimi</span><span class="lang-en" style="display:none;">Cost Management</span></li>
+            <li><i class="fa-solid fa-check-circle"></i><span class="lang-tr">Kalite Standartları</span><span class="lang-en" style="display:none;">Quality Standards</span></li>
+        </ul>
+        </div>
+
+        <!-- 03. Implementation -->
+        <div class="process-card">
+        <div class="step">03. <span class="lang-tr">Uygulama</span><span class="lang-en" style="display:none;">Implementation</span></div>
+        <ul>
+            <li><i class="fa-solid fa-chalkboard-teacher"></i><span class="lang-tr">Personel Eğitimi</span><span class="lang-en" style="display:none;">Staff Training</span></li>
+            <li><i class="fa-solid fa-cogs"></i><span class="lang-tr">Sistem Entegrasyonu</span><span class="lang-en" style="display:none;">System Integration</span></li>
+            <li><i class="fa-solid fa-rocket"></i><span class="lang-tr">Pazarlama Aktivasyonu</span><span class="lang-en" style="display:none;">Marketing Activation</span></li> <!-- Added Item -->
+            <li><i class="fa-solid fa-clipboard-check"></i><span class="lang-tr">Kalite Güvencesi</span><span class="lang-en" style="display:none;">Quality Assurance</span></li> <!-- Changed icon -->
+        </ul>
+        <p class="lang-tr">Stratejilerimiz kalite ve sonuç odaklı uygulanır.</p>
+        <p class="lang-en" style="display:none;">Our strategies are implemented with a focus on quality and results.</p>
+        </div>
+
+        <!-- 04. Monitoring -->
+        <div class="process-card">
+        <div class="step">04. <span class="lang-tr">İzleme & Optimizasyon</span><span class="lang-en" style="display:none;">Monitoring & Optimization</span></div> <!-- Updated Title -->
+        <ul>
+            <li><i class="fa-solid fa-chart-simple"></i><span class="lang-tr">Gerçek Zamanlı Analiz</span><span class="lang-en" style="display:none;">Real-time Analytics</span></li>
+            <li><i class="fa-solid fa-gauge-high"></i><span class="lang-tr">KPI Takibi</span><span class="lang-en" style="display:none;">KPI Tracking</span></li> <!-- Added Item -->
+            <li><i class="fa-solid fa-sync-alt"></i><span class="lang-tr">Sürekli İyileştirme</span><span class="lang-en" style="display:none;">Continuous Improvement</span></li>
+            <li><i class="fa-solid fa-file-alt"></i><span class="lang-tr">Düzenli Raporlar</span><span class="lang-en" style="display:none;">Regular Reports</span></li>
+            <li><i class="fa-solid fa-lightbulb"></i><span class="lang-tr">Fırsat Belirleme</span><span class="lang-en" style="display:none;">Opportunity Identification</span></li> <!-- Changed Item -->
+        </ul>
+        <p class="lang-tr">Sürekli optimizasyon ve veri odaklı karar verme.</p>
+        <p class="lang-en" style="display:none;">Ongoing optimization and data-driven decision making.</p>
+        </div>
+
+        <!-- 05. OTA Management & Pricing Strategies -->
+        <div class="process-card">
+        <div class="step">05. <span class="lang-tr">OTA & Fiyat Stratejileri</span><span class="lang-en" style="display:none;">OTA & Pricing Strategies</span></div> <!-- Simplified Title -->
+        <h4 class="lang-tr">OTA Yönetimi</h4><h4 class="lang-en" style="display:none;">OTA Management</h4>
+        <ul>
+            <li><i class="fa-solid fa-building-columns"></i><span class="lang-tr">Booking.com, Expedia, Agoda Yönetimi</span><span class="lang-en" style="display:none;">Booking.com, Expedia, Agoda Management</span></li> <!-- Changed Icon -->
+            <li><i class="fa-solid fa-tags"></i><span class="lang-tr">Fiyat & Promosyon Optimizasyonu</span><span class="lang-en" style="display:none;">Rate & Promotion Optimization</span></li> <!-- Changed Icon -->
+            <li><i class="fa-solid fa-chart-pie"></i><span class="lang-tr">Kanal Performans Analizi</span><span class="lang-en" style="display:none;">Channel Performance Analysis</span></li> <!-- Changed Text -->
+            <li><i class="fa-solid fa-star"></i><span class="lang-tr">Online İtibar Yönetimi</span><span class="lang-en" style="display:none;">Online Reputation Management</span></li> <!-- Added Item -->
+        </ul>
+
+        <button class="accordion lang-tr">Fiyat Stratejileri</button>
+        <button class="accordion lang-en" style="display:none;">Pricing Strategies</button>
+        <div class="panel">
+            <ul class="lang-tr">
+                <li>Dinamik fiyatlama algoritmaları</li>
+                <li>Rekabetçi fiyat analizi</li>
+                <li>Talep tahmini bazlı fiyatlandırma</li>
+                <li>Minimum/Maksimum fiyat sınırları</li>
+            </ul>
+            <ul class="lang-en" style="display:none;">
+                <li>Dynamic pricing algorithms</li>
+                <li>Competitive rate analysis</li>
+                <li>Demand forecast-based pricing</li>
+                <li>Min/Max rate boundaries</li>
+            </ul>
+        </div>
+
+        <button class="accordion lang-tr">Promosyon Optimizasyonu</button>
+        <button class="accordion lang-en" style="display:none;">Promotion Optimization</button>
+        <div class="panel">
+            <ul class="lang-tr">
+                <li>Hedef kitleye özel paketler</li>
+                <li>Erken rezervasyon ve son dakika fırsatları</li>
+                <li>Uzun konaklama indirimleri</li>
+                <li>Sezonsal kampanyalar</li>
+            </ul>
+            <ul class="lang-en" style="display:none;">
+                <li>Targeted guest packages</li>
+                <li>Early booking & last-minute deals</li>
+                <li>Length-of-stay discounts</li>
+                <li>Seasonal campaigns</li>
+            </ul>
+        </div>
+        </div>
+
+        <!-- 06. Dynamic Pricing & Market Intel -->
+        <div class="process-card">
+        <div class="step">06. <span class="lang-tr">Dinamik Fiyatlama & Piyasa Zekası</span><span class="lang-en" style="display:none;">Dynamic Pricing & Market Intel</span></div> <!-- Updated Title -->
+        <ul>
+            <li><i class="fa-solid fa-plane-departure"></i><span class="lang-tr">Uçuş Verisi Entegrasyonu</span><span class="lang-en" style="display:none;">Flight Data Integration</span></li>
+            <li><i class="fa-solid fa-calendar-alt"></i><span class="lang-tr">Etkinlik & Talep Takibi</span><span class="lang-en" style="display:none;">Event & Demand Tracking</span></li> <!-- Changed Icon & Text -->
+            <li><i class="fa-solid fa-magnifying-glass-chart"></i><span class="lang-tr">Rakip Fiyat Analizi</span><span class="lang-en" style="display:none;">Competitor Rate Monitoring</span></li> <!-- Changed Icon & Text -->
+            <li><i class="fa-solid fa-robot"></i><span class="lang-tr">Otomatik Fiyat Ayarlamaları</span><span class="lang-en" style="display:none;">Automated Rate Adjustments</span></li> <!-- Changed Icon & Text -->
+        </ul>
+        <p class="lang-tr">Piyasa dinamiklerine anlık yanıt veren akıllı fiyatlandırma.</p>
+        <p class="lang-en" style="display:none;">Intelligent pricing responding instantly to market dynamics.</p>
+        </div>
+      </div>
+</section>
+
+
+  <script>
+    // --- Global Variables ---
+    let activeHotelId = 'crystal'; // Default hotel
+    let activeLang = 'TR'; // Default language
+    let dataTableInstance = null; // To hold the DataTable object
+
+    // --- Hotel Data ---
+    const hotelsData = {
+      'crystal': {
+        id: 'crystal',
+        name_tr: 'Nova Plaza Crystal',
+        name_en: 'Nova Plaza Crystal',
+        image_url: 'https://assets.onecompiler.app/42qm4jhuw/4346m8jnh/0e81e431.avif',
+        // Month, Revenue, ADR, Occupancy(%), Room Nights, B2B(%), B2C(%), Walk-in(%) - ORIGINAL STRUCTURE
+        data_table: [
+          ['May', 443223, 95, 70, 4665, 30, 60, 10],
+          ['Jun', 483750, 100, 75, 4838, 30, 65, 5],
+          ['Jul', 651504, 115, 85, 5667, 25, 70, 5],
+          ['Aug', 679830, 120, 85, 5667, 25, 70, 5], // Pie chart uses this month's data
+          ['Sep', 567600, 105, 80, 5160, 30, 65, 5],
+          ['Oct', 524869, 100, 75, 4838, 30, 65, 5],
+          ['Nov', 377325, 90, 60, 3870, 35, 60, 5],
+          ['Dec', 311589, 85, 55, 3667, 35, 60, 5]
+        ],
+        methodology_tr: `<h3>Detaylı Tahmin Metodolojisi (Crystal)</h3><p>Bu tahminler, İstanbul Taksim çevresindeki benzer otellerin OTA fiyatları, turizm sezonları ve piyasa trendlerine dayanmaktadır. Ortalama Günlük Fiyat (ADR), doluluk oranı, satılan gece sayısı ve satış kanalı payları (B2B, B2C, Walk-in) gibi verilerle tahmin modeli oluşturulmuştur...</p>`,
+        methodology_en: `<h3>Detailed Forecast Methodology (Crystal)</h3><p>These forecasts are based on OTA pricing, tourism seasonality, and competitive market benchmarks around Taksim. Variables include Average Daily Rate (ADR), occupancy rate, room nights sold, and sales channel distribution (B2B, B2C, Walk-in)...</p>`
+      },
+      'orion': {
+        id: 'orion',
+        name_tr: 'Nova Plaza Orion',
+        name_en: 'Nova Plaza Orion',
+        image_url: 'https://images.trvl-media.com/lodging/3000000/2220000/2217000/2216963/2c045172.jpg?impolicy=resizecrop&rw=575&rh=575&ra=fill', // Placeholder image
+        // Month, Revenue, ADR, Occupancy(%), Room Nights, B2B(%), B2C(%), Walk-in(%) - RESTRUCTURED FROM PROVIDED DATA
+        data_table: [
+          // Orig: Month, ADR (€), Occ. (%), Days, Rooms Sold, Revenue (€), B2C (75 %), B2B (15 %), Walk‑in (10 %)
+          ['Jun', 220590, 90, 95, 2451, 15, 75, 10], // Revenue, ADR, Occ, RoomsSold, B2B, B2C, WalkIn
+          ['Jul', 253300, 100, 95, 2533, 15, 75, 10],
+          ['Aug', 240635, 95, 95, 2533, 15, 75, 10], // Pie chart uses this month's data
+          ['Sep', 208335, 85, 95, 2451, 15, 75, 10],
+          ['Oct', 158620, 70, 85, 2266, 15, 75, 10],
+          ['Nov', 127968, 62, 80, 2064, 15, 75, 10],
+          ['Dec', 170640, 80, 80, 2133, 15, 75, 10]
+        ],
+         methodology_tr: `<h3>Detaylı Tahmin Metodolojisi (Orion)</h3><p>Orion oteli için tahminler, bölgedeki rekabet analizi, geçmiş doluluk verileri ve beklenen etkinlik takvimine göre yapılmıştır. Fiyatlandırma ve kanal dağılımı stratejileri, geliri maksimize etmek üzere optimize edilmiştir...</p>`,
+        methodology_en: `<h3>Detailed Forecast Methodology (Orion)</h3><p>Forecasts for the Orion hotel are based on competitive analysis in the area, historical occupancy data, and the expected event calendar. Pricing and channel distribution strategies are optimized to maximize revenue...</p>`
+      }
+    };
+
+    // --- Month Translations ---
+    const monthTranslations = {
+        'May': { tr: 'Mayıs', en: 'May' },
+        'Jun': { tr: 'Haziran', en: 'June' },
+        'Jul': { tr: 'Temmuz', en: 'July' },
+        'Aug': { tr: 'Ağustos', en: 'August' },
+        'Sep': { tr: 'Eylül', en: 'September' },
+        'Oct': { tr: 'Ekim', en: 'October' },
+        'Nov': { tr: 'Kasım', en: 'November' },
+        'Dec': { tr: 'Aralık', en: 'December' }
+    };
+
+    // --- Helper Functions ---
+    const formatCurrency = (value) => value.toLocaleString('de-DE'); // Use German locale for Euro formatting
+    const formatNumber = (value) => value.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
+    // --- Core Update Function ---
+    function updateDisplay() {
+        const hotelData = hotelsData[activeHotelId];
+        const isEn = activeLang === 'EN';
+        const langKey = isEn ? 'en' : 'tr';
+        const htmlEl = document.documentElement;
+
+        // 0. Set HTML lang attribute
+        htmlEl.lang = langKey;
+
+        // 1. Update Header Title
+        document.getElementById('mainHeaderTitle').textContent = hotelData[`name_${langKey}`] + (isEn ? ' – Revenue Strategy Dashboard' : ' – Gelir Strateji Paneli');
+
+        // 2. Update Hotel Image
+        document.getElementById('hotelImage').src = hotelData.image_url;
+        document.getElementById('hotelImage').alt = hotelData[`name_${langKey}`] + " Image";
+
+        // 3. Update Performance Section Title
+         document.getElementById('performanceTitle').textContent = isEn ?
+            `Monthly Performance Forecast (${hotelData.data_table[0][0]}–${hotelData.data_table[hotelData.data_table.length - 1][0]} 2025)` : // Assuming 2025
+            `${monthTranslations[hotelData.data_table[0][0]][langKey]}–${monthTranslations[hotelData.data_table[hotelData.data_table.length - 1][0]][langKey]} 2025 Aylık Performans Tablosu`;
+
+
+        // 4. Update Methodology Text
+        document.getElementById('methodologyContent').innerHTML = hotelData[`methodology_${langKey}`];
+
+        // 5. Update DataTable
+        const tableData = hotelData.data_table.map(row => [
+            monthTranslations[row[0]][langKey], // Translate month name
+            formatCurrency(row[1]),   // Format Revenue
+            formatCurrency(row[2]),   // Format ADR
+            row[3] + '%',             // Occupancy
+            formatNumber(row[4]),     // Format Room Nights
+            row[5] + '%',             // B2B
+            row[6] + '%',             // B2C
+            row[7] + '%'              // Walk-in
+        ]);
+
+        const tableColumns = isEn ?
+            [ { title: 'Month' }, { title: 'Revenue (€)' }, { title: 'ADR (€)' }, { title: 'Occupancy (%)' }, { title: 'Room Nights Sold' }, { title: 'B2B (%)' }, { title: 'B2C (%)' }, { title: 'Walk-in (%)' } ] :
+            [ { title: 'Ay' }, { title: 'Gelir (€)' }, { title: 'ADR (€)' }, { title: 'Doluluk (%)' }, { title: 'Satılan Oda Gecesi' }, { title: 'B2B (%)' }, { title: 'B2C (%)' }, { title: 'Walk-in (%)' } ];
+
+        // Destroy previous instance if it exists
+        if (dataTableInstance) {
+            dataTableInstance.destroy();
+            $('#revTable').empty(); // Clear the table structure
+        }
+
+        // Initialize new DataTable
+        dataTableInstance = $('#revTable').DataTable({
+            data: tableData,
+            columns: tableColumns,
+            paging: false,
+            searching: false,
+            info: false,
+            ordering: false,
+            responsive: true,
+            language: {
+                emptyTable: isEn ? "No data available in table" : "Tabloda veri yok",
+                zeroRecords: isEn ? "No matching records found" : "Eşleşen kayıt bulunamadı"
+            }
+        });
+
+        // 6. Update ADR Trend Chart
+        const adrMonths = hotelData.data_table.map(d => monthTranslations[d[0]][langKey]);
+        const adrValues = hotelData.data_table.map(d => d[2]); // ADR is index 2
+
+        Plotly.react('adrTrendChart', [{ // Use react for efficient updates
+            x: adrMonths,
+            y: adrValues,
+            type: 'scatter',
+            mode: 'lines+markers',
+            line: { shape: 'spline', color: 'var(--cerulean)', width: 3 },
+            marker: { color: 'var(--blue)', size: 8 },
+            hovertemplate: `<b>%{x}</b><br>ADR: €%{y:.0f}<extra></extra>`
+        }], {
+            title: isEn ? `ADR Trend (${adrMonths[0]}–${adrMonths[adrMonths.length - 1]} 2025)` : `ADR Trendi (${adrMonths[0]}–${adrMonths[adrMonths.length - 1]} 2025)`,
+            paper_bgcolor: 'var(--white)',
+            plot_bgcolor: 'var(--white)',
+            yaxis: { title: 'ADR (€)', gridcolor: '#eef', tickprefix: '€', separatethousands: true },
+            xaxis: { gridcolor: '#eef' },
+            margin: { l: 60, r: 20, t: 50, b: 40 } // Adjust margins
+        }, { responsive: true });
+
+
+        // 7. Update Channel Distribution Chart (Using August data - index 2 for Orion, index 3 for Crystal)
+        const pieChartMonthIndex = activeHotelId === 'crystal' ? 3 : 2; // Aug for Crystal, Aug for Orion
+        const channelData = hotelData.data_table[pieChartMonthIndex]?.slice(5); // B2B, B2C, Walk-in %
+
+        if (channelData && channelData.length === 3) {
+            const pieMonthName = monthTranslations[hotelData.data_table[pieChartMonthIndex][0]][langKey];
+            Plotly.react('channelChart', [{
+                values: channelData,
+                labels: ['B2B', 'B2C', 'Walk-in'],
+                type: 'pie',
+                hole: .4,
+                marker: { colors: ['#003580', '#009fe3', '#feba02'] },
+                hoverinfo: 'label+percent',
+                textinfo: 'percent',
+                textfont_size: 14,
+                insidetextorientation: 'radial'
+            }], {
+                title: isEn ? `${pieMonthName} 2025 Sales Channel Distribution` : `${pieMonthName} 2025 Satış Kanalı Dağılımı`,
+                paper_bgcolor: 'var(--white)',
+                plot_bgcolor: 'var(--white)',
+                showlegend: true,
+                legend: { x: 0.5, y: -0.1, orientation: "h", xanchor: 'center' },
+                margin: { l: 20, r: 20, t: 50, b: 40 } // Adjust margins
+            }, { responsive: true });
+        } else {
+            // Clear the chart if data is missing for the selected month
+             Plotly.purge('channelChart');
+             $('#channelChart').html(isEn ? '<p>Channel data not available for selected period.</p>' : '<p>Seçili dönem için kanal verisi mevcut değil.</p>');
+        }
+
+
+        // 8. Update Language Toggle Button Text
+        $('#toggleLang').text(isEn ? 'TR' : 'EN');
+
+        // 9. Update Static Text Language Display (Process Section)
+        $('.process-embed .lang-tr').css('display', isEn ? 'none' : 'block');
+        $('.process-embed .lang-en').css('display', isEn ? 'block' : 'none');
+
+        // 10. Update Active Hotel Card Style
+        $('.hotel-card').removeClass('active');
+        $(`.hotel-card[data-hotel="${activeHotelId}"]`).addClass('active');
+
+         // 11. Toggle Accordion Language
+        $('.accordion.lang-tr').css('display', isEn ? 'none' : 'block');
+        $('.accordion.lang-en').css('display', isEn ? 'block' : 'none');
+        // Ensure panels match accordion visibility
+        $('.panel.lang-tr').css('display', 'none'); // Always hide panels initially
+        $('.panel.lang-en').css('display', 'none');
+        $('.accordion').removeClass('active'); // Close all accordions on switch
+
+    }
+
+    // --- Event Listeners ---
+    $(document).ready(function() {
+        const hotelSelector = $('.hotel-selector');
+
+        // 1. Populate Hotel Selector Cards
+        Object.values(hotelsData).forEach(hotel => {
+            const card = $(`
+                <div class="hotel-card" data-hotel="${hotel.id}">
+                    <img src="${hotel.image_url}" alt="${hotel.name_en}">
+                    <span class="hotel-name">${hotel.name_tr}</span>
+                </div>
+            `);
+            // Update name based on initial language later in updateDisplay
+            hotelSelector.append(card);
+        });
+
+        // 2. Hotel Card Click Listener
+        hotelSelector.on('click', '.hotel-card', function() {
+            const selectedHotelId = $(this).data('hotel');
+            if (selectedHotelId !== activeHotelId) {
+                activeHotelId = selectedHotelId;
+                updateDisplay(); // Update everything
+            }
+        });
+
+        // 3. Language Toggle Listener
+        $('#toggleLang').on('click', function() {
+            activeLang = (activeLang === 'EN') ? 'TR' : 'EN';
+            updateDisplay(); // Update everything
+             // Update hotel card names after language change
+            $('.hotel-card').each(function() {
+                const hotelId = $(this).data('hotel');
+                const hotelData = hotelsData[hotelId];
+                $(this).find('.hotel-name').text(hotelData[`name_${activeLang.toLowerCase()}`]);
+            });
+        });
+
+         // 4. Accordion Toggle Listener (remains the same)
+        // Need to delegate because accordions might be re-rendered indirectly
+        $(document).on('click', '.accordion', function() {
+            const $button = $(this);
+            const $panel = $button.next('.panel');
+
+            // Close other panels linked to the *same language* accordions
+             $button.parent().find(`.accordion.${$button.hasClass('lang-tr') ? 'lang-tr' : 'lang-en'}`).not($button).each(function() {
+                 $(this).removeClass('active');
+                 $(this).next('.panel').slideUp('fast');
+             });
+
+            // Toggle current panel
+            $button.toggleClass('active');
+            $panel.slideToggle('fast'); // Use slide effect
+        });
+
+
+        // 5. Initial Display Update
+        updateDisplay();
+         // Update hotel card names for initial language
+        $('.hotel-card').each(function() {
+            const hotelId = $(this).data('hotel');
+            const hotelData = hotelsData[hotelId];
+            $(this).find('.hotel-name').text(hotelData[`name_${activeLang.toLowerCase()}`]);
+        });
+    });
+  </script>
+
+</body>
+</html>

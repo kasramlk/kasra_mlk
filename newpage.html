@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X81LZYLEGC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-X81LZYLEGC');
+</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grafikler | OtelCiro Otel Danışmanlığı</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="OtelCiro Otel Danışmanlığı ile detaylı otel performans grafikleri ve analizlerini keşfedin.">
+  <meta name="keywords" content="otel danışmanlığı, performans grafikleri, analiz, OtelCiro">
+  
+  <!-- Bootstrap 5 -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <!-- Font Awesome -->
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    rel="stylesheet"
+  />
+  <!-- Google Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <!-- AOS Library for Animations -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
+
+  <style>
+    /* --------------------------------------------------------------
+       BOOKING.COM COLOR PALETTE & THEME VARIABLES
+    -------------------------------------------------------------- */
+    :root {
+      --booking-blue: #003580;         /* Resolution Blue */
+      --booking-cerulean: #009fe3;     /* Cerulean */
+      --booking-yellow: #feba02;       /* Selective Yellow */
+      --booking-dove-gray: #666666;    /* Dove Gray */
+      --booking-black-squeeze: #f2f6fa;/* Black Squeeze */
+    }
+
+    /* --------------------------------------------------------------
+       GLOBAL STYLES
+    -------------------------------------------------------------- */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif; /* Clean, modern font */
+      background-color: #f0f8ff; /* Light background for contrast */
+      color: #333; /* Dark text for readability */
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    a:hover {
+      color: var(--booking-cerulean);
+    }
+
+    /* --------------------------------------------------------------
+       NAVIGATION STYLES
+    -------------------------------------------------------------- */
+    .navbar {
+      background-color: var(--booking-blue);
+      padding: 1rem;
+    }
+
+    .navbar-brand {
+      color: var(--booking-yellow);
+      font-weight: 700;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+    }
+    .navbar-brand:hover {
+      color: var(--booking-yellow);
+    }
+
+    .navbar-nav .nav-link {
+      color: #ffffff;
+      margin-right: 1rem;
+      font-weight: 600;
+    }
+    .navbar-nav .nav-link:hover {
+      color: var(--booking-yellow);
+    }
+    .navbar-toggler {
+      border: none;
+      background-color: transparent;
+    }
+    .navbar-toggler-icon {
+      color: #fff;
+    }
+
+    /* --------------------------------------------------------------
+       HEADER STYLES
+    -------------------------------------------------------------- */
+    .header {
+      background-color: #003580; /* Deep blue header */
+      color: #ffffff; /* Gold text */
+      padding: 1rem 0;
+      text-align: center;
+    }
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .header p {
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin-bottom: 0;
+    }
+
+    /* --------------------------------------------------------------
+       MAIN / DASHBOARD STYLES
+    -------------------------------------------------------------- */
+    main {
+      padding-top: 6rem; /* to ensure content isn't hidden under the nav */
+    }
+
+    .dashboard-section {
+      padding: 5rem 0;
+      background: #f9f9f9; /* Light gray background for the dashboard section */
+    }
+
+    .graph-container {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+      position: relative;
+      height: 400px; /* Fixed height for the container */
+      overflow: hidden; /* Prevent overflow */
+    }
+
+    .graph-placeholder {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.5rem;
+      color: var(--light-gray);
+      text-align: center;
+    }
+
+    .plotly-graph {
+      width: 100% !important; /* Ensure the graph takes full width */
+      height: 100% !important; /* Ensure the graph takes full height */
+      position: absolute; /* Position the graph absolutely */
+      top: 0; /* Align to the top */
+      left: 0; /* Align to the left */
+    }
+
+    .analytical-card {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    .analytical-card h5 {
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--booking-blue);
+    }
+    .analytical-card p {
+      margin-bottom: 0;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .graph-title {
+      font-size: 1.5rem; /* Adjust size as needed */
+      margin-bottom: 1rem; /* Space between title and graph */
+      color: var(--text-color); /* Match the text color */
+      text-align: center; /* Center the title */
+    }
+
+    /* --------------------------------------------------------------
+       MEDIA QUERIES
+    -------------------------------------------------------------- */
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2rem;
+      }
+    }
+
+    .faq-section {
+      background: #f9f9f9; /* Light gray background for the FAQ section */
+      padding: 5rem 0;
+    }
+
+    footer {
+      background: var(--primary);
+      color: white;
+      padding: 2rem 0;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      color: #003580; /* Deep blue for section titles */
+      margin-bottom: 1rem;
+    }
+
+    .overview-section {
+      padding: 3rem 0;
+    }
+
+    .card {
+      border: 1px solid #003580; /* Deep blue border */
+      border-radius: 8px;
+      transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition */
+    }
+
+    .card:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      color: #003580; /* Deep blue for card titles */
+    }
+
+    .card-text {
+      color: #555; /* Dark gray for card text */
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    h3 {
+      color: #003580; /* Deep blue for subheadings */
+    }
+
+    ul {
+      list-style-type: none; /* Remove bullet points */
+      padding: 0;
+    }
+
+    ul li {
+      margin: 0.5rem 0; /* Space between list items */
+    }
+
+    .container {
+      max-width: 1200px; /* Max width for the container */
+      margin: auto; /* Center the container */
+    }
+
+    /* Add animations */
+    .fade-in {
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    .fade-in.visible {
+      opacity: 1;
+    }
+
+    /* Back-to-top button */
+    .back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: var(--booking-blue);
+      color: white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s;
+    }
+    .back-to-top:hover {
+      background-color: var(--booking-cerulean);
+    }
+
+    /* Loading Spinner */
+    .spinner {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-left-color: #003580;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* FAQ Animation */
+    .accordion-button:not(.collapsed) {
+      color: #003580;
+      background-color: #f0f8ff;
+    }
+  </style>
+</head>
+<body>
+   <!-- Navbar -->
+   <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="index.html" id="navbar-brand">OtelCiro</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html" id="navbar-home">Ana Sayfa</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="askme.html" id="navbar-portfolio">Portföy İlerleme Analitiği</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="services.html" id="navbar-services">Hizmetler</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="bookingcalculator.html" id="navbar-analytics">OTA Performans Optimizasyonu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html" id="navbar-contact">İletişim</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+  <!-- Header -->
+  <header style="background-color: #003580; color: #f9f9f9; padding: 3rem 0; text-align: center; margin-top: 60px;">
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <h2 style="font-size: 2.5rem; margin: 0.5rem 0;">Otel Performans Grafikleri</h2>
+      <p style="font-size: 1.2rem; margin: 0.5rem 0;">Otel iş ortaklarımızın performansını görselleştiriyoruz.</p>
+    </div>
+  </header>
+
+  <!-- Overview Section -->
+  <section class="overview-section py-5" style="background: linear-gradient(to bottom, #f0f8ff, #e6f2ff);">
+    <div class="container">
+      <h2 class="section-title text-center" style="color: #003580; font-weight: bold;">Genel Bakış</h2>
+      <p class="text-center" style="font-size: 1.1rem; color: #555;">
+        Otel performans metriklerini anlamak, geliri maksimize etmek ve misafir memnuniyetini artırmak için çok önemlidir. Bu sayfa, çeşitli performans göstergelerinin kapsamlı bir analizini sunar ve otel yöneticilerinin bilinçli kararlar almasına yardımcı olur.
+      </p>
+      <h3 class="text-center" style="color: #003580; font-weight: bold;">Temel İçgörüler:</h3>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card mb-4" style="border: 1px solid #ffffff; border-radius: 8px; transition: transform 0.3s; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+            <div class="card-body" style="padding: 1.5rem;">
+              <h5 class="card-title" style="color: #003580; font-weight: bold;"><i class="fas fa-chart-line" style="color: #FFD700;"></i> Doluluk Oranları</h5>
+              <p class="card-text">Doluluk oranlarını izlemek, yoğun sezonları belirlemeye ve fiyatlandırma stratejilerini optimize etmeye yardımcı olur.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card mb-4" style="border: 1px solid #FFD700; border-radius: 8px; transition: transform 0.3s; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+            <div class="card-body" style="padding: 1.5rem;">
+              <h5 class="card-title" style="color: #003580; font-weight: bold;"><i class="fas fa-dollar-sign" style="color: #FFD700;"></i> Gelir Yönetimi</h5>
+              <p class="card-text">Gelir eğilimlerini analiz etmek, daha iyi tahmin ve bütçe planlaması sağlar.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card mb-4" style="border: 1px solid #FFD700; border-radius: 8px; transition: transform 0.3s; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+            <div class="card-body" style="padding: 1.5rem;">
+              <h5 class="card-title" style="color: #003580; font-weight: bold;"><i class="fas fa-smile" style="color: #FFD700;"></i> Müşteri Memnuniyeti</h5>
+              <p class="card-text">Misafir geri bildirimlerini anlamak, hizmetleri iyileştirmek ve yüksek memnuniyet seviyelerini korumak için gereklidir.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="text-center" style="font-size: 1.1rem; color: #555;">
+        Bu içgörülerden yararlanarak, otel yöneticileri operasyonel verimliliği artırabilir, misafir deneyimlerini iyileştirebilir ve kârlılığı artırabilir.
+      </p>
+    </div>
+  </section>
+
+  <!-- Dashboard -->
+  <section class="dashboard-section" style="background: #f9f9f9; padding: 3rem 0;">
+    <div class="container">
+      <h2 class="section-title text-center" style="color: #003580;">Performans Grafikleri</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="graph-container" id="revenue-performance">
+            <div class="graph-placeholder"></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="graph-container" id="sales-performance-room-nights">
+            <div class="graph-placeholder"></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="graph-container" id="adr-performance">
+            <div class="graph-placeholder"></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="graph-container" id="revpar-performance">
+            <div class="graph-placeholder"></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="graph-container" id="occupancy-comparison">
+            <div class="graph-placeholder"></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="graph-container" id="sales-trends">
+            <div class="graph-placeholder"></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="graph-container" id="year-over-year-performance">
+            <div class="graph-placeholder"></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="graph-container" id="customer-satisfaction">
+            <div class="graph-placeholder"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Plotly JS -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script>
+    const months = [
+      "Ocak",
+      "Şubat",
+      "Mart",
+      "Nisan",
+      "Mayıs",
+      "Haziran",
+      "Temmuz",
+      "Ağustos",
+      "Eylül",
+      "Ekim",
+      "Kasım",
+      "Aralık",
+    ];
+
+    const hotelData = {
+      "53odal": {
+        occupancy: [
+          44.89, 61.93, 55.6, 72.16, 75.9, 59.59, 81.19, 85.8, 89.62, 87.95,
+          90.25, 73.61,
+        ],
+        revenue: [
+          1401147.33, 1674455.93, 1848872.53, 2445690.05, 2986605.57,
+          2412857.51, 3213730.07, 3350818.1, 3463346.0, 3581549.04, 3530392.65,
+          3194507.59,
+        ],
+        sales: {
+          roomNights: [
+            742, 796, 843, 925, 985, 895, 930, 923, 894, 867, 857, 868,
+          ],
+        },
+      },
+      "20apart": {
+        occupancy: [
+          20.05, 18.72, 38.94, 41.67, 42.17, 41.48, 75.91, 65.16, 46.67, 58.28,
+          77.33, 78.28,
+        ],
+        revenue: [
+          255157.75, 163652.11, 360213.05, 436520.32, 507242.72, 604645.63,
+          1261524.55, 1085545.96, 771557.22, 947788.89, 1042786.65, 1238935.35,
+        ],
+        sales: {
+          roomNights: [
+            163, 141, 324, 382, 382, 391, 448, 515, 467, 528, 573, 582,
+          ],
+        },
+      },
+      "17room": {
+        occupancy: [
+          5.65, 1.48, 15.21, 51.9, 46.54, 51.9, 74.37, 73.66, 51.49, 46.37,
+          33.51, 22.5,
+        ],
+        revenue: [
+          101402.03, 10912.56, 117468.17, 476641.06, 558839.67, 586941.7,
+          779538.09, 802969.52, 703114.07, 617701.76, 412288.68, 251945.37,
+        ],
+        sales: {
+          roomNights: [
+            122, 153, 220, 300, 345, 336, 344, 392, 351, 346, 335, 322,
+          ],
+        },
+      },
+      topkapi: {
+        occupancy: [
+          63.19, 75.68, 62.97, 69.31, 93.95, 89.33, 86.56, 87.24, 86.65, 89.83,
+          67.06, 61.6,
+        ],
+        revenue: [
+          1219195.06, 1167174.46, 1065214.68, 1851735.84, 2741146.65,
+          2572848.31, 2837415.01, 3022936.41, 2551196.06, 2812654.22,
+          1863085.64, 1664842.26,
+        ],
+        sales: {
+          roomNights: [
+            860, 938, 929, 975, 1027, 995, 945, 934, 978, 967, 900, 868,
+          ],
+        },
+      },
+      "23apart": {
+        occupancy: [
+          31.42, 28.49, 23.84, 39.28, 47.19, 55.19, 76.61, 80.64, 70.97, 57.26,
+          51.39, 41.53,
+        ],
+        revenue: [
+          1337162.47, 1330668.16, 866995.55, 1753554.14, 2417810.86,
+          3333933.69, 4344136.85, 4747128.35, 3651116.72, 3289489.89,
+          2820697.15, 2276702.88,
+        ],
+        sales: {
+          roomNights: [
+            242, 283, 268, 341, 395, 422, 504, 534, 489, 420, 399, 389,
+          ],
+        },
+      },
+      eliteIzmir: {
+        occupancy: [
+          42.3, 58.7, 72.4, 85.2, 79.8, 65.3, 58.9, 77.4, 89.2, 84.5, 76.8, 63.2,
+        ],
+        revenue: [
+          980567.23, 1345678.45, 1867432.12, 2234567.89, 2156789.34,
+          1876543.21, 1654321.98, 2123456.78, 2567890.12, 2345678.9,
+          2087654.32, 1756432.1,
+        ],
+        sales: {
+          roomNights: [
+            234, 312, 456, 567, 523, 434, 378, 489, 578, 534, 467, 389,
+          ],
+        },
+      },
+      dubaiPlaza: {
+        occupancy: [
+          68.9, 75.4, 82.3, 88.7, 72.4, 65.8, 63.2, 70.5, 85.6, 89.3, 84.5, 77.8,
+        ],
+        revenue: [
+          3456789.12, 3987654.32, 4567890.12, 4987654.32, 3876543.21,
+          3654321.98, 3567890.12, 3876543.21, 4567890.12, 4789012.34,
+          4567890.12, 4123456.78,
+        ],
+        sales: {
+          roomNights: [
+            345, 389, 456, 489, 378, 345, 334, 367, 456, 478, 445, 412,
+          ],
+        },
+      },
+      buyukadaResort: {
+        occupancy: [
+          23.4, 35.6, 58.9, 76.7, 89.4, 94.5, 97.8, 95.6, 87.3, 65.4, 45.6,
+          32.3,
+        ],
+        revenue: [
+          567890.12, 876543.21, 1567890.12, 2345678.9, 3456789.01, 3987654.32,
+          4123456.78, 3987654.32, 3234567.89, 1987654.32, 1234567.89, 876543.21,
+        ],
+        sales: {
+          roomNights: [89, 134, 234, 389, 467, 489, 512, 498, 445, 312, 178, 123],
+        },
+      },
+      izmirSeaside: {
+        occupancy: [
+          48.45, 58.67, 68.89, 78.45, 88.23, 90.12, 92.34, 88.45, 84.23, 78.12,
+          68.45, 58.34,
+        ],
+        revenue: [
+          1400456.78, 1600567.89, 1800678.9, 2200789.12, 2900123.45,
+          3200345.67, 3400456.78, 3100345.89, 2800234.67, 2400123.45,
+          2000456.78, 1600567.89,
+        ],
+        sales: {
+          roomNights: [190, 250, 300, 400, 500, 600, 700, 600, 500, 400, 300, 200],
+        },
+      },
+      antalyaResort: {
+        occupancy: [
+          85.45, 88.67, 90.89, 92.45, 95.23, 97.12, 98.34, 96.45, 94.23, 92.12,
+          88.45, 86.34,
+        ],
+        revenue: [
+          2800456.78, 3100567.89, 3400678.9, 3800789.12, 4200123.45,
+          4500345.67, 4800456.78, 4600345.89, 4300234.67, 4000123.45,
+          3600456.78, 3200567.89,
+        ],
+        sales: {
+          roomNights: [450, 520, 580, 650, 720, 780, 850, 820, 780, 720, 650, 580],
+        },
+      },
+      bodrumLuxury: {
+        occupancy: [
+          78.34, 82.56, 88.78, 92.34, 95.67, 98.23, 99.12, 97.45, 95.34, 92.23,
+          88.56, 82.34,
+        ],
+        revenue: [
+          3500678.9, 3800789.12, 4200890.34, 4800123.45, 5200234.56,
+          5800345.67, 6200456.78, 6000567.89, 5500678.9, 5000789.12,
+          4500890.34, 4000123.45,
+        ],
+        sales: {
+          roomNights: [580, 650, 720, 800, 880, 950, 1020, 980, 920, 850, 780, 700],
+        },
+      },
+      kapadokyaCave: {
+        occupancy: [
+          75.45, 82.67, 88.89, 92.45, 95.23, 97.12, 98.34, 96.45, 93.23, 89.12,
+          84.45, 78.34,
+        ],
+        revenue: [
+          1800456.78, 2100567.89, 2400678.9, 2800789.12, 3200123.45,
+          3500345.67, 3800456.78, 3600345.89, 3300234.67, 3000123.45,
+          2700456.78, 2400567.89,
+        ],
+        sales: {
+          roomNights: [320, 380, 440, 500, 560, 620, 680, 640, 600, 540, 480, 420],
+        },
+      },
+    };
+
+    // Revenue Graph
+    function createRevenueGraph() {
+      const data = [];
+      for (const hotel in hotelData) {
+        data.push({
+          x: months,
+          y: hotelData[hotel].revenue,
+          mode: "lines+markers",
+          name: hotel,
+          line: { shape: "spline" },
+        });
+      }
+      const layout = {
+        title: "Revenue Over Time",
+        xaxis: { title: "" },
+        yaxis: { title: "Revenue (₺)" },
+        hovermode: "closest",
+        autosize: true,
+        margin: {
+          l: 40,
+          r: 40,
+          t: 40,
+          b: 40
+        },
+        showlegend: true,
+        annotations: []
+      };
+      Plotly.newPlot("revenue-performance", data, layout);
+    }
+
+    // Sales Graph
+    function createSalesGraph() {
+      const data = [];
+      for (const hotel in hotelData) {
+        data.push({
+          x: months,
+          y: hotelData[hotel].sales.roomNights,
+          mode: "lines+markers",
+          name: hotel,
+          line: { shape: "spline" },
+        });
+      }
+      const layout = {
+        title: "Room Nights Sold Over Time",
+        xaxis: { title: "" },
+        yaxis: { title: "Room Nights" },
+        hovermode: "closest",
+      };
+      Plotly.newPlot("sales-performance-room-nights", data, layout);
+    }
+
+    // ADR Graph
+    function createADRGraph() {
+      const data = [];
+      for (const hotel in hotelData) {
+        const adr = hotelData[hotel].revenue.map(
+          (revenue, index) =>
+            revenue / hotelData[hotel].sales.roomNights[index]
+        );
+        data.push({
+          x: months,
+          y: adr,
+          mode: "lines+markers",
+          name: hotel,
+          line: { shape: "spline" },
+        });
+      }
+      const layout = {
+        title: "Average Daily Rate (ADR) Over Time",
+        xaxis: { title: "" },
+        yaxis: { title: "ADR (₺)" },
+        hovermode: "closest",
+      };
+      Plotly.newPlot("adr-performance", data, layout);
+    }
+
+    // RevPAR Graph
+    function createRevPARGraph() {
+      const data = [];
+      for (const hotel in hotelData) {
+        const revpar = hotelData[hotel].revenue.map(
+          (revenue, index) =>
+            revenue / (hotelData[hotel].sales.roomNights[index] * 30) // Approx. 30 days
+        );
+        data.push({
+          x: months,
+          y: revpar,
+          mode: "lines+markers",
+          name: hotel,
+          line: { shape: "spline" },
+        });
+      }
+      const layout = {
+        title: "Revenue Per Available Room (RevPAR) Over Time",
+        xaxis: { title: "s" },
+        yaxis: { title: "RevPAR (₺)" },
+        hovermode: "closest",
+      };
+      Plotly.newPlot("revpar-performance", data, layout);
+    }
+
+    // Occupancy Comparison Graph
+    function createOccupancyComparisonGraph() {
+      const data = [];
+      for (const hotel in hotelData) {
+        data.push({
+          x: months,
+          y: hotelData[hotel].occupancy,
+          type: "bar",
+          name: hotel,
+        });
+      }
+      const layout = {
+        title: "Occupancy Rate Comparison",
+        xaxis: { title: "" },
+        yaxis: { title: "Occupancy (%)" },
+        barmode: "group",
+      };
+      Plotly.newPlot("occupancy-comparison", data, layout);
+    }
+
+    // Sales Trends Graph
+    function createSalesTrendsGraph() {
+      const data = [];
+      for (const hotel in hotelData) {
+        data.push({
+          x: months,
+          y: hotelData[hotel].sales.roomNights,
+          mode: "lines+markers",
+          name: hotel,
+          line: { shape: "spline" },
+        });
+      }
+      const layout = {
+        title: "Sales Trends Over Time",
+        xaxis: { title: "" },
+        yaxis: { title: "Room Nights" },
+        hovermode: "closest",
+      };
+      Plotly.newPlot("sales-trends", data, layout);
+    }
+
+    // Year-over-Year Performance Graph (Example of 2022 vs. 2023)
+    function createYearOverYearPerformanceGraph() {
+      const data = [];
+      const years = ["2023", "2024"]; // Example
+      for (const hotel in hotelData) {
+        // Here, we only have 12 months of data. Real scenario might differ.
+        const revenue2022 = hotelData[hotel].revenue.slice(0, 12);
+        const revenue2023 = hotelData[hotel].revenue.slice(12); 
+        const total2022 = revenue2022.reduce((a, b) => a + b, 0);
+        const total2023 = revenue2023.reduce((a, b) => a + b, 0) || 0;
+
+        data.push({
+          x: years,
+          y: [total2022, total2023],
+          type: "bar",
+          name: hotel,
+        });
+      }
+      const layout = {
+        title: "Year-over-Year Revenue Comparison",
+        xaxis: { title: "Year" },
+        yaxis: { title: "Total Revenue (₺)" },
+        barmode: "group",
+      };
+      Plotly.newPlot("year-over-year-performance", data, layout);
+    }
+
+    // Customer Satisfaction Graph
+    function createCustomerSatisfactionGraph() {
+      const data = [
+        {
+          x: [
+            "53 Odalı",
+            "20 Apart",
+            "17 Room Residence",
+            "Topkapı",
+            "23 Apart",
+            "Elite İzmir",
+            "Dubai Plaza",
+            "Buyukada Resort",
+            "İzmir Seaside",
+            "Antalya Resort",
+            "Bodrum Luxury",
+            "Kapadokya Cave",
+          ],
+          y: [4.5, 4.2, 4.0, 4.7, 4.3, 4.6, 4.8, 4.1, 4.4, 4.5, 4.2, 4.3],
+          type: "bar",
+        },
+      ];
+      const layout = {
+        title: "Customer Satisfaction Ratings",
+        xaxis: { title: "Hotels" },
+        yaxis: { title: "Rating (1-5)" },
+      };
+      Plotly.newPlot("customer-satisfaction", data, layout);
+    }
+
+    // Initialize all graphs
+    createRevenueGraph();
+    createSalesGraph();
+    createADRGraph();
+    createRevPARGraph();
+    createOccupancyComparisonGraph();
+    createSalesTrendsGraph();
+    createYearOverYearPerformanceGraph();
+    createCustomerSatisfactionGraph();
+  </script>
+
+  <!-- Bootstrap 5 JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+  ></script>
+
+  <section class="faq-section py-5 bg-light">
+    <div class="container">
+      <h2 class="section-title" data-aos="fade-up">Sıkça Sorulan Sorular</h2>
+      <div class="accordion" id="faqAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Hangi veri türlerini analiz ediyorsunuz?
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Otel performansına kapsamlı içgörüler sağlamak için doluluk oranları, gelir performansı, müşteri memnuniyeti puanları ve satış trendleri dahil olmak üzere çeşitli veri türlerini analiz ediyoruz.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Veriler ne sıklıkla güncelleniyor?
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Otelinizin performansına dair en güncel içgörülere sahip olmanız için veriler aylık olarak güncellenir.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              Aldığım raporları özelleştirebilir miyim?
+            </button>
+          </h2>
+          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Evet, özel ihtiyaçlarınıza uygun özelleştirilebilir raporlama seçenekleri sunuyoruz. İşletmeniz için en uygun metrikleri ve zaman aralıklarını seçebilirsiniz.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingFour">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+              Veri doğruluğunu nasıl sağlıyorsunuz?
+            </button>
+          </h2>
+          <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Analizlerimizin doğruluğunu ve güvenilirliğini sağlamak için gelişmiş veri doğrulama teknikleri kullanıyor ve birden fazla veri kaynağını çapraz kontrol ediyoruz.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingFive">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+              Analizlerden hangi içgörüleri elde edebilirim?
+            </button>
+          </h2>
+          <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Analizlerimiz, doluluk trendleri, gelir dalgalanmaları, müşteri tercihleri ve rekabetçi konumlandırma gibi konularda içgörüler sunar ve performansınızı artırmak için bilinçli kararlar almanıza yardımcı olur.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2023 OtelCiro Otel Danışmanlığı. Tüm hakları saklıdır.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back-to-top Button -->
+  <div class="back-to-top" id="backToTop">
+    <i class="fas fa-chevron-up"></i>
+  </div>
+
+  <!-- AOS Library for Animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init();
+
+    // Back-to-top button functionality
+    const backToTopButton = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTopButton.classList.add('visible');
+      } else {
+        backToTopButton.classList.remove('visible');
+      }
+    });
+
+    backToTopButton.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Show loading spinner while graphs are loading
+    const spinner = document.getElementById('loadingSpinner');
+    spinner.style.display = 'block';
+
+    // Initialize all graphs
+    function initializeGraphs() {
+      createRevenueGraph();
+      createSalesGraph();
+      createADRGraph();
+      createRevPARGraph();
+      createOccupancyComparisonGraph();
+      createSalesTrendsGraph();
+      createYearOverYearPerformanceGraph();
+      createCustomerSatisfactionGraph();
+      spinner.style.display = 'none'; // Hide spinner after graphs are loaded
+    }
+
+    window.onload = initializeGraphs;
+  </script>
+</body>
+</html>

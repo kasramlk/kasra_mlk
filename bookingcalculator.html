@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X81LZYLEGC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-X81LZYLEGC');
+</script>
+  <meta charset="UTF-8">
+  <title>Maksimum İndirim Simülatörü</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f9f9f9; /* Light background for a clean look */
+      margin: 0;
+      padding: 0;
+    }
+    .navbar {
+      background-color: #004080; /* Darker blue for a professional look */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Slightly more pronounced shadow */
+    }
+    .navbar-brand, .nav-link {
+      color: #ffffff !important; /* Consistent white color */
+      font-weight: 600; /* Slightly bolder for emphasis */
+    }
+    .placeholder {
+      background-color: #e0f7fa; /* Softer light cyan background */
+      border: 1px solid #00796b; /* Teal border */
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .placeholder h1 {
+      color: #003580; /* Dark blue for the header */
+      font-size: 2rem; /* Adjusted size for better hierarchy */
+    }
+    .placeholder p {
+      color: #555; /* Darker gray for the paragraph text */
+      line-height: 1.5; /* Improved line height for readability */
+    }
+    .main-container {
+      margin-top: 80px; /* account for fixed navbar */
+      margin-bottom: 60px;
+    }
+    .section-card {
+      background: #ffffff; /* Clean white background */
+      border: 1px solid #ddd; /* Light border for separation */
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .section-card:hover {
+      transform: translateY(-3px); /* Subtle hover effect */
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+    }
+    .icon-header {
+      display: flex;
+      align-items: center;
+      font-size: 1.75rem; /* Slightly larger for emphasis */
+      color: #004080; /* Consistent color */
+      margin-bottom: 1rem;
+    }
+    .accordion-button {
+      background-color: #007bb5; /* Darker blue for buttons */
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    .accordion-button:hover {
+      background-color: #005f8d; /* Darker shade for hover */
+    }
+    .promotion-detail {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #ffffff; /* Clean white background */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+    }
+    .badge {
+      background-color: #feba02; /* Consistent badge color */
+      color: #000;
+    }
+    .cta-button {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #007bb5; /* Darker blue for buttons */
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    .cta-button:hover {
+      background-color: #005f8d; /* Darker shade for hover */
+    }
+    .three-column {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .three-column > div {
+      flex: 1;
+      background-color: #f2f6fa; /* Soft background for columns */
+      border-radius: 6px;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .small-note {
+      font-size: 0.9rem;
+      color: #666; /* Consistent gray for notes */
+    }
+    .enhanced-card {
+      background: linear-gradient(135deg, #001f3f, #005f8d); /* Darker gradient for professionalism */
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s, box-shadow 0.3s;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .enhanced-card:hover {
+      transform: scale(1.03); /* Slightly reduced scale for hover */
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .enhanced-title {
+      color: #ffffff; /* Bright white for better contrast */
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Softer shadow for depth */
+      font-size: 2rem;
+      transition: color 0.3s;
+    }
+
+    .enhanced-title:hover {
+      color: #ffeb3b; /* Highlight color on hover */
+    }
+
+    .enhanced-description {
+      color: #e0e0e0; /* Lighter gray for better readability */
+      line-height: 1.6;
+      font-size: 1.1rem;
+      transition: color 0.3s;
+    }
+
+    .enhanced-description:hover {
+      color: #ffffff; /* Change to white on hover for emphasis */
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .discount-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      transition: box-shadow 0.2s;
+    }
+
+    .discount-toggle:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .final-box {
+      padding: 20px;
+      border: 1px solid #007bb5;
+      border-radius: 8px;
+      background-color: #f0f8ff; /* Light blue background for emphasis */
+      text-align: center;
+    }
+
+    .custom-checkbox {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .custom-checkbox input {
+      display: none; /* Hide the default checkbox */
+    }
+
+    .checkmark {
+      width: 20px;
+      height: 20px;
+      background-color: #eee;
+      border-radius: 5px;
+      margin-right: 10px;
+      position: relative;
+    }
+
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+
+    .custom-checkbox input:checked ~ .checkmark {
+      background-color: #007bb5; /* Change background color when checked */
+    }
+
+    .custom-checkbox input:checked ~ .checkmark:after {
+      display: block;
+    }
+
+    .custom-checkbox .checkmark:after {
+      left: 7px;
+      top: 3px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .percentage-input {
+      width: 80px; /* Set a fixed width for percentage inputs */
+      margin-left: 10px; /* Add some space between checkbox and input */
+    }
+  </style>
+</head>
+<body>
+
+<!-- Minimal Navbar -->
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container">
+      <a class="navbar-brand" href="index.html" id="navbar-brand">OtelCiro</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                  <a class="nav-link" href="index.html" id="navbar-home">Ana Sayfa</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="askme.html" id="navbar-portfolio">Portföy İlerleme Analitiği</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="services.html" id="navbar-services">Hizmetler</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="bookingcalculator.html" id="navbar-analytics">OTA Performans Optimizasyonu</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="contact.html" id="navbar-contact">İletişim</a>
+              </li>
+          </ul>
+      </div>
+  </div>
+</nav>
+
+<div class="container main-container">
+  <!-- Promotions and Promotion Categories Section -->
+  <div class="section-card">
+    <h2 class="icon-header"><i class="fas fa-tags"></i> Booking.com'daki Promosyonlar ve Promosyon Kategorileri</h2>
+    <div class="accordion" id="promotionAccordion">
+      <!-- Campaign Deals -->
+      <div class="accordion-item">
+        <h3 class="accordion-header" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+            <i class="fas fa-bullhorn"></i> Kampanya Fırsatları
+          </button>
+        </h3>
+        <div id="collapseOne" class="accordion-collapse collapse show">
+          <div class="accordion-body">
+            <div class="promotion-detail">
+              <h4>2025 Erken Dönem Fırsatı <span class="badge">Yeni</span></h4>
+              <p>Önerilen %20 veya daha fazla indirim</p>
+              <p>Rezervasyon dönemi: 5 Aralık 2024 – 1 Nisan 2025</p>
+              <p>Konaklama tarihleri: 1 Ocak 2025 – 1 Nisan 2025</p>
+              <p>Erken rezervasyonları güvenceye alın ve yeni yıla güçlü bir başlangıç yapın</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Deep Deals -->
+      <div class="accordion-item">
+        <h3 class="accordion-header" id="headingTwo">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+            <i class="fas fa-fire"></i> Derin Fırsatlar
+          </button>
+        </h3>
+        <div id="collapseTwo" class="accordion-collapse collapse">
+          <div class="accordion-body">
+            <div class="promotion-detail">
+              <h4>Sınırlı Süreli Fırsat</h4>
+              <p>%40 veya daha fazla indirim</p>
+              <p>Rezervasyon dönemi: Sadece 48 saat</p>
+              <p>Konaklama tarihleri: Herhangi bir tarih</p>
+              <p>48 saat boyunca arama sonuçlarında öne çıkın</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Targeting -->
+      <div class="accordion-item">
+        <h3 class="accordion-header" id="headingThree">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+            <i class="fas fa-bullseye"></i> Hedefleme
+          </button>
+        </h3>
+        <div id="collapseThree" class="accordion-collapse collapse">
+          <div class="accordion-body">
+            <div class="promotion-detail">
+              <h4>Mobil oran</h4>
+              <p>%10 veya daha fazla indirim</p>
+              <p>Her zaman aktif (sınırsız gün hariç tutulabilir)</p>
+              <p>Mobil cihaz kullanan müşteriler için öne çıkın</p>
+            </div>
+            <div class="promotion-detail">
+              <h4>Ülke oranı</h4>
+              <p>Önerilen %10 veya daha fazla indirim</p>
+              <p>Her zaman aktif (yılda en fazla 30 gün hariç tutulabilir)</p>
+              <p>Belirli bir bölgeden müşteri çekin ve gelirinizi artırın</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Portfolio Deals -->
+      <div class="accordion-item">
+        <h3 class="accordion-header" id="headingFour">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+            <i class="fas fa-briefcase"></i> Portföy Fırsatları
+          </button>
+        </h3>
+        <div id="collapseFour" class="accordion-collapse collapse">
+          <div class="accordion-body">
+            <div class="promotion-detail">
+              <h4>Temel fırsat</h4>
+              <p>Önerilen %10 veya daha fazla indirim</p>
+              <p>Herhangi bir tarih</p>
+              <p>İhtiyacınıza göre bir fırsat oluşturun</p>
+            </div>
+            <div class="promotion-detail">
+              <h4>Son dakika fırsatı</h4>
+              <p>Önerilen %10 veya daha fazla indirim</p>
+              <p>Herhangi bir tarih</p>
+              <p>Boş odalarınızı doldurun</p>
+            </div>
+            <div class="promotion-detail">
+              <h4>Erken rezervasyon fırsatı</h4>
+              <p>Önerilen %10 veya daha fazla indirim</p>
+              <p>Herhangi bir tarih</p>
+              <p>Daha fazla rezervasyonunuzu önceden alarak daha iyi hazırlanın</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Genius Program Features and Benefits Section -->
+  <div class="section-card">
+    <h2 class="icon-header"><i class="fas fa-star"></i> Genius Programı Özellikleri ve Avantajları</h2>
+    <div class="three-column">
+      <div>
+        <h3>Genius Seviye 1</h3>
+        <p>En geniş Genius kitlesi.</p>
+        <p>Kriter: 2 yılda 5'ten az tamamlanmış rezervasyon</p>
+        <p>Doğrudan rezervasyonlar: Yaklaşık %65</p>
+      </div>
+      <div>
+        <h3>Genius Seviye 2</h3>
+        <p>Daha sık rezervasyon yapan ve Genius tesisleri tercih eden misafirler.</p>
+        <p>Kriter: 2 yılda 5+ tamamlanmış rezervasyon</p>
+        <p>Doğrudan rezervasyonlar: Yaklaşık %75</p>
+      </div>
+      <div>
+        <h3>Genius Seviye 3</h3>
+        <p>Genius misafirlerin en üst %10'u. En çok Genius tesislerini tercih eder ve diğer misafirlere göre %10 daha az iptal yapar.</p>
+        <p>Kriter: 2 yılda 15+ tamamlanmış rezervasyon</p>
+        <p>Doğrudan rezervasyonlar: Yaklaşık %80</p>
+      </div>
+    </div>
+    <!-- Dynamic Genius calculator -->
+    <div id="geniusCalculator">
+      <!-- Add calculator here -->
+    </div>
+  </div>
+
+  <!-- Existing Calculator Section -->
+  <div class="section-card enhanced-card">
+    <h1 class="mb-4 enhanced-title">Maksimum İndirim Simülatörü</h1>
+    <p class="mb-4 enhanced-description">
+      Bu simülatör, tüm geçerli indirim senaryolarını (tekli indirimler, sinerji kombinasyonları, derin fırsatlar) hesaplar
+      ve <strong>en düşük son fiyatı</strong> gösterir.
+      <br><em>Yani, yalnızca bir indirim (ör. "Mobil") seçiliyse, hesaplayıcı yalnızca onu uygular.
+      Birden fazla seçiliyse, kurallar izin veriyorsa sinerji uygulanır ve yine de
+      en büyük toplam indirimi bulmak için her şey karşılaştırılır.</em>
+    </p>
+  </div>
+
+  <div class="row">
+    <!-- Left Column -->
+    <div class="col-lg-6">
+      <!-- Step 1: Base Rate -->
+      <div class="section-card">
+        <h3 class="step-header">Adım 1: Temel Fiyatı Girin</h3>
+        <div class="d-flex align-items-center mb-3">
+          <label for="baseRate" class="me-2">Temel fiyat</label>
+          <input type="number" id="baseRate" class="form-control" style="max-width:120px" value="100" min="0" step="0.01">
+          <span class="ms-2">EUR</span>
+        </div>
+      </div>
+
+      <!-- Step 2: Toggle Discounts -->
+      <div class="section-card">
+        <h3 class="step-header">Adım 2: İndirimleri Seçin</h3>
+        <p class="small-note">
+          Bu anahtarlar sadece simülasyon içindir; gerçek ilanlarınızı etkilemez.
+        </p>
+
+        <!-- Premium (Genius) -->
+        <div class="mb-3">
+          <strong>Premium (Genius)</strong><br>
+          <span class="small-note">
+            Kampanya veya (Hedefleme + Portföy) ile birleştirilebilir. Ayrıca diğer her şey kapalıysa tek başına da çalışır.
+          </span>
+          <div class="discount-toggle mt-2">
+            <label class="custom-checkbox">
+              <input type="checkbox" id="geniusToggle">
+              <span class="checkmark"></span>
+              <i class="fas fa-gem fa-lg me-2" style="color: #007bb5;"></i>Genius (%)
+            </label>
+            <input type="number" id="geniusValue" class="form-control percentage-input" value="10" min="0" max="100">
+          </div>
+        </div>
+        <hr>
+
+        <!-- Targeting (Mobile, Country) -->
+        <div class="mb-3">
+          <strong>Hedefleme</strong><br>
+          <span class="small-note">
+            Mobil veya Ülke fırsatları tek başına veya Genius + Portföy ile birleştirilebilir.
+            Kampanya ile birleştirilemez.
+          </span>
+          <div class="discount-toggle mt-2">
+            <label class="custom-checkbox">
+              <input type="checkbox" id="mobileToggle">
+              <span class="checkmark"></span>
+              <i class="fas fa-mobile-alt fa-lg me-2" style="color: #007bb5;"></i>Mobil Oran (%)
+            </label>
+            <input type="number" id="mobileValue" class="form-control percentage-input" value="10" min="0" max="100">
+          </div>
+          <div class="discount-toggle">
+            <label class="custom-checkbox">
+              <input type="checkbox" id="countryToggle">
+              <span class="checkmark"></span>
+              <i class="fas fa-flag fa-lg me-2" style="color: #007bb5;"></i>Ülke Oranı (%)
+            </label>
+            <input type="number" id="countryValue" class="form-control percentage-input" value="10" min="0" max="100">
+          </div>
+        </div>
+        <hr>
+
+        <!-- Campaign deals -->
+        <div class="mb-3">
+          <strong>Kampanya fırsatları</strong><br>
+          <span class="small-note">
+            Tek başına çalışabilir veya yalnızca Genius ile birleştirilebilir. Hedefleme veya portföy ile birleştirilmez.
+          </span>
+          <div class="discount-toggle mt-2">
+            <label class="custom-checkbox">
+              <input type="checkbox" id="campaignToggle">
+              <span class="checkmark"></span>
+              <i class="fas fa-plane-departure fa-lg me-2" style="color: #007bb5;"></i>2025 Erken Dönem Fırsatı (%)
+            </label>
+            <input type="number" id="campaignValue" class="form-control percentage-input" value="20" min="0" max="100">
+          </div>
+        </div>
+        <hr>
+
+        <!-- Portfolio deals -->
+        <div class="mb-3">
+          <strong>Portföy fırsatları</strong><br>
+          <span class="small-note">
+            Tek başına çalışabilir veya Genius + (Mobil veya Ülke) ile birleştirildiğinde sinerji uygulanır.
+            Birden fazla Portföy seçiliyse, en büyük indirim seçilir.
+          </span>
+          <div class="discount-toggle mt-2">
+            <label class="custom-checkbox">
+              <input type="checkbox" id="basicToggle">
+              <span class="checkmark"></span>
+              <i class="fas fa-briefcase fa-lg me-2" style="color: #007bb5;"></i>Temel fırsat (%)
+            </label>
+            <input type="number" id="basicValue" class="form-control percentage-input" value="10" min="0" max="100">
+          </div>
+          <div class="discount-toggle">
+            <label class="custom-checkbox">
+              <input type="checkbox" id="lastMinToggle">
+              <span class="checkmark"></span>
+              <i class="fas fa-clock fa-lg me-2" style="color: #007bb5;"></i>Son dakika fırsatı (%)
+            </label>
+            <input type="number" id="lastMinValue" class="form-control percentage-input" value="10" min="0" max="100">
+          </div>
+          <div class="discount-toggle">
+            <label class="custom-checkbox">
+              <input type="checkbox" id="earlyBookToggle">
+              <span class="checkmark"></span>
+              <i class="fas fa-calendar-day fa-lg me-2" style="color: #007bb5;"></i>Erken rezervasyon fırsatı (%)
+            </label>
+            <input type="number" id="earlyBookValue" class="form-control percentage-input" value="10" min="0" max="100">
+          </div>
+        </div>
+        <hr>
+
+        <!-- Deep deals -->
+        <div>
+          <strong>Derin fırsatlar</strong><br>
+          <span class="small-note">
+            Tek başına indirim. Diğerleriyle birleştirilmez. En büyük indirimle karşılaştırılır.
+          </span>
+          <div class="discount-toggle mt-2">
+            <label class="custom-checkbox">
+              <input type="checkbox" id="deepToggle">
+              <span class="checkmark"></span>
+              <i class="fas fa-fire fa-lg me-2" style="color: #007bb5;"></i>Sınırlı Süreli Fırsat (%)
+            </label>
+            <input type="number" id="deepValue" class="form-control percentage-input" value="40" min="0" max="100">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Step 3 Final Rate -->
+    <div class="col-lg-6">
+      <div class="section-card">
+        <h3 class="step-header">Adım 3: En İyi İndirim Senaryosu</h3>
+        <p class="small-note">
+          Tüm tekli indirim ve sinerji kombinasyonlarını, ayrıca derin fırsatları kontrol ederek en düşük fiyatı buluyoruz.
+        </p>
+
+        <div class="final-box">
+          <h2 id="finalRateOutput" class="text-success">€100.00</h2>
+          <p id="scenarioLabel"></p>
+          <p class="small-note" id="scenarioNote"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Inputs
+  const baseRate          = document.getElementById('baseRate');
+
+  // Premium
+  const geniusToggle      = document.getElementById('geniusToggle');
+  const geniusValue       = document.getElementById('geniusValue');
+
+  // Targeting
+  const mobileToggle      = document.getElementById('mobileToggle');
+  const mobileValue       = document.getElementById('mobileValue');
+  const countryToggle     = document.getElementById('countryToggle');
+  const countryValue      = document.getElementById('countryValue');
+
+  // Campaign
+  const campaignToggle    = document.getElementById('campaignToggle');
+  const campaignValue     = document.getElementById('campaignValue');
+
+  // Portfolio
+  const basicToggle       = document.getElementById('basicToggle');
+  const basicValue        = document.getElementById('basicValue');
+  const lastMinToggle     = document.getElementById('lastMinToggle');
+  const lastMinValue      = document.getElementById('lastMinValue');
+  const earlyBookToggle   = document.getElementById('earlyBookToggle');
+  const earlyBookValue    = document.getElementById('earlyBookValue');
+
+  // Deep
+  const deepToggle        = document.getElementById('deepToggle');
+  const deepValue         = document.getElementById('deepValue');
+
+  // Final
+  const finalRateOutput   = document.getElementById('finalRateOutput');
+  const scenarioLabel     = document.getElementById('scenarioLabel');
+  const scenarioNote      = document.getElementById('scenarioNote');
+
+  document.querySelectorAll('input').forEach(el => {
+    el.addEventListener('input', recalcAll);
+  });
+
+  function recalcAll() {
+    let base = parseFloat(baseRate.value) || 0;
+
+    // If all toggles are off => base
+    if (allOff()) {
+      finalRateOutput.textContent = '€' + base.toFixed(2);
+      scenarioLabel.textContent = 'No discounts active';
+      scenarioNote.textContent = 'All toggles are off.';
+      return;
+    }
+
+    // We'll compute a finalRate for each scenario. 
+    // We'll store them in an array and pick whichever is the lowest.
+    let scenarioResults = [];
+
+    // 1) Deep (if toggled)
+    scenarioResults.push(calcDeepScenario(base));
+
+    // 2) Single discount scenario for each toggled discount
+    scenarioResults.push(...calcSingleDiscountScenarios(base));
+
+    // 3) Campaign synergy scenario (if genius + campaign)
+    scenarioResults.push(calcGeniusCampaignScenario(base));
+
+    // 4) Portfolio synergy scenario (if genius + targeting + portfolio)
+    scenarioResults.push(calcGeniusTargetPortfolioScenario(base));
+
+    // 5) New stacking logic for Genius with Mobile/Country and Portfolio
+    scenarioResults.push(calcGeniusWithMobileCountry(base));
+    scenarioResults.push(calcMobileCountryWithPortfolio(base));
+
+    // 6) New logic for Genius stacking with each portfolio deal
+    scenarioResults.push(calcGeniusWithPortfolio(base));
+
+    // Filter out invalid
+    let valid = scenarioResults.filter(x => x.finalRate < Number.MAX_VALUE);
+
+    // pick best
+    if (valid.length === 0) {
+      // fallback
+      finalRateOutput.textContent = '€' + base.toFixed(2);
+      scenarioLabel.textContent = 'No valid discount scenario found';
+      scenarioNote.textContent = '';
+    } else {
+      let best = valid.reduce((acc, sc) => sc.finalRate < acc.finalRate ? sc : acc);
+      finalRateOutput.textContent = '€' + best.finalRate.toFixed(2);
+      scenarioLabel.textContent = best.label;
+      scenarioNote.textContent = best.note;
+    }
+  }
+
+  // =============== SCENARIOS ==================
+
+  function calcDeepScenario(base) {
+    if (!deepToggle.checked) {
+      return { finalRate: Number.MAX_VALUE, label: '', note: '' };
+    }
+    let dVal = parseFloat(deepValue.value) || 0;
+    let finalRate = base - (base * (dVal / 100));
+    return {
+      finalRate,
+      label: dVal + '% (Deep deal)',
+      note: 'No stacking with any other discount.'
+    };
+  }
+
+  function calcSingleDiscountScenarios(base) {
+    let arr = [];
+    // We'll consider each discount if toggled, ignoring synergy
+    // (We'll do synergy in separate scenario checks).
+    let candidates = [
+      { toggle: geniusToggle, valEl: geniusValue, name: 'Genius' },
+      { toggle: mobileToggle, valEl: mobileValue, name: 'Mobile' },
+      { toggle: countryToggle, valEl: countryValue, name: 'Country' },
+      { toggle: campaignToggle, valEl: campaignValue, name: 'Campaign' },
+      { toggle: basicToggle, valEl: basicValue, name: 'Basic (Portfolio)' },
+      { toggle: lastMinToggle, valEl: lastMinValue, name: 'Last-minute (Portfolio)' },
+      { toggle: earlyBookToggle, valEl: earlyBookValue, name: 'Early Booker (Portfolio)' }
+    ];
+    for (let item of candidates) {
+      if (item.toggle.checked) {
+        let disc = parseFloat(item.valEl.value) || 0;
+        let price = base - (base * (disc / 100));
+        arr.push({
+          finalRate: price,
+          label: disc + '% (' + item.name + ' alone)',
+          note: 'No synergy. Just one discount active.'
+        });
+      }
+    }
+    return arr;
+  }
+
+  function calcGeniusCampaignScenario(base) {
+    // synergy => must have both toggled
+    if (!geniusToggle.checked || !campaignToggle.checked) {
+      return { finalRate: Number.MAX_VALUE, label: '', note: '' };
+    }
+    let gVal = parseFloat(geniusValue.value) || 0;
+    let cVal = parseFloat(campaignValue.value) || 0;
+    let rate = base;
+    if (gVal > 0) {
+      rate -= rate * (gVal / 100);
+    }
+    if (cVal > 0) {
+      rate -= rate * (cVal / 100);
+    }
+    return {
+      finalRate: rate,
+      label: gVal + '% (Genius) + ' + cVal + '% (Campaign)',
+      note: 'Targeting & Portfolio are excluded from Campaign synergy.'
+    };
+  }
+
+  function calcGeniusTargetPortfolioScenario(base) {
+    // synergy => must have genius + portfolio + targeting
+    // pick bigger of mobile or country for targeting
+    let pVals = [];
+    if (basicToggle.checked) pVals.push(parseFloat(basicValue.value) || 0);
+    if (lastMinToggle.checked) pVals.push(parseFloat(lastMinValue.value) || 0);
+    if (earlyBookToggle.checked) {
+      pVals.push(parseFloat(earlyBookValue.value) || 0);
+    }
+    let maxP = (pVals.length > 0) ? Math.max(...pVals) : 0;
+
+    let gOn = geniusToggle.checked;
+    let gVal = 0;
+    if (gOn) {
+      gVal = parseFloat(geniusValue.value) || 0;
+    }
+    // targeting
+    let tVal = 0;
+    if (mobileToggle.checked) {
+      let mv = parseFloat(mobileValue.value) || 0;
+      if (mv > tVal) tVal = mv;
+    }
+    if (countryToggle.checked) {
+      let cv = parseFloat(countryValue.value) || 0;
+      if (cv > tVal) tVal = cv;
+    }
+    // if synergy not valid => skip
+    if (!gOn || maxP === 0 || tVal === 0) {
+      return { finalRate: Number.MAX_VALUE, label: '', note: '' };
+    }
+    // apply => base -> genius -> targeting -> portfolio
+    let rate = base;
+    rate -= rate * (gVal / 100);
+    rate -= rate * (tVal / 100);
+    rate -= rate * (maxP / 100);
+
+    return {
+      finalRate: rate,
+      label: gVal + '% (Genius) + ' + tVal + '% (Mobile/Country) + ' + maxP + '% (Portfolio)',
+      note: 'Campaign is excluded in the portfolio synergy scenario.'
+    };
+  }
+
+  // New function for Genius with Mobile/Country
+  function calcGeniusWithMobileCountry(base) {
+    if (!geniusToggle.checked || (!mobileToggle.checked && !countryToggle.checked)) {
+      return { finalRate: Number.MAX_VALUE, label: '', note: '' };
+    }
+    let gVal = parseFloat(geniusValue.value) || 0;
+    let tVal = 0;
+    if (mobileToggle.checked) {
+      tVal = parseFloat(mobileValue.value) || 0;
+    }
+    if (countryToggle.checked) {
+      tVal = Math.max(tVal, parseFloat(countryValue.value) || 0);
+    }
+    let rate = base;
+    rate -= rate * (gVal / 100);
+    rate -= rate * (tVal / 100);
+    return {
+      finalRate: rate,
+      label: gVal + '% (Genius) + ' + tVal + '% (Mobile/Country)',
+      note: 'Genius can be stacked with Mobile or Country discounts.'
+    };
+  }
+
+  // New function for Mobile/Country with Portfolio
+  function calcMobileCountryWithPortfolio(base) {
+    let tVal = 0;
+    if (mobileToggle.checked) {
+      tVal = parseFloat(mobileValue.value) || 0;
+    }
+    if (countryToggle.checked) {
+      tVal = Math.max(tVal, parseFloat(countryValue.value) || 0);
+    }
+    let pVals = [];
+    if (basicToggle.checked) pVals.push(parseFloat(basicValue.value) || 0);
+    if (lastMinToggle.checked) pVals.push(parseFloat(lastMinValue.value) || 0);
+    if (earlyBookToggle.checked) {
+      pVals.push(parseFloat(earlyBookValue.value) || 0);
+    }
+    let maxP = (pVals.length > 0) ? Math.max(...pVals) : 0;
+
+    if (tVal === 0 || maxP === 0) {
+      return { finalRate: Number.MAX_VALUE, label: '', note: '' };
+    }
+
+    let rate = base;
+    rate -= rate * (tVal / 100);
+    rate -= rate * (maxP / 100);
+
+    return {
+      finalRate: rate,
+      label: tVal + '% (Mobile/Country) + ' + maxP + '% (Portfolio)',
+      note: 'Mobile or Country can be stacked with Portfolio deals.'
+    };
+  }
+
+  // New function for Genius with each Portfolio deal
+  function calcGeniusWithPortfolio(base) {
+    if (!geniusToggle.checked) {
+      return { finalRate: Number.MAX_VALUE, label: '', note: '' };
+    }
+
+    let gVal = parseFloat(geniusValue.value) || 0;
+    let portfolioResults = [];
+
+    // Check each portfolio deal
+    if (basicToggle.checked) {
+      let pVal = parseFloat(basicValue.value) || 0;
+      let rate = base;
+      rate -= rate * (gVal / 100);
+      rate -= rate * (pVal / 100);
+      portfolioResults.push({
+        finalRate: rate,
+        label: gVal + '% (Genius) + ' + pVal + '% (Basic)',
+        note: 'Genius can be stacked with Basic portfolio deal.'
+      });
+    }
+
+    if (lastMinToggle.checked) {
+      let pVal = parseFloat(lastMinValue.value) || 0;
+      let rate = base;
+      rate -= rate * (gVal / 100);
+      rate -= rate * (pVal / 100);
+      portfolioResults.push({
+        finalRate: rate,
+        label: gVal + '% (Genius) + ' + pVal + '% (Last-minute)',
+        note: 'Genius can be stacked with Last-minute portfolio deal.'
+      });
+    }
+
+    if (earlyBookToggle.checked) {
+      let pVal = parseFloat(earlyBookValue.value) || 0;
+      let rate = base;
+      rate -= rate * (gVal / 100);
+      rate -= rate * (pVal / 100);
+      portfolioResults.push({
+        finalRate: rate,
+        label: gVal + '% (Genius) + ' + pVal + '% (Early Booker)',
+        note: 'Genius can be stacked with Early Booker portfolio deal.'
+      });
+    }
+
+    // Return the best result from portfolioResults or max value if none
+    if (portfolioResults.length === 0) {
+      return { finalRate: Number.MAX_VALUE, label: '', note: '' };
+    }
+
+    return portfolioResults.reduce((best, current) => {
+      return current.finalRate < best.finalRate ? current : best;
+    });
+  }
+
+  // check if all toggles are off
+  function allOff() {
+    let toggles = [
+      geniusToggle, mobileToggle, countryToggle,
+      campaignToggle, basicToggle, lastMinToggle,
+      earlyBookToggle, deepToggle
+    ];
+    return toggles.every(t => !t.checked);
+  }
+
+  // initial
+  recalcAll();
+</script>
+</body>
+</html>

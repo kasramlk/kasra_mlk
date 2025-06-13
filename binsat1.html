@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> SATİŞ RAPORU </title>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Minimal styling using Booking.com color palette */
+    :root {
+      --resolution-blue: #003580;
+      --cerulean: #009fe3;
+      --selective-yellow: #feba02;
+      --dove-gray: #666;
+      --black-squeeze: #f2f6fa;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--black-squeeze);
+      color: var(--resolution-blue);
+    }
+    header {
+      background: var(--resolution-blue);
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0;
+      display: flex;
+      justify-content: center;
+    }
+    nav ul li {
+      margin: 0 10px;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 80px auto 20px;
+      padding: 0 10px;
+    }
+    section {
+      background: white;
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 4px;
+    }
+    h2 {
+      margin-top: 0;
+      border-bottom: 1px solid var(--cerulean);
+      padding-bottom: 5px;
+    }
+    .description-card {
+      background: #fff;
+      border-left: 4px solid var(--selective-yellow);
+      padding: 8px;
+      margin: 10px 0 15px;
+      font-size: 0.9em;
+      color: var(--dove-gray);
+    }
+    .cards {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .card {
+      flex: 1;
+      min-width: 150px;
+      background: var(--black-squeeze);
+      padding: 10px;
+      border-left: 3px solid var(--cerulean);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: var(--resolution-blue);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SATİŞ RAPORU</h1>
+    <nav>
+      <ul>
+        <li><a href="#genel-bakis">Genel Bakış</a></li>
+        <li><a href="#kanal-dagilimi">Kanal Dağılımı</a></li>
+        <li><a href="#aylara-dagilim">Aylara Göre Dağılım</a></li>
+        <li><a href="#oda-tipleri">Oda Tipleri</a></li>
+        <li><a href="#rezervasyon-listesi">Rezervasyon Listesi</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="container">
+    <!-- Genel Bakış Section -->
+    <section id="genel-bakis">
+      <h2>Genel Bakış</h2>
+      <div class="description-card">
+        Bu bölümde, 13-16 Mart'ta alınan rezervasyonların özet bilgisi; toplam rezervasyon, toplam gelir ve ortalama fiyat yer almaktadır.
+      </div>
+      <div class="cards">
+        <div class="card">
+          <h3>Toplam Rezervasyon</h3>
+          <p id="totalReservations">0</p>
+        </div>
+        <div class="card">
+          <h3>Toplam Gelir (€)</h3>
+          <p id="totalRevenue">0</p>
+        </div>
+        <div class="card">
+          <h3>Ortalama Fiyat (€)</h3>
+          <p id="averagePrice">0</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Kanal Dağılımı Section -->
+    <section id="kanal-dagilimi">
+      <h2>Kanal Dağılımı</h2>
+      <div class="description-card">
+        Bu bölümde, rezervasyonların hangi OTA kanalı üzerinden geldiği grafiksel olarak sunulmaktadır.
+      </div>
+      <canvas id="channelChart"></canvas>
+    </section>
+
+    <!-- Aylara Göre Dağılım Section -->
+    <section id="aylara-dagilim">
+      <h2>Aylara Göre Dağılım</h2>
+      <div class="description-card">
+        Rezervasyonların check-in tarihine göre aylara dağılımı; her ayın toplam gelir ve ortalama günlük fiyat (ADR) bilgisi burada gösterilmektedir.
+      </div>
+      <canvas id="monthChart"></canvas>
+    </section>
+
+    <!-- Oda Tiplerine Göre Dağılım Section -->
+    <section id="oda-tipleri">
+      <h2>Oda Tiplerine Göre Dağılım</h2>
+      <div class="description-card">
+        Bu bölümde, alınan rezervasyonların oda tiplerine göre dağılımı gösterilmekte, hangi oda tipinden ne kadar rezervasyon alındığına dair bilgiler sunulmaktadır.
+      </div>
+      <canvas id="roomTypeChart"></canvas>
+    </section>
+
+    <!-- Rezervasyon Listesi Section -->
+    <section id="rezervasyon-listesi">
+      <h2>Rezervasyon Listesi</h2>
+      <div class="description-card">
+        Tüm rezervasyon detaylarını tablo halinde görebilirsiniz. Her rezervasyon için fiyat, kanal, oda tipi ve tarih bilgileri yer almaktadır.
+      </div>
+      <table id="reservationsTable">
+        <thead>
+          <tr>
+            <th>Ortalama Fiyat</th>
+            <th>Kanal</th>
+            <th>Oda Tipi</th>
+            <th>Giriş Tarihi</th>
+            <th>Çıkış Tarihi</th>
+            <th>Kayıt Tarihi</th>
+            <th>Toplam Fiyat</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Data will be inserted dynamically -->
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <script>
+    // Dataset: Rezervasyonlar (13-16 Mart)
+    const reservations = [
+      { ortalamaFiyat: 51.91, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-03-14T00:00:00", cikisTarih: "2025-03-16T00:00:00", kayitTarih: "2025-03-13T00:51:55", toplamFiyat: 103.82 },
+      { ortalamaFiyat: 48.31, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-03-14T00:00:00", cikisTarih: "2025-03-16T00:00:00", kayitTarih: "2025-03-13T00:56:07", toplamFiyat: 96.62 },
+      { ortalamaFiyat: 86.29, unvan: "Agoda", odaTipAd: "FAMILY", girisTarih: "2025-03-14T00:00:00", cikisTarih: "2025-03-16T00:00:00", kayitTarih: "2025-03-13T01:21:09", toplamFiyat: 172.58 },
+      { ortalamaFiyat: 128.95, unvan: "Booking.com", odaTipAd: "TRIPLE", girisTarih: "2025-06-30T00:00:00", cikisTarih: "2025-07-01T00:00:00", kayitTarih: "2025-03-13T04:09:58", toplamFiyat: 128.95 },
+      { ortalamaFiyat: 48.66, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-18T00:00:00", cikisTarih: "2025-04-23T00:00:00", kayitTarih: "2025-03-13T20:46:48", toplamFiyat: 243.3 },
+      { ortalamaFiyat: 67.7, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-05-01T00:00:00", cikisTarih: "2025-05-08T00:00:00", kayitTarih: "2025-03-13T20:48:55", toplamFiyat: 473.9 },
+      { ortalamaFiyat: 53.83, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-29T00:00:00", cikisTarih: "2025-05-01T00:00:00", kayitTarih: "2025-03-13T20:51:01", toplamFiyat: 107.66 },
+      { ortalamaFiyat: 47.1, unvan: "Agoda", odaTipAd: "DOUBLE", girisTarih: "2025-04-02T00:00:00", cikisTarih: "2025-04-05T00:00:00", kayitTarih: "2025-03-13T21:18:12", toplamFiyat: 141.3 },
+      { ortalamaFiyat: 48.12, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-18T00:00:00", cikisTarih: "2025-04-20T00:00:00", kayitTarih: "2025-03-13T22:12:31", toplamFiyat: 96.24 },
+      { ortalamaFiyat: 48.12, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-18T00:00:00", cikisTarih: "2025-04-20T00:00:00", kayitTarih: "2025-03-13T22:12:31", toplamFiyat: 96.24 },
+      { ortalamaFiyat: 53.71, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-01T00:00:00", cikisTarih: "2025-04-05T00:00:00", kayitTarih: "2025-03-13T23:11:02", toplamFiyat: 214.83 },
+      { ortalamaFiyat: 45.81, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-03-20T00:00:00", cikisTarih: "2025-03-25T00:00:00", kayitTarih: "2025-03-14T01:49:44", toplamFiyat: 229.05 },
+      { ortalamaFiyat: 45.81, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-03-20T00:00:00", cikisTarih: "2025-03-25T00:00:00", kayitTarih: "2025-03-14T01:49:44", toplamFiyat: 229.05 },
+      { ortalamaFiyat: 45.81, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-03-20T00:00:00", cikisTarih: "2025-03-25T00:00:00", kayitTarih: "2025-03-14T01:49:44", toplamFiyat: 229.05 },
+      { ortalamaFiyat: 45.81, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-03-20T00:00:00", cikisTarih: "2025-03-25T00:00:00", kayitTarih: "2025-03-14T01:49:44", toplamFiyat: 229.05 },
+      { ortalamaFiyat: 60.54, unvan: "Booking.com", odaTipAd: "TRIPLE", girisTarih: "2025-03-20T00:00:00", cikisTarih: "2025-03-25T00:00:00", kayitTarih: "2025-03-14T01:49:44", toplamFiyat: 302.7 },
+      { ortalamaFiyat: 66.32, unvan: "Booking.com", odaTipAd: "TRIPLE", girisTarih: "2025-03-31T00:00:00", cikisTarih: "2025-04-04T00:00:00", kayitTarih: "2025-03-14T02:08:36", toplamFiyat: 265.28 },
+      { ortalamaFiyat: 54.5, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-03-30T00:00:00", cikisTarih: "2025-04-06T00:00:00", kayitTarih: "2025-03-14T03:17:34", toplamFiyat: 381.52 },
+      { ortalamaFiyat: 54.04, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-03-28T00:00:00", cikisTarih: "2025-04-03T00:00:00", kayitTarih: "2025-03-14T05:33:15", toplamFiyat: 324.22 },
+      { ortalamaFiyat: 56.28, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-28T00:00:00", cikisTarih: "2025-05-03T00:00:00", kayitTarih: "2025-03-14T09:10:30", toplamFiyat: 281.38 },
+      { ortalamaFiyat: 48.96, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-28T00:00:00", cikisTarih: "2025-04-30T00:00:00", kayitTarih: "2025-03-14T09:12:37", toplamFiyat: 97.92 },
+      { ortalamaFiyat: 58.46, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-29T00:00:00", cikisTarih: "2025-05-03T00:00:00", kayitTarih: "2025-03-14T09:14:43", toplamFiyat: 233.86 },
+      { ortalamaFiyat: 41.7, unvan: "Agoda", odaTipAd: "DOUBLE", girisTarih: "2025-03-17T00:00:00", cikisTarih: "2025-03-21T00:00:00", kayitTarih: "2025-03-14T09:25:10", toplamFiyat: 166.8 },
+      { ortalamaFiyat: 41.7, unvan: "Agoda", odaTipAd: "DOUBLE", girisTarih: "2025-03-17T00:00:00", cikisTarih: "2025-03-21T00:00:00", kayitTarih: "2025-03-14T09:25:10", toplamFiyat: 166.8 },
+      { ortalamaFiyat: 41.62, unvan: "Agoda", odaTipAd: "DOUBLE", girisTarih: "2025-03-19T00:00:00", cikisTarih: "2025-03-20T00:00:00", kayitTarih: "2025-03-14T09:48:09", toplamFiyat: 41.62 },
+      { ortalamaFiyat: 41.62, unvan: "Agoda", odaTipAd: "DOUBLE", girisTarih: "2025-03-19T00:00:00", cikisTarih: "2025-03-20T00:00:00", kayitTarih: "2025-03-14T09:48:09", toplamFiyat: 41.62 },
+      { ortalamaFiyat: 77.76, unvan: "Booking.com", odaTipAd: "TRIPLE", girisTarih: "2025-04-17T00:00:00", cikisTarih: "2025-04-21T00:00:00", kayitTarih: "2025-03-14T09:56:31", toplamFiyat: 311.04 },
+      { ortalamaFiyat: 81.65, unvan: "Booking.com", odaTipAd: "FAMILY", girisTarih: "2025-04-14T00:00:00", cikisTarih: "2025-04-15T00:00:00", kayitTarih: "2025-03-14T11:39:32", toplamFiyat: 81.65 },
+      { ortalamaFiyat: 81.65, unvan: "Booking.com", odaTipAd: "FAMILY", girisTarih: "2025-04-14T00:00:00", cikisTarih: "2025-04-15T00:00:00", kayitTarih: "2025-03-14T11:39:32", toplamFiyat: 81.65 },
+      { ortalamaFiyat: 52.2, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-18T00:00:00", cikisTarih: "2025-04-22T00:00:00", kayitTarih: "2025-03-14T12:55:23", toplamFiyat: 208.8 },
+      { ortalamaFiyat: 77.76, unvan: "Booking.com", odaTipAd: "TRIPLE", girisTarih: "2025-04-17T00:00:00", cikisTarih: "2025-04-21T00:00:00", kayitTarih: "2025-03-14T14:02:19", toplamFiyat: 311.04 },
+      { ortalamaFiyat: 58.32, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-17T00:00:00", cikisTarih: "2025-04-21T00:00:00", kayitTarih: "2025-03-14T14:02:19", toplamFiyat: 233.28 },
+      { ortalamaFiyat: 52.49, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-13T00:00:00", cikisTarih: "2025-04-19T00:00:00", kayitTarih: "2025-03-14T15:34:20", toplamFiyat: 314.94 },
+      { ortalamaFiyat: 91.76, unvan: "Booking.com", odaTipAd: "TRIPLE", girisTarih: "2025-09-09T00:00:00", cikisTarih: "2025-09-11T00:00:00", kayitTarih: "2025-03-14T15:59:36", toplamFiyat: 183.52 },
+      { ortalamaFiyat: 105.43, unvan: "Booking.com", odaTipAd: "SUITE", girisTarih: "2025-03-21T00:00:00", cikisTarih: "2025-03-22T00:00:00", kayitTarih: "2025-03-14T16:29:01", toplamFiyat: 105.43 },
+      { ortalamaFiyat: 90.72, unvan: "Booking.com", odaTipAd: "FAMILY", girisTarih: "2025-04-19T00:00:00", cikisTarih: "2025-04-24T00:00:00", kayitTarih: "2025-03-14T17:40:26", toplamFiyat: 453.6 },
+      { ortalamaFiyat: 43.47, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-17T00:00:00", cikisTarih: "2025-04-22T00:00:00", kayitTarih: "2025-03-14T17:46:47", toplamFiyat: 217.35 },
+      { ortalamaFiyat: 43.47, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-17T00:00:00", cikisTarih: "2025-04-22T00:00:00", kayitTarih: "2025-03-14T17:46:47", toplamFiyat: 217.35 },
+      { ortalamaFiyat: 44.67, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-03T00:00:00", cikisTarih: "2025-04-10T00:00:00", kayitTarih: "2025-03-14T17:53:10", toplamFiyat: 312.69 },
+      { ortalamaFiyat: 68.67, unvan: "Booking.com", odaTipAd: "TRIPLE", girisTarih: "2025-04-02T00:00:00", cikisTarih: "2025-04-07T00:00:00", kayitTarih: "2025-03-14T18:07:54", toplamFiyat: 343.35 },
+      { ortalamaFiyat: 106.72, unvan: "Booking.com", odaTipAd: "SUITE", girisTarih: "2025-04-04T00:00:00", cikisTarih: "2025-04-11T00:00:00", kayitTarih: "2025-03-14T18:14:15", toplamFiyat: 747.04 },
+      { ortalamaFiyat: 45.63, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-12T00:00:00", cikisTarih: "2025-04-18T00:00:00", kayitTarih: "2025-03-14T18:45:59", toplamFiyat: 273.8 },
+      { ortalamaFiyat: 43.78, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-12T00:00:00", cikisTarih: "2025-04-16T00:00:00", kayitTarih: "2025-03-14T19:24:11", toplamFiyat: 175.12 },
+      { ortalamaFiyat: 43.78, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-12T00:00:00", cikisTarih: "2025-04-16T00:00:00", kayitTarih: "2025-03-14T19:24:11", toplamFiyat: 175.12 },
+      { ortalamaFiyat: 77.22, unvan: "Agoda", odaTipAd: "TRIPLE", girisTarih: "2025-04-17T00:00:00", cikisTarih: "2025-04-20T00:00:00", kayitTarih: "2025-03-14T19:32:40", toplamFiyat: 231.65 },
+      { ortalamaFiyat: 61.78, unvan: "Agoda", odaTipAd: "DOUBLE", girisTarih: "2025-04-19T00:00:00", cikisTarih: "2025-04-21T00:00:00", kayitTarih: "2025-03-14T20:27:28", toplamFiyat: 123.55 },
+      { ortalamaFiyat: 51.84, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-10T00:00:00", cikisTarih: "2025-04-13T00:00:00", kayitTarih: "2025-03-14T21:02:51", toplamFiyat: 155.52 },
+      { ortalamaFiyat: 57.88, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-16T00:00:00", cikisTarih: "2025-04-22T00:00:00", kayitTarih: "2025-03-14T21:25:51", toplamFiyat: 347.3 },
+      { ortalamaFiyat: 69.12, unvan: "Booking.com", odaTipAd: "TRIPLE", girisTarih: "2025-04-11T00:00:00", cikisTarih: "2025-04-14T00:00:00", kayitTarih: "2025-03-14T21:53:04", toplamFiyat: 207.36 },
+      { ortalamaFiyat: 72.07, unvan: "Agoda", odaTipAd: "FAMILY", girisTarih: "2025-04-23T00:00:00", cikisTarih: "2025-04-25T00:00:00", kayitTarih: "2025-03-14T22:09:50", toplamFiyat: 144.14 },
+      { ortalamaFiyat: 70.73, unvan: "Booking.com", odaTipAd: "FAMILY", girisTarih: "2025-04-08T00:00:00", cikisTarih: "2025-04-14T00:00:00", kayitTarih: "2025-03-15T00:02:32", toplamFiyat: 424.38 },
+      { ortalamaFiyat: 59.85, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-19T00:00:00", cikisTarih: "2025-04-26T00:00:00", kayitTarih: "2025-03-15T00:42:23", toplamFiyat: 418.95 },
+      { ortalamaFiyat: 89.49, unvan: "Booking.com", odaTipAd: "TRIPLE", girisTarih: "2025-07-21T00:00:00", cikisTarih: "2025-07-30T00:00:00", kayitTarih: "2025-03-15T00:57:16", toplamFiyat: 805.41 },
+      { ortalamaFiyat: 57.31, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-03T00:00:00", cikisTarih: "2025-04-06T00:00:00", kayitTarih: "2025-03-15T00:59:27", toplamFiyat: 171.93 },
+      { ortalamaFiyat: 57.31, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-03T00:00:00", cikisTarih: "2025-04-06T00:00:00", kayitTarih: "2025-03-15T00:59:27", toplamFiyat: 171.93 },
+      { ortalamaFiyat: 75.68, unvan: "Booking.com", odaTipAd: "TRIPLE", girisTarih: "2025-04-02T00:00:00", cikisTarih: "2025-04-09T00:00:00", kayitTarih: "2025-03-15T02:00:05", toplamFiyat: 529.73 },
+      { ortalamaFiyat: 66.24, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-29T00:00:00", cikisTarih: "2025-05-03T00:00:00", kayitTarih: "2025-03-15T03:46:36", toplamFiyat: 264.96 },
+      { ortalamaFiyat: 51.3,  unvan: "Booking.com", odaTipAd: "SINGLE", girisTarih: "2025-11-20T00:00:00", cikisTarih: "2025-11-23T00:00:00", kayitTarih: "2025-03-15T10:35:44", toplamFiyat: 153.9 },
+      { ortalamaFiyat: 49.78, unvan: "Expedia Grup", odaTipAd: "DOUBLE", girisTarih: "2025-05-16T00:00:00", cikisTarih: "2025-05-22T00:00:00", kayitTarih: "2025-03-15T13:23:48", toplamFiyat: 298.68 },
+      { ortalamaFiyat: 37.07, unvan: "Agoda", odaTipAd: "DOUBLE", girisTarih: "2025-03-17T00:00:00", cikisTarih: "2025-03-18T00:00:00", kayitTarih: "2025-03-15T13:28:00", toplamFiyat: 37.07 },
+      { ortalamaFiyat: 54.72, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-03T00:00:00", cikisTarih: "2025-04-13T00:00:00", kayitTarih: "2025-03-15T14:05:41", toplamFiyat: 547.2 },
+      { ortalamaFiyat: 54.38, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-20T00:00:00", cikisTarih: "2025-04-30T00:00:00", kayitTarih: "2025-03-15T14:07:49", toplamFiyat: 543.78 },
+      { ortalamaFiyat: 57,    unvan: "Booking.com", odaTipAd: "TRIPLE", girisTarih: "2025-03-21T00:00:00", cikisTarih: "2025-03-26T00:00:00", kayitTarih: "2025-03-15T14:26:44", toplamFiyat: 285 },
+      { ortalamaFiyat: 51.3,  unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-06T00:00:00", cikisTarih: "2025-04-12T00:00:00", kayitTarih: "2025-03-15T14:47:41", toplamFiyat: 307.8 },
+      { ortalamaFiyat: 61.32, unvan: "Booking.com", odaTipAd: "TRIPLE", girisTarih: "2025-04-07T00:00:00", cikisTarih: "2025-04-13T00:00:00", kayitTarih: "2025-03-15T15:04:30", toplamFiyat: 367.92 },
+      { ortalamaFiyat: 70.11, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-07-24T00:00:00", cikisTarih: "2025-07-29T00:00:00", kayitTarih: "2025-03-15T15:15:00", toplamFiyat: 350.55 },
+      { ortalamaFiyat: 48.96, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-11T00:00:00", cikisTarih: "2025-04-14T00:00:00", kayitTarih: "2025-03-15T17:14:05", toplamFiyat: 146.88 },
+      { ortalamaFiyat: 63.54, unvan: "Expedia Grup", odaTipAd: "TRIPLE", girisTarih: "2025-06-05T00:00:00", cikisTarih: "2025-06-08T00:00:00", kayitTarih: "2025-03-15T17:51:41", toplamFiyat: 190.62 },
+      { ortalamaFiyat: 75.69, unvan: "Expedia Grup", odaTipAd: "TRIPLE", girisTarih: "2025-04-22T00:00:00", cikisTarih: "2025-05-02T00:00:00", kayitTarih: "2025-03-15T18:12:38", toplamFiyat: 756.85 },
+      { ortalamaFiyat: 46.17, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-11T00:00:00", cikisTarih: "2025-04-14T00:00:00", kayitTarih: "2025-03-15T19:19:34", toplamFiyat: 138.51 },
+      { ortalamaFiyat: 61.56, unvan: "Booking.com", odaTipAd: "TRIPLE", girisTarih: "2025-04-11T00:00:00", cikisTarih: "2025-04-14T00:00:00", kayitTarih: "2025-03-15T19:19:34", toplamFiyat: 184.68 },
+      { ortalamaFiyat: 171,   unvan: "Booking.com", odaTipAd: "SUITE", girisTarih: "2025-08-17T00:00:00", cikisTarih: "2025-08-18T00:00:00", kayitTarih: "2025-03-15T19:38:26", toplamFiyat: 171 },
+      { ortalamaFiyat: 51.3,  unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-21T00:00:00", cikisTarih: "2025-04-24T00:00:00", kayitTarih: "2025-03-15T20:32:46", toplamFiyat: 153.9 },
+      { ortalamaFiyat: 83.62, unvan: "Booking.com", odaTipAd: "FAMILY", girisTarih: "2025-04-01T00:00:00", cikisTarih: "2025-04-06T00:00:00", kayitTarih: "2025-03-15T21:27:07", toplamFiyat: 418.1 },
+      { ortalamaFiyat: 99.75, unvan: "Booking.com", odaTipAd: "JUNIOR SUITE", girisTarih: "2025-04-08T00:00:00", cikisTarih: "2025-04-14T00:00:00", kayitTarih: "2025-03-15T22:15:15", toplamFiyat: 598.5 },
+      { ortalamaFiyat: 71.35, unvan: "Booking.com", odaTipAd: "FAMILY", girisTarih: "2025-04-10T00:00:00", cikisTarih: "2025-04-14T00:00:00", kayitTarih: "2025-03-15T23:36:49", toplamFiyat: 285.4 },
+      { ortalamaFiyat: 64.8,  unvan: "Booking.com", odaTipAd: "TRIPLE", girisTarih: "2025-04-10T00:00:00", cikisTarih: "2025-04-16T00:00:00", kayitTarih: "2025-03-16T00:43:43", toplamFiyat: 388.8 },
+      { ortalamaFiyat: 46.17, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-10T00:00:00", cikisTarih: "2025-04-13T00:00:00", kayitTarih: "2025-03-16T00:47:56", toplamFiyat: 138.51 },
+      { ortalamaFiyat: 64.8,  unvan: "Booking.com", odaTipAd: "TRIPLE", girisTarih: "2025-04-09T00:00:00", cikisTarih: "2025-04-10T00:00:00", kayitTarih: "2025-03-16T00:47:56", toplamFiyat: 64.8 },
+      { ortalamaFiyat: 46.17, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-10T00:00:00", cikisTarih: "2025-04-17T00:00:00", kayitTarih: "2025-03-16T01:23:30", toplamFiyat: 323.19 },
+      { ortalamaFiyat: 46.28, unvan: "Booking.com", odaTipAd: "DOUBLE", girisTarih: "2025-04-03T00:00:00", cikisTarih: "2025-04-09T00:00:00", kayitTarih: "2025-03-16T01:29:49", toplamFiyat: 277.71 },
+      { ortalamaFiyat: 49.59, unvan: "Expedia Grup", odaTipAd: "TRIPLE", girisTarih: "2025-03-29T00:00:00", cikisTarih: "2025-04-02T00:00:00", kayitTarih: "2025-03-16T02:40:53", toplamFiyat: 198.36 },
+      { ortalamaFiyat: 108.3, unvan: "Booking.com", odaTipAd: "FAMILY", girisTarih: "2025-05-08T00:00:00", cikisTarih: "2025-05-11T00:00:00", kayitTarih: "2025-03-16T03:24:50", toplamFiyat: 324.9 },
+      { ortalamaFiyat: 64.53, unvan: "Booking.com", odaTipAd: "TRIPLE", girisTarih: "2025-04-05T00:00:00", cikisTarih: "2025-04-09T00:00:00", kayitTarih: "2025-03-16T03:49:56", toplamFiyat: 258.13 },
+      { ortalamaFiyat: 80.54, unvan: "Booking.com", odaTipAd: "TRIPLE", girisTarih: "2025-06-10T00:00:00", cikisTarih: "2025-06-21T00:00:00", kayitTarih: "2025-03-16T04:12:58", toplamFiyat: 885.94 },
+      { ortalamaFiyat: 33.08, unvan: "Expedia Grup", odaTipAd: "DOUBLE", girisTarih: "2025-04-11T00:00:00", cikisTarih: "2025-04-15T00:00:00", kayitTarih: "2025-03-16T05:40:48", toplamFiyat: 132.32 },
+      { ortalamaFiyat: 44.02, unvan: "Agoda", odaTipAd: "DOUBLE", girisTarih: "2025-03-24T00:00:00", cikisTarih: "2025-04-03T00:00:00", kayitTarih: "2025-03-16T07:25:19", toplamFiyat: 440.2 },
+      { ortalamaFiyat: 76.95, unvan: "Booking.com", odaTipAd: "SUITE", girisTarih: "2025-03-16T00:00:00", cikisTarih: "2025-03-20T00:00:00", kayitTarih: "2025-03-16T08:42:40", toplamFiyat: 307.8 },
+      { ortalamaFiyat: 115.2, unvan: "Booking.com", odaTipAd: "JUNIOR SUITE", girisTarih: "2025-04-29T00:00:00", cikisTarih: "2025-05-02T00:00:00", kayitTarih: "2025-03-16T10:52:17", toplamFiyat: 345.6 }
+    ];
+    
+    // Genel Bakış Hesaplamaları
+    let totalReservations = reservations.length;
+    let totalRevenue = reservations.reduce((sum, r) => sum + r.toplamFiyat, 0);
+    let averagePrice = reservations.reduce((sum, r) => sum + r.ortalamaFiyat, 0) / totalReservations;
+    
+    document.getElementById("totalReservations").textContent = totalReservations;
+    document.getElementById("totalRevenue").textContent = totalRevenue.toFixed(2);
+    document.getElementById("averagePrice").textContent = averagePrice.toFixed(2);
+    
+    // Kanal Dağılımı Hesaplaması
+    const channelData = {};
+    reservations.forEach(r => {
+      channelData[r.unvan] = (channelData[r.unvan] || 0) + 1;
+    });
+    const channelLabels = Object.keys(channelData);
+    const channelCounts = Object.values(channelData);
+    
+    // Aylara Göre Dağılım Hesaplaması (check-in tarihi)
+    const aylar = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+    const monthData = {};
+    reservations.forEach(r => {
+      let checkIn = new Date(r.girisTarih);
+      let checkOut = new Date(r.cikisTarih);
+      let month = checkIn.getMonth();
+      let nights = (checkOut - checkIn) / (1000 * 60 * 60 * 24);
+      if (!monthData[month]) {
+        monthData[month] = { revenue: 0, nights: 0, count: 0 };
+      }
+      monthData[month].revenue += r.toplamFiyat;
+      monthData[month].nights += nights;
+      monthData[month].count += 1;
+    });
+    const sortedMonths = Object.keys(monthData).sort((a, b) => a - b);
+    const monthLabels = sortedMonths.map(m => aylar[m]);
+    const monthRevenues = sortedMonths.map(m => monthData[m].revenue.toFixed(2));
+    const monthADR = sortedMonths.map(m => (monthData[m].revenue / monthData[m].nights).toFixed(2));
+    
+    // Oda Tiplerine Göre Dağılım Hesaplaması
+    const roomTypeData = {};
+    reservations.forEach(r => {
+      roomTypeData[r.odaTipAd] = (roomTypeData[r.odaTipAd] || 0) + 1;
+    });
+    const roomTypeLabels = Object.keys(roomTypeData);
+    const roomTypeCounts = Object.values(roomTypeData);
+    
+    // Chart: Kanal Dağılımı (Pie)
+    const ctxChannel = document.getElementById('channelChart').getContext('2d');
+    new Chart(ctxChannel, {
+      type: 'pie',
+      data: {
+        labels: channelLabels,
+        datasets: [{
+          label: 'Kanal Bazında Rezervasyon',
+          data: channelCounts,
+          backgroundColor: ['#009fe3', '#feba02', '#666']
+        }]
+      },
+      options: { responsive: true }
+    });
+    
+    // Chart: Aylara Göre Dağılım (Bar + Line)
+    const ctxMonth = document.getElementById('monthChart').getContext('2d');
+    new Chart(ctxMonth, {
+      data: {
+        labels: monthLabels,
+        datasets: [
+          {
+            type: 'bar',
+            label: 'Toplam Gelir (€)',
+            data: monthRevenues,
+            backgroundColor: '#009fe3',
+            yAxisID: 'y'
+          },
+          {
+            type: 'line',
+            label: 'ADR (€)',
+            data: monthADR,
+            borderColor: '#feba02',
+            backgroundColor: '#feba02',
+            yAxisID: 'y1',
+            tension: 0.3,
+            fill: false,
+            pointRadius: 3
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        interaction: { mode: 'index', intersect: false },
+        scales: {
+          y: { type: 'linear', position: 'left', title: { display: true, text: 'Gelir (€)' } },
+          y1: { type: 'linear', position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'ADR (€)' } }
+        }
+      }
+    });
+    
+    // Chart: Oda Tiplerine Göre Dağılım (Pie)
+    const ctxRoom = document.getElementById('roomTypeChart').getContext('2d');
+    new Chart(ctxRoom, {
+      type: 'pie',
+      data: {
+        labels: roomTypeLabels,
+        datasets: [{
+          label: 'Oda Tiplerine Göre Rezervasyon',
+          data: roomTypeCounts,
+          backgroundColor: roomTypeLabels.map((_, idx) => {
+            const colors = ['#009fe3', '#feba02', '#003580', '#666', '#f2f6fa'];
+            return colors[idx % colors.length];
+          })
+        }]
+      },
+      options: { responsive: true }
+    });
+    
+    // Rezervasyon tablosu
+    const tableBody = document.querySelector("#reservationsTable tbody");
+    reservations.forEach(r => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${r.ortalamaFiyat}</td>
+        <td>${r.unvan}</td>
+        <td>${r.odaTipAd}</td>
+        <td>${new Date(r.girisTarih).toLocaleDateString('tr-TR')}</td>
+        <td>${new Date(r.cikisTarih).toLocaleDateString('tr-TR')}</td>
+        <td>${new Date(r.kayitTarih).toLocaleString('tr-TR')}</td>
+        <td>${r.toplamFiyat}</td>
+      `;
+      tableBody.appendChild(tr);
+    });
+  </script>
+</body>
+</html>

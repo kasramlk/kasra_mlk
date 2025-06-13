@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="TR">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X81LZYLEGC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-X81LZYLEGC');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">OTEL CIRO | Otel Analitiği Uzmanı</title>
+    
+    <!-- Scripts and Stylesheets -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #003580;
+            --primary-dark: #00224f;
+            --secondary: #006ce4;
+            --accent: #f7c200;
+            --success: #008009;
+            --text: #262626;
+            --light-bg: #f5f5f5;
+            --border: #e7e7e7;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--primary);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            color: white !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 53, 128, 0.9), rgba(0, 34, 79, 0.9)),
+                        url('https://www.bookingholdings.com/wp-content/uploads/2018/01/booking_background.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-btn {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        /* Dashboard Section */
+        .dashboard-section {
+            padding: 5rem 0;
+            background: var(--light-bg);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+
+        .hotel-selector {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .form-select {
+            border: 2px solid var(--border);
+            padding: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .graph-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .analysis-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 3rem 0;
+            background: var(--primary);
+            color: white;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+            .stat-item {
+                margin-bottom: 2rem;
+            }
+        }
+
+        /* Why Choose Us Section */
+        .why-us-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .why-us-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .why-us-content {
+            padding: 2rem;
+        }
+
+        .why-us-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .why-us-content li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .why-us-content li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        /* Services Section */
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .service-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+            text-align: left;
+        }
+
+        .service-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .service-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Portfolio Section */
+        .portfolio-card {
+            background: var(--primary);
+            border-radius: 8px;
+            overflow: hidden;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .portfolio-content {
+            color: white;
+            padding: 2rem;
+        }
+
+        .portfolio-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 1.5rem 0;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Contact Us Section */
+        .contact-section {
+            background: var(--light-bg);
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-group-text {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 0.75rem 1.5rem;
+            font-size: 1.1rem;
+            transition: background 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+            border-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:focus {
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        .sales-improvement-section {
+            background-color: #f0f4ff;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #003580;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .tips-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tips-list li {
+            margin: 10px 0;
+            font-size: 1.1rem;
+            position: relative;
+        }
+
+        .tips-list li i {
+            color: #007bff;
+            margin-right: 10px;
+        }
+
+        .ota-logos {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .ota-logo {
+            position: relative;
+            text-align: center;
+        }
+
+        .coming-soon {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .logo {
+            width: 100px;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <!-- Dil menüsü burada belirecek -->
+<div id="google_translate_element"></div>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" id="navbar-brand">OtelCiro</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" id="navbar-home">Ana Sayfa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="askme.html" id="navbar-portfolio">Portföy İlerleme Analitiği</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="services.html" id="navbar-services">Hizmetler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="bookingcalculator.html" id="navbar-analytics">OTA Performans Optimizasyonu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html" id="navbar-contact">İletişim</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <h1 class="hero-title" id="hero-title">Otel Analitiği Uzmanı</h1>
+            <p class="hero-subtitle" id="hero-subtitle">
+                Veri odaklı içgörüler ve stratejik gelir yönetimi ile otel performansını dönüştürme
+            </p>
+            <div>
+                <a href="#stats" class="btn btn-primary hero-btn" id="getStartedBtn">Başlayın</a>
+                <a href="askme.html" class="btn btn-outline-light hero-btn" id="viewCaseStudiesBtn">Vaka Çalışmalarını Görüntüle</a>
+                <a href="contact.html" class="btn btn-primary" id="getInTouchBtn">İletişime Geç</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section" id="stats">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label" id="stat-hotels">Analiz Edilen Oteller</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-item">
+                        <div class="stat-number">30%</div>
+                        <div class="stat-label" id="stat-revenue">Ortalama Gelir Artışı</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-item">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label" id="stat-satisfaction">Müşteri Memnuniyeti</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-item">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label" id="stat-experience">Yıl Deneyim</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-us-section py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up" id="whyChooseUsTitle">Neden Bizi Seçmelisiniz</h2>
+            <div class="row g-4">
+                <div class="col-md-6" data-aos="fade-right">
+                    <div class="why-us-card">
+                        <div class="why-us-content">
+                            <h3 id="dataDrivenApproachTitle">Veri Odaklı Yaklaşım</h3>
+                            <p id="dataDrivenApproachDescription">Kararlarımız kapsamlı veri analizi ve pazar içgörüleriyle desteklenir:</p>
+                            <ul>
+                                <li><strong id="advancedAnalyticsTitle">Gelişmiş Analitik Araçlar:</strong> Gelir artışını sağlayan bilinçli kararlar alın.</li>
+                                <li><strong id="realTimeMonitoringTitle">Gerçek Zamanlı Pazar Takibi:</strong> Trendlerin önünde olun ve hızlıca uyum sağlayın.</li>
+                                <li><strong id="predictiveModelingTitle">Tahmine Dayalı Modelleme:</strong> Gelecekteki performansı öngörerek etkili stratejiler oluşturun.</li>
+                                <li><strong id="customizedReportingTitle">Kişiselleştirilmiş Raporlama:</strong> Özel ihtiyaçlarınıza uygun içgörüler sunar.</li>
+                            </ul>
+                            <a href="newpage.html" class="btn btn-primary mt-3">Portföyümüzün Kapsamlı Veri Görselleştirmesi</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left">
+                    <div class="why-us-card">
+                        <div class="why-us-content">
+                            <h3 id="clientSuccessStoriesTitle">Müşteri Başarı Hikayeleri</h3>
+                            <p id="clientSuccessStoriesDescription">Müşterilerimiz olağanüstü dönüşümler yaşadı:</p>
+                            <ul>
+                                <li><strong id="revenueGrowthTitle">%30 Gelir Artışı:</strong> Stratejilerimizi uygulayan birçok müşterimiz birkaç ay içinde önemli gelir artışları gördü.</li>
+                                <li><strong id="operationalEfficiencyTitle">Artan Operasyonel Verimlilik:</strong> İyileştirilen süreçler, hizmet kalitesinde ve misafir memnuniyetinde artış sağladı.</li>
+                                <li><strong id="informedDecisionMakingTitle">Bilinçli Karar Alma:</strong> Müşterilerimiz, veri odaklı içgörülerimiz sayesinde stratejik kararlarında daha özgüvenli hissediyor.</li>
+                                <li><strong id="longTermPartnershipsTitle">Uzun Vadeli Ortaklıklar:</strong> Kalıcı ilişkiler kurmaktan gurur duyuyoruz; birçok müşterimiz sürekli destek ve rehberlik için geri dönüyor.</li>
+                            </ul>
+                            <a href="askme.html" class="btn btn-primary mt-3">Vaka Çalışmalarını Görüntüle</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+             
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section py-5">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up" id="ourServicesTitle">Hizmetlerimiz</h2>
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="fade-up">
+                    <div class="service-card">
+                        <i class="fas fa-chart-line service-icon"></i>
+                        <h3 id="revenueManagementTitle">Gelir Yönetimi</h3>
+                        <p id="revenueManagementDescription">Otelinizin gelir potansiyelini en üst düzeye çıkarmak için stratejik fiyatlandırma ve envanter optimizasyonu.</p>
+                        <ul class="service-list">
+                            <li id="dynamicPricingTitle">Dinamik Fiyatlandırma Stratejileri</li>
+                            <li id="demandForecastingTitle">Talep Tahmini</li>
+                            <li id="competitiveAnalysisTitle">Rekabet Analizi</li>
+                        </ul>
+                        <a href="services.html" class="btn btn-primary mt-3">Daha Fazla ...</a>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-card">
+                        <i class="\tfa fa-line-chart fa-2x service-icon"></i>
+                        <h3 id="marketAnalysisTitle">Pazar Analizi</h3>
+                        <p id="marketAnalysisDescription">Mülkünüzü etkili bir şekilde konumlandırmak için kapsamlı pazar araştırması ve rakip analizi.</p>
+                        <ul class="service-list">
+                            <li id="marketTrendAnalysisTitle">Pazar Trend Analizi</li>
+                            <li id="competitorBenchmarkingTitle">Rakip Kıyaslaması</li>
+                            <li id="performanceMetricsTitle">Performans Göstergeleri</li>
+                        </ul>
+                        <a href="services.html" class="btn btn-primary mt-3">Daha Fazla ...</a>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-card">
+                        <i class="fas fa-laptop-code service-icon"></i>
+                        <h3 id="digitalTransformationTitle">Dijital Dönüşüm</h3>
+                        <p id="digitalTransformationDescription">Operasyonel verimliliği artırmak için en son teknoloji çözümlerinin uygulanması.</p>
+                        <ul class="service-list">
+                            <li id="systemIntegrationTitle">Sistem Entegrasyonu</li>
+                            <li id="automationSolutionsTitle">Otomasyon Çözümleri</li>
+                            <li id="dataAnalyticsSetupTitle">Veri Analitiği Kurulumu</li>
+                        </ul>
+                        <a href="services.html" class="btn btn-primary mt-3">Daha Fazla ...</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio-section py-5">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up" id="successStoriesTitle">Başarı Hikayeleri</h2>
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="zoom-in">
+                    <div class="portfolio-card">
+                        <div class="portfolio-content">
+                            <h4 id="luxuryResortTitle">Lüks Tatil Köyü Dönüşümü</h4>
+                            <div class="portfolio-stats">
+                                <div class="stat">
+                                    <span class="stat-number">%40</span>
+                                    <span class="stat-label" id="revenueGrowthLabel">Gelir Artışı</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number">6</span>
+                                    <span class="stat-label" id="monthsLabel">Ay</span>
+                                </div>
+                            </div>
+                            <p id="luxuryResortDescription">Tam dijital dönüşüm ve gelir stratejisi uygulaması.</p>
+                            <a href="askme.html" class="btn btn-primary mt-3">İlerlemesini Görüntüle</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="portfolio-card">
+                        <div class="portfolio-content">
+                            <h4 id="boutiqueHotelTitle">Butik Otel Optimizasyonu</h4>
+                            <div class="portfolio-stats">
+                                <div class="stat">
+                                    <span class="stat-number">%25</span>
+                                    <span class="stat-label" id="occupancyIncreaseLabel">Doluluk Artışı</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number">3</span>
+                                    <span class="stat-label" id="monthsLabel">Ay</span>
+                                </div>
+                            </div>
+                            <p id="boutiqueHotelDescription">Pazar yeniden konumlandırma ve fiyatlandırma stratejisi optimizasyonu.</p>
+                            <a href="askme.html" class="btn btn-primary mt-3">İlerlemesini Görüntüle</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="portfolio-card">
+                        <div class="portfolio-content">
+                            <h4 id="resortChainTitle">Tatil Köyü Zinciri Analizi</h4>
+                            <div class="portfolio-stats">
+                                <div class="stat">
+                                    <span class="stat-number">%50</span>
+                                    <span class="stat-label" id="roiImprovementLabel">Yatırım Getirisi Artışı</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number">12</span>
+                                    <span class="stat-label" id="propertiesLabel">Tesis</span>
+                                </div>
+                            </div>
+                            <p id="resortChainDescription">Çoklu tesis gelir yönetimi ve analizi.</p>
+                            <a href="askme.html" class="btn btn-primary mt-3">İlerlemesini Görüntüle</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sales Improvement Section -->
+    <section class="sales-improvement-section py-5" id="sales-improvement" style="background-color: #f0f4ff;">
+        <div class="container">
+            <h2 class="section-title text-center" data-aos="fade-up" style="color: #003580;">OTA'larda Satışlarınızı Artırın</h2>
+            <p class="text-center" data-aos="fade-up" data-aos-delay="200" style="color: #333;">
+                Booking.com'da görünürlüğünüzü ve satışlarınızı artırmak için uygulanabilir ipuçlarını keşfedin, yakında diğer OTA'lar için de destek sunulacak.
+            </p>
+            <div class="row mt-4">
+                <div class="col-md-6" data-aos="fade-right">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <img src="https://cdn.worldvectorlogo.com/logos/bookingcom-1.svg" alt="Booking.com Logo" class="logo mb-3" />
+                            <h3 style="color: #003580;">İpuçları & Öneriler</h3>
+                            <ul class="tips-list">
+                                <li><i class="icon-check"></i> Tesis açıklamanızı optimize edin.</li>
+                                <li><i class="icon-check"></i> Yüksek kaliteli görseller kullanın.</li>
+                                <li><i class="icon-check"></i> Rekabetçi fiyatlandırma belirleyin.</li>
+                                <li><i class="icon-check"></i> Misafir yorumlarını teşvik edin.</li>
+                            </ul>
+                            <a href="bookingcalculator.html" class="btn btn-primary mt-3" style="background-color: #007bff; border-color: #007bff;">Başlayın</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 style="color: #003580;">Gelecekteki OTA'lar</h3>
+                            <div class="ota-logos">
+                                <div class="ota-logo">
+                                    <img src="https://cdn.worldvectorlogo.com/logos/expedia.svg" alt="Expedia Logo" class="logo" />
+                                    <span class="coming-soon">Çok Yakında</span>
+                                </div>
+                                <div class="ota-logo">
+                                    <img src="https://cdn.worldvectorlogo.com/logos/ctrip.svg" alt="Trip.com Logo" class="logo" />
+                                    <span class="coming-soon">Çok Yakında</span>
+                                </div>
+                                <div class="ota-logo">
+                                    <img src="https://cdn6.agoda.net/images/kite-js/logo/agoda/color-default.svg" alt="Agoda Logo" class="logo" />
+                                    <span class="coming-soon">Çok Yakında</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up" id="faqTitle">Sıkça Sorulan Sorular</h2>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <span id="faqQuestionOne">Hangi hizmetleri sunuyorsunuz?</span>
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body" id="faqAnswerOne">
+                            Gelir yönetimi, pazar analizi ve konaklama sektörü için dijital dönüşüm çözümleri dahil olmak üzere çeşitli hizmetler sunuyoruz.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <span id="faqQuestionTwo">Nasıl başlayabilirim?</span>
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body" id="faqAnswerTwo">
+                            "İletişim" bölümündeki formu doldurarak veya e-posta/telefon yoluyla bize ulaşarak başlayabilirsiniz.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <span id="faqQuestionThree">Özel çözümler sunuyor musunuz?</span>
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body" id="faqAnswerThree">
+                            Evet, her müşterinin özel ihtiyaçlarına göre hizmetlerimizi özelleştiriyoruz ve en iyi sonuçları sağlıyoruz.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p id="footer-text">&copy; 2023 OtelCiro Otel Danışmanlığı. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Smooth scrolling for "Get Started" button
+        document.getElementById('getStartedBtn').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default anchor click behavior
+            document.querySelector('#stats').scrollIntoView({
+                behavior: 'smooth' // Smooth scroll
+            });
+        });
+
+        // Your existing JavaScript code for graphs and data
+
+        const translations = {
+            en: {
+                title: "OtelCiro | Hotel Analytics Expert",
+                navbar: {
+                    home: "Home",
+                    portfolio: "Portfolio",
+                    services: "Services",
+                    contact: "Contact Us",
+                    analytics: "Analytics"
+                },
+                hero: {
+                    title: "Hotel Analytics Expert",
+                    subtitle: "Transforming hotel performance through data-driven insights and strategic revenue management",
+                    getStarted: "Get Started",
+                    viewCaseStudies: "View Case Studies",
+                    getInTouch: "Get in Touch"
+                },
+                stats: {
+                    hotels: "Hotels Analyzed",
+                    revenue: "Average Revenue Increase",
+                    satisfaction: "Client Satisfaction",
+                    experience: "Years Experience"
+                },
+                footer: {
+                    text: "&copy; 2023 OtelCiro Hotel Consultancy. All rights reserved."
+                }
+            },
+            tr: {
+                title: " OtelCiro | Otel Analitiği Uzmanı",
+                navbar: {
+                    home: "Ana Sayfa",
+                    portfolio: "Portföy",
+                    services: "Hizmetler",
+                    contact: "İletişim",
+                    analytics: "Analitik"
+                },
+                hero: {
+                    title: "Otel Analitiği Uzmanı",
+                    subtitle: "Veri odaklı içgörüler ve stratejik gelir yönetimi ile otel performansını dönüştürme",
+                    getStarted: "Başlayın",
+                    viewCaseStudies: "Vaka Çalışmalarını Görüntüle",
+                    getInTouch: "İletişime Geç"
+                },
+                stats: {
+                    hotels: "Analiz Edilen Oteller",
+                    revenue: "Ortalama Gelir Artışı",
+                    satisfaction: "Müşteri Memnuniyeti",
+                    experience: "Yıl Deneyim"
+                },
+                footer: {
+                    text: "&copy; 2023 OtelCiro Otel Danışmanlığı. Tüm hakları saklıdır."
+                }
+            }
+        };
+
+        function updateContent(language) {
+            document.title = translations[language].title;
+            document.getElementById('navbar-brand').innerText = translations[language].navbar.home;
+            document.getElementById('navbar-home').innerText = translations[language].navbar.home;
+            document.getElementById('navbar-portfolio').innerText = translations[language].navbar.portfolio;
+            document.getElementById('navbar-services').innerText = translations[language].navbar.services;
+            document.getElementById('navbar-contact').innerText = translations[language].navbar.contact;
+            document.getElementById('navbar-analytics').innerText = translations[language].navbar.analytics;
+            document.getElementById('hero-title').innerText = translations[language].hero.title;
+            document.getElementById('hero-subtitle').innerText = translations[language].hero.subtitle;
+            document.getElementById('getStartedBtn').innerText = translations[language].hero.getStarted;
+            document.getElementById('viewCaseStudiesBtn').innerText = translations[language].hero.viewCaseStudies;
+            document.getElementById('getInTouchBtn').innerText = translations[language].hero.getInTouch;
+            document.getElementById('stat-hotels').innerText = translations[language].stats.hotels;
+            document.getElementById('stat-revenue').innerText = translations[language].stats.revenue;
+            document.getElementById('stat-satisfaction').innerText = translations[language].stats.satisfaction;
+            document.getElementById('stat-experience').innerText = translations[language].stats.experience;
+            document.getElementById('footer-text').innerHTML = translations[language].footer.text;
+        }
+
+        document.getElementById('languageSwitcher').addEventListener('change', function() {
+            const selectedLanguage = this.value;
+            updateContent(selectedLanguage);
+        });
+
+        // Initialize with default language
+        updateContent('tr');
+    </script>
+    <script>
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+      pageLanguage: 'tr',                       // Sayfanın orijinal dili
+      includedLanguages: 'en',   // Seçilebilir diller
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+      autoDisplay: false                        // true → otomatik menü açılır
+  }, 'google_translate_element');
+}
+</script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+</body>
+</html>
